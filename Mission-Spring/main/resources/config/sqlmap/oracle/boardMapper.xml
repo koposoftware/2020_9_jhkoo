@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board.dao.BoardDAO">
+
+  	<select id="selectAll" resultType="boardVO">
+  		select no, title, writer, to_char(reg_date, 'yyyy-mm-dd') as regDate
+  			from a_board
+  			order by no desc
+  	</select>
+  	
+  	<!-- '_'는 자동으로 객체 반환해주지 못함. 그래서 이 작업 필요. -->
+  	<resultMap type="boardVO" id="boardMap">
+  		<result column="view_cnt" property="viewCnt" />
+  		<result column="reg_date" property="regDate" />
+  	</resultMap>
+  	
+  	<!-- 게시글 상세보기 -->
+  	<select id="selectByNo" resultMap="boardMap" parameterType="int">
+  		select no, title, writer, content, view_cnt, to_char(reg_date, 'yyyy-mm-dd') as reg_date
+  		from a_board
+  		where no = #{no}
+  	</select>
+  	
+  	<insert id="insert" parameterType="boardVO">
+  		insert into a_board(no, title, writer, content)
+  		values(seq_a_board_no.nextval, #{title}, #{writer}, #{content})
+  	</insert>
+  	
+  	<!-- 댓글 카운트 증가 -->
+  	<update id="increamentReplyCnt" parameterType="int">
+  		update a_board
+  			set reply_cnt = reply_cnt + 1
+  		 where no = #{no}
+  	</update>
+  	
+  	<!-- 댓글 카운트 감소 -->
+  	<update id="reduceReplyCnt" parameterType="int">
+  		update a_board
+  			set reply_cnt = reply_cnt - 1
+  		 where no = #{no}
+  	</update>
+  	
+</mapper>
+
+
+
