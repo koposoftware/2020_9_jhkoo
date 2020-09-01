@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cash.dao.CashDAO">
+
+	<!-- 현금 내역 추가 -->
+  	<insert id="insert" parameterType="cashVO">
+  		insert into cash_manage(no, id, cash, content)
+  		 values(seq_cash_log.nextval, #{id}, #{cash}, #{content})
+  	</insert>
+  	
+  	<!-- 내역 리스트 조회 -->
+  	<select id="selectAll" parameterType="String" resultType="cashVO">
+  		select no, id, cash, content ,
+  			to_char(log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as logDate
+  		 from cash_manage
+  		 where id = #{id}
+  		 order by log_date desc
+  	</select>
+  	
+  	<!-- 내역 삭제 -->
+  	<delete id="delete" parameterType="int">
+  		delete from cash_manage
+  		 where no =  #{no}
+  	</delete>
+  	
+</mapper>

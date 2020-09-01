@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="transfer.dao.TransferDAO">
+
+
+  	<!-- 이체 보낼 상대의 이름 -->
+  	<select id="accountOwner" parameterType="String" resultType="transferVO">
+	  	select m.name 
+	     from member m left join dw_account d
+	      on m.id = d.id
+	     where d.account_number = #{toAccountNumber}
+  	</select>
+  	
+  	<!-- 내 계좌에 이체 내역 남기기 -->
+  	<insert id="addMyLog" parameterType="transferVO">
+  		insert into dw_card_log
+  			(log_pk, account_number, amount, log_type_key, to_account_number, to_name)
+  		 values(seq_dw_card_log_pk.nextval,
+  		 		#{accountNumber},
+  		 		#{toAmount},
+  		 		#{toType},
+  		 		#{toAccountNumber},
+  		 		#{toName}
+  		 		)
+  	</insert>
+  	
+  	<!-- 상대 계좌에  입금 내역 남기기-->
+  	<insert id="addYourLog" parameterType="transferVO">
+  		insert into dw_card_log
+  			(log_pk, account_number, amount, log_type_key, to_account_number, to_name)
+  		 values(seq_dw_card_log_pk.nextval,
+  		 		#{toAccountNumber},
+  		 		#{toAmount},
+  		 		'1',
+  		 		#{accountNumber},
+  		 		#{myName}
+  		 		)
+  	</insert>
+  	
+  	<!-- 내 계좌 잔액 업데이트. 출금 -->
+  	<update id="withdrawal" parameterType="transferVO">
+  		update dw_account
+  		 set
+  		  balance = balance - #{toAmount}
+  		 where account_number = #{accountNumber}
+  	</update>
+  	
+  	<!-- 상대 계좌 잔액 업데이트. 입금 -->
+  	<update id="deposit" parameterType="transferVO">
+  		update dw_account
+  		 set
+  		  balance = balance + #{toAmount}
+  		 where account_number = #{toAccountNumber}
+  	</update>
+  	
+</mapper>
+
+
