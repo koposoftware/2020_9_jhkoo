@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member.dao.MemberDAO">
+
+	<resultMap type="memberVO" id="memberMap">
+  		<result column="age_group" property="ageGroup" />
+  		<result column="reg_date" property="regDate" />
+  		<result column="last_visit_date" property="lastVisitDate" />
+  		<result column="property_status" property="propertyStatus" />
+  		<result column="job_key" property="jobKey" />
+  		<result column="kakao_id" property="kakaoId" />
+  		<result column="email_key" property="emailKey" />
+  	</resultMap>
+
+	<!-- 로그인 -->
+	<select id="login" parameterType="memberVO" resultMap="memberMap">
+		select m.id, m.name, m.password, m.type, m.phone, m.email, m.address, m.age_group, 
+			   m.gender, m.reg_date, m.last_visit_date, m.property_status, m.kakao_id, m. email_key, j.value as job_key, m.cash 
+		from member m left join job j
+			   on m.job_key = j.key
+		where id = #{id} and password = #{password}
+	</select>
+	
+	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="memberVO">
+  		insert into member(id, name, password, phone, email, address, age_group, gender, property_status, job_key)
+  		values(#{id}, #{name}, #{password}, #{phone}, #{email}, #{address}, #{ageGroup}, #{gender}, #{propertyStatus}, #{jobKey})
+  	</insert>
+  	
+  	
+  	<!-- 아이디체크 -->
+  	<select id="idCheck" parameterType="String" resultType="String">
+  		select id from member
+  		 where id = #{id}
+  	</select>
+  	
+  	
+  	<!-- 현금 업데이트 -->
+  	<select id="cashUpdate" parameterType="cashVO">
+  		update member
+  		 set cash = #{cash}
+  		 where id = #{id}
+  	</select>
+  	
+  	
+  	<!-- 이번달 입출금 계좌 '입금' 총액 -->
+  	<select id="depositBalanceThisMonth" resultType="int" parameterType="String">
+	  	select sum(nvl(l.amount,0)) 
+		 from dw_card_log l, member m, dw_account d
+		 where m.id = d.id 
+		 and d.account_number = l.account_number
+		 and extract(month from log_date) = extract(month from sysdate) 
+		 and log_type_key = '1'
+		 and m.id = #{id}
+  	</select>
+  	
+  	<!-- 이번달 입출금 계좌 '출금' 총액 -->
+  	<select id="withdralBalanceThisMonth" resultType="int" parameterType="String">
+  	select sum(nvl(l.amount,0)) 
+	 from dw_card_log l, member m, dw_account d
+	 where m.id = d.id 
+	 and d.account_number = l.account_number
+	 and extract(month from log_date) = extract(month from sysdate) 
+	 and log_type_key != '1'
+	 and m.id = #{id}
+  	</select>
+  	
+  	<!-- 이번달 적금 계좌 총액 -->
+  	<select id="savingsBalanceThisMonth" resultType="int" parameterType="String">
+		select sum(nvl(l.amount,0))
+		 from savings_account_log l, member m, savings_account s
+		 where m.id = s.id
+		 and s.account_number = l.account_number
+		 and extract(month from log_date) = extract(month from sysdate) 
+		 and m.id= #{id}
+  	</select>
+  	
+</mapper>
+

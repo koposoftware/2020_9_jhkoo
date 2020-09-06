@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="challenge.dao.ChallengeDAO">
+
+	<resultMap type="challengeVO" id="challengeMap">
+			<result column="challenge_pk" property="challengePk" />
+			<result column="challenge_name" property="challengeName" />
+	  		<result column="challenge_end_date" property="challengeEndDate" />
+	  		<result column="challenge_type" property="challengeType" />
+	  		<result column="target_amount" property="targetAmount" />	
+	</resultMap>
+
+
+
+	<!-- 내 도전 리스트 가져오기 -->
+	<select id="myChallenge" resultMap="challengeMap" parameterType="challengeVO">
+		select challenge_pk, challenge_name, id, challenge_type, target_amount,
+			   to_char(challenge_end_date, 'YYYY"년 "MM"월 "DD"일"') as challenge_end_date
+		 from user_challenge
+		 where id = #{id}
+	</select>
+
+	<!-- 내 도전 insert -->
+  	<insert id="insertMyChallenge" parameterType="challengeVO">
+  		insert into user_challenge(challenge_pk, challenge_name, id, challenge_type, target_amount)
+  		 values(seq_user_challenge_pk.nextval, #{challengeName}, #{id}, #{challengeType}, #{targetAmount})
+  	</insert>
+  	
+  	
+  	<!-- 도전 갱신 -->
+  	<delete id="challengeDelete">
+  		delete from user_challenge
+  	</delete>
+  	
+  	
+  	<!-- 도전 항목  -->
+  	<select id="ageGroupDepositAccount" resultType="challengeCntVO" parameterType="String">
+  	select d.bank_book_key as bankBookKey, count(*) as cnt, m.age_group as ageGroup 
+	 from  dw_account d left join member m  
+	    on d.id = m.id
+	 group by d.bank_book_key, m.age_group
+	 having m.age_group = #{ageGroup} 
+	 order  by cnt desc
+  	</select>
+</mapper>

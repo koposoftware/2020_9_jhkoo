@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="account.dao.SavingsDetailDAO">
+
+	<resultMap type="savingsDetailVO" id="savingsDetailMap">
+		<result column="log_pk" property="logPk" />
+		<result column="account_number" property="accountNumber" />
+  		<result column="log_date" property="logDate" />
+  	</resultMap>
+
+
+	<!-- 내역 -->
+	<!-- 
+	<select id="savingsDetailList" resultMap="savingsDetailMap" parameterType="String">
+		select log_pk, amount, to_char(log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as log_date
+		 from savings_account_log
+		 where account_number = #{accountNumber}
+		 
+	</select>
+  	
+  	 -->
+  	 <select id="savingsDetailList" resultMap="savingsDetailMap" parameterType="String">
+	  	select amount, to_char(log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as log_date
+			 , row_number() over(partition by account_number order by account_number) as log_pk
+	         from savings_account_log
+			 where account_number = #{accountNumber}
+  	</select>
+  	
+  	
+  	
+  	
+</mapper>

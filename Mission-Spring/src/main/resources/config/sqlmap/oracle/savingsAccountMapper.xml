@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="account.dao.SavingsAccountDAO">
+
+	<resultMap type="savingsAccountVO" id="savingsAccountMap">
+  		<result column="account_number" property="accountNumber" />
+  		<result column="account_password" property="accountPassword" />
+  		<result column="bank_book_key" property="bankBookKey" />
+  		<result column="nick_name" property="nickName" />
+  		<result column="reg_date" property="regDate" />	
+  		<result column="saving_day" property="savingDay" />
+  		<result column="saving_date" property="savingDate" />
+  		<result column="auto_saving" property="autoSaving" />
+  		<result column="auto_saving_bool" property="autoSavingBool" />
+  	</resultMap>
+
+
+	<!-- 입출금 계좌 정보 -->
+  	<select id="selectById" resultMap="savingsAccountMap" parameterType="String">
+  		select  s.account_number, 
+  				s.id, 
+  				s.account_password, 
+  				s.balance, 
+  				b.value as bank_book_key, 
+  			    s.nick_name, 
+  			    to_char(s.reg_date, 'YYYY"년 "MM"월 "DD"일"') as reg_date, 
+  			    s.saving_day,
+  			    s.saving_date,
+                s.auto_saving,
+                s.auto_saving_bool,
+  			    b.rate
+  		 
+  		 from savings_account s left join saving_bank_book b
+  		 		on s.bank_book_key = b.key
+  		 
+  		 where id = #{id}
+  		 order by reg_date
+  	</select>
+  	
+  	<!-- 적금 계좌 총 잔액 -->
+  	<select id="totalBalanceById" resultType="int" parameterType="String">
+  		select sum(balance) 
+		 from savings_account
+		 where id = #{id}
+  	</select>
+  	<!-- 
+  	적금 상품 가입
+  	<insert id="insert" parameterType="savingsAccountVO">
+  		insert into savings_account(account_number, id, account_password, balance, 
+  									bank_book_key, nick_name, saving_day, saving_Date, auto_saving)
+  		 					 values(seq_savings_account_number.nextval, #{id}, #{accountPassword}, #{balance}, 
+  		 							#{bankBookKey}, #{nickName}, #{savingDay}, to_char(add_months(sysdate, #{savingMonth}), 'YYYY"년 "MM"월 "DD"일"'), #{autoSaving})
+
+  	</insert>
+  	 -->
+  	<!-- 적금 상품 가입 -->
+  	<insert id="insert" parameterType="savingsAccountVO">
+  		insert into savings_account(account_number, id, account_password, balance, 
+  									bank_book_key, nick_name, saving_day, saving_Date, auto_saving)
+  		 					 values(#{accountNumber}, #{id}, #{accountPassword}, #{balance}, 
+  		 							#{bankBookKey}, #{nickName}, #{savingDay}, to_char(add_months(sysdate, #{savingMonth}), 'YYYY"년 "MM"월 "DD"일"'), #{autoSaving})
+
+  	</insert>
+  	
+  	<!-- 해당 적금 계좌 정보 가져오기(상세내역 보기 위함) -->
+  	<select id="getInfo" resultMap="savingsAccountMap" parameterType="String">
+  		select s.account_number, s.id, s.account_password, s.balance, 
+  			   b.value as bank_book_key, b.rate, 
+  			   s.nick_name, s.reg_date, s.saving_day, s.saving_date, 
+  			   s.auto_saving, s.auto_saving_bool
+  		 from savings_account s left join saving_bank_book b
+  		 		on s.bank_book_key = b.key
+  		 where account_number = #{accountNumber}
+  	</select>
+  	
+  	<!-- 최초 가입 자동이체를 위한 계좌 정보 가져오기 -->
+  	<select id="getInfoForTrans" resultType="savingsAccountVO" parameterType="String">
+  		select account_number as accountNumber, balance, auto_saving as autoSaving
+  		 from savings_account
+  		 where account_number = #{accountNumber} 
+  	</select>
+  	
+  	<!-- 해당 적금 정보 업데이트 -->
+  	<update id="updateInfo" parameterType="savingsAccountVO">
+  		update savings_account
+  		 set nick_name = #{nickName},
+  		     saving_day = #{savingDay},
+  		     auto_saving = #{autoSaving}
+  		 where account_number = #{accountNumber}     
+  	</update>
+  	
+  	<!-- 남으 개월 수 -->
+  	<select id="getSavingMonth" parameterType="String" resultType="int">
+  		select round(months_between(to_date(saving_date, 'YYYY"년 "MM"월 "DD"일"'), sysdate)) as savingMonth
+ 		 from savings_account
+ 		 where account_number = #{accountNumber}
+  	</select>
+  	
+  	<!-- 평균 입금액 -->
+  	<select id="avgAmount" parameterType="String" resultType="int">
+  		select round(avg(nvl(amount, 0))) as avgAmount 
+  		 from SAVINGS_ACCOUNT_LOG
+  		 where account_number = #{accountNumber}
+  	</select>
+  	
+  	<!-- 자동이체 상태 on -->
+  	<update id="changeBool" parameterType="savingsAccountVO">
+  		update savings_account
+  		 set auto_saving_bool = #{autoSavingBool}
+  		 where account_number = #{accountNumber}
+  	</update>
+  	
+  	<!-- 새로운 계좌 번호 가져오기 -->
+  	<select id="getNewAccountNumber" resultType="String">
+  		select seq_savings_account_number.nextval from dual
+  	</select>
+  	
+  	<!-- 예약이체 해지  -->
+  	<update id="changeAutoTransferBool" parameterType="String">
+  		update savings_account
+  		 set auto_saving_bool = 'N'
+  		 where account_number = #{accountNumber}
+  		  
+  	</update>
+  	
+</mapper>
