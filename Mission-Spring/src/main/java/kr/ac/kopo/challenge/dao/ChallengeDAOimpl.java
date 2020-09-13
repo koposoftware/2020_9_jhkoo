@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.ac.kopo.challenge.vo.ChallengeCntVO;
+import kr.ac.kopo.challenge.vo.RecommendVO;
 import kr.ac.kopo.challenge.vo.ChallengeVO;
 
 @Repository
@@ -32,14 +32,29 @@ public class ChallengeDAOimpl implements ChallengeDAO {
 		sqlSession.delete("challenge.dao.ChallengeDAO.challengeDelete");
 	}
 
-	@Override		//이거 오류!!!!
-	public String ageGroupDepositAccount(String id) {
-		List<ChallengeCntVO> challengeCntAccountList = sqlSession.selectList("challenge.dao.ChallengeDAO.ageGroupDepositAccount", id);
-		ChallengeCntVO ageGroupDepositAccount = challengeCntAccountList.get(0);	// 많이 가입한 순으로 정렬되어있기 때문에 첫번째 가져옴
-		String ageGroupDepositAccountType = ageGroupDepositAccount.getBank_book_key();
+	@Override		
+	public String ageGroupDepositAccount(String myAgeGroup) {
+		List<RecommendVO> ageGroupDepositAccountList = sqlSession.selectList("recommend.dao.recommendDAO.ageGroupDepositAccount", myAgeGroup);
 		
-		return ageGroupDepositAccountType;
+		// 많이 가입한 순으로 정렬되어있기 때문에 첫번째 가져옴
+		RecommendVO ageGroupDepositAccount = ageGroupDepositAccountList.get(0);	
+		String bestBankBook = ageGroupDepositAccount.getBankBookKey();
+		
+		return bestBankBook;
 	}
+
+	@Override
+	public String jobSavingsAccount(String myJob) {
+		
+		List<RecommendVO> jobSavingsAccountList = sqlSession.selectList("recommend.dao.recommendDAO.jobSavingsAccount", myJob);
+		
+		// 가장 많이 가입한 순으로 정렬되어 있으므로 첫번째 가져옴
+		RecommendVO jobSavingsAccount = jobSavingsAccountList.get(0);
+		String bestBankBook = jobSavingsAccount.getBankBookKey();
+		
+		return bestBankBook;
+	}
+	
 	
 	
 }

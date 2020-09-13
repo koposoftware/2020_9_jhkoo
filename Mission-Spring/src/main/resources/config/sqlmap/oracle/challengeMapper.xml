@@ -35,13 +35,5 @@
   	</delete>
   	
   	
-  	<!-- 도전 항목  -->
-  	<select id="ageGroupDepositAccount" resultType="challengeCntVO" parameterType="String">
-  	select d.bank_book_key as bankBookKey, count(*) as cnt, m.age_group as ageGroup 
-	 from  dw_account d left join member m  
-	    on d.id = m.id
-	 group by d.bank_book_key, m.age_group
-	 having m.age_group = #{ageGroup} 
-	 order  by cnt desc
-  	</select>
+  	
 </mapper>

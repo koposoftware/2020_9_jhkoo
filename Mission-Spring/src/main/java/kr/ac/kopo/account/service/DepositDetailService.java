@@ -21,9 +21,18 @@ public interface DepositDetailService {
 	List<DepositDetailVO> depositDetailCategory(DepositDetailVO depositDetailVO);
 	
 	
+	// 이번 달 지출액     1. id에 해당하는 계좌번호들 가져오기     2. 계좌번호에 해당하는 지출액(입금제외) 가져오기 
+	int getExpenditureThisMonth(String id);
 	
 	
+	// 내 모든 입출금 계좌의 잦은 지출가져오기(돈 쓴 곳, 횟수)  1. id로 내 계좌번호들 가져오기   2. 계좌번호에 해당하는 지출 list 가져와 합치기
+	List<DepositDetailVO> frequentExpenditureList(String id);
+	
+	
+	// 선택된 이번달 잦은 지출 정보(날짜, 금액)
+	List<DepositDetailVO> getFrequentDetail(DepositDetailVO depositDetailVO);
+	
+	// 이번달 지출 Top3
+	List<DepositDetailVO> expenditureTop3List(String id);
 
-	// 스크롤 다운. 저번 달 내역 리스트
-	List<DepositDetailVO> infiniteScrollDown(DepositDetailVO depositDetailVO);
 }

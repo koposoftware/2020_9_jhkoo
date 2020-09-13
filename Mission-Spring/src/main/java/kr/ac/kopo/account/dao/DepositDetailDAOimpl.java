@@ -46,21 +46,35 @@ public class DepositDetailDAOimpl implements DepositDetailDAO {
 
 	@Override
 	public int nowBalanceByType(DepositDetailVO depositDetailVO) {
-		System.out.println(depositDetailVO);
 		int nowBalanceByType = sqlSession.selectOne("account.dao.DepositDetailDAO.nowBalanceByType",depositDetailVO);
-		System.out.println("2 : " + nowBalanceByType);
 		return nowBalanceByType;
 	}
 
-	
-	
 	@Override
-	public List<DepositDetailVO> infiniteScrollDown(DepositDetailVO depositDetailVO) {
-		
-		List<DepositDetailVO> infiniteScrollDown = sqlSession.selectList("account.dao.DepositDetailDAO.lastMonth", depositDetailVO);
-		
-		return infiniteScrollDown;
+	public int expenditureThisMonth(String accountNumber) {
+		int expenditureThisMonth = sqlSession.selectOne("account.dao.DepositDetailDAO.expenditureThisMonth", accountNumber);
+		return expenditureThisMonth;
 	}
+
+	@Override
+	public List<DepositDetailVO> frequentExpenditure(String accountNumber) {
+		List<DepositDetailVO> frequentExpenditureList = sqlSession.selectList("account.dao.DepositDetailDAO.frequentExpenditure", accountNumber);
+		return frequentExpenditureList;
+	}
+
+	@Override
+	public List<DepositDetailVO> getFrequentDetail(DepositDetailVO depositDetailVO) {
+		List<DepositDetailVO> frequentDetailList = sqlSession.selectList("account.dao.DepositDetailDAO.getFrequentDetail", depositDetailVO);
+		return frequentDetailList;
+	}
+
+	@Override
+	public List<DepositDetailVO> expenditureTop3(String accountNumber) {
+		List<DepositDetailVO> expenditureTop3List = sqlSession.selectList("account.dao.DepositDetailDAO.expenditureTop3", accountNumber); 
+		return expenditureTop3List;
+	}
+
+	
 	
 	
 

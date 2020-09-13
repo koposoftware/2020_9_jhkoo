@@ -14,6 +14,9 @@
 		<typeAlias type="kr.ac.kopo.transfer.vo.TransferVO" alias="transferVO"/>	
 		<typeAlias type="kr.ac.kopo.cash.vo.CashVO" alias="cashVO"/>
 		<typeAlias type="kr.ac.kopo.challenge.vo.ChallengeVO" alias="challengeVO"/>	
-		<typeAlias type="kr.ac.kopo.challenge.vo.ChallengeCntVO" alias="challengeCntVO"/>	
+		<typeAlias type="kr.ac.kopo.challenge.vo.RecommendVO" alias="recommendVO"/>	
+		<typeAlias type="kr.ac.kopo.favorite.vo.FavoriteVO" alias="favoriteVO"/>	
+	    <typeAlias type="kr.ac.kopo.friend.vo.FriendVO" alias="friendVO"/>
+	    <typeAlias type="kr.ac.kopo.eda.vo.EdaVO" alias="EdaVO"/>
 	</typeAliases>
 </configuration>

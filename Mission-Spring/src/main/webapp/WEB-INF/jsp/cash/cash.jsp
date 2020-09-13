@@ -111,7 +111,7 @@
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="contact-area style-two">
                     <div class="section-title">
-                        <h3>Request <span>Appointment</span></h3>
+                        <h3>현재 보유 현금 <span>을 입력하세요</span></h3>
                     </div>
                     <form name="rform" class="default-form contact-form">
                         <div class="row">

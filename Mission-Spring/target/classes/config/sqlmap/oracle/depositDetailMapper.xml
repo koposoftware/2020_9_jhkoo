@@ -96,4 +96,69 @@
        			  extract(year from log_date) = extract(year from sysdate) and
        			  extract(month from log_date) = extract(month from sysdate)
   	</select>
+  	
+  	
+  	<!-- 해당 계좌번호 이번 달 지출액 가져오기 -->
+  	<select id="expenditureThisMonth" resultType="int" parameterType="String">
+  		select sum(amount)
+  			from dw_card_log
+  			where account_number = #{accountNumber} and
+  			log_type_key != '1' and
+  			extract(year from log_date) = extract(year from sysdate) and
+       		extract(month from log_date) = extract(month from sysdate)
+  	</select>
+  	
+  	
+  	
+  	
+  	<!-- 잦은 지출 순  -->
+  	<select id="frequentExpenditure" resultType="depositDetailVO" parameterType="String">
+		select distinct
+		       d.to_name as toName,
+               d.account_number as accountNumber,
+               count(*)over(partition by d.to_name) as count
+		  from dw_card_log d left join log_type l
+		       on d.log_type_key = l.key
+		  where account_number = #{accountNumber} and
+		  		extract(month from log_date) = extract(month from sysdate) and
+                extract(year from log_date) = extract(year from sysdate) 
+           order by count desc  	
+  	</select>
+  	
+  	
+  	
+  	<!-- 선택된 이번달 잦은 지출 정보(날짜, 금액)  -->
+  	<select id="getFrequentDetail" resultType="depositDetailVO" parameterType="depositDetailVO">
+  		select to_char(log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as logDate, 
+  		       amount,
+  		       to_name as toName
+  			from dw_card_log
+  			where account_number = #{accountNumber} and
+  			      to_name = #{toName} and
+		  		  extract(month from log_date) = extract(month from sysdate) and
+                  extract(year from log_date) = extract(year from sysdate) 
+            order by log_date
+  			
+  	</select>
+  	
+  	
+  	
+  	<!-- 이번 달 지출 Top3 정보 -->
+  	<select id="expenditureTop3" resultType="depositDetailVO" parameterType="String">
+  	<![CDATA[
+  	select amount, to_name as toName, account_number as accountNumber,
+  		   to_char(log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as logDate
+		from( select log_date, amount, to_name, account_number
+		      from dw_card_log
+		      where account_number = #{accountNumber} and
+		            extract(month from log_date) = extract(month from sysdate) and
+		            extract(year from log_date) = extract(year from sysdate) and
+		            log_type_key != '2' and log_type_key !='1'         
+		      order by amount desc)
+		where rownum <= 3
+  	]]>
+  	</select>
+  	
+  	
+  	
 </mapper>

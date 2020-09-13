@@ -60,7 +60,6 @@ public class SavingsDetailController {
 		}
 		str += "]";
 		
-		System.out.println(str);
 		
 		mav.addObject("str", str);
 		

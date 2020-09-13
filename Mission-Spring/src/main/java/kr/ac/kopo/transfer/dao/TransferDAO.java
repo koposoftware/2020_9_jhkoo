@@ -9,7 +9,7 @@ public interface TransferDAO {
 	/**
 	 *  이체 보낼 상대의 이름 
 	 */
-	public String accountOwner(TransferVO transferVO);
+	public String accountOwner(String accountNumber);
 	
 	
 	/**
@@ -62,4 +62,9 @@ public interface TransferDAO {
 	 *  예약 이체 해지하기
 	 */
 	public void autoTransferDelete(String accountNumber);
+	
+	/**
+	 *  카드번호로 계좌번호 가져오기
+	 */
+	public String getAccountNumByCardNum(String cardNumber);
 }

@@ -43,7 +43,7 @@
                     <div class="image-content text-center" onclick="location.href='${ pageContext.request.contextPath }/product/savingsChoose'">
                         <span>InstallMent saving</span>
                        
-                            <h6>적금</h6>
+                            <h6>정기 적금</h6>
                         
                         <p>정기적금은 매월 일정금액을 정기적으로 납입하고 만기일에 원리금을 지급받는 상품으로 푼돈을 모아 목돈을 마련하는데 가장 보편적인 장기저축 상품입니다.</p>
                     </div>

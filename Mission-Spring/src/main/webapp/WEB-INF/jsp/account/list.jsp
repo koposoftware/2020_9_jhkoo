@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/table.css"> 
 <script>
 
+	/* 관리 */
 	function goCashManage(){
 		location.href = "${ pageContext.request.contextPath }/cashManage";
 	}
@@ -23,9 +24,8 @@
 	}
 
 	
-	
+	/* 내역 */
 	function goDepositDetail(accountNumber){
-
 		 location.href = "${ pageContext.request.contextPath}/depositDetail/" + accountNumber;
 	}
 	
@@ -34,15 +34,65 @@
 	}
 	
 	
-	function goChallenge(){
-		location.href = "${ pageContext.request.contextPath }/product/depositFreeExplain" + ageGroupDepositAccountType;
+	/* 추천 */
+	function goDepositRecommend(){
+		location.href = "${ pageContext.request.contextPath }/product/depositFreeExplain" + ${ageGroupDepositAccountBankBook};
 	}
+	
+	function goSavingsRecommend(){
+		location.href = "${ pageContext.request.contextPath }/product/savingsExplain${jobSavingsAccountBankBook} ";
+	}
+	
+	function goChallenge(){
+		location.href = "${ pageContext.request.contextPath }/challengeChoose";
+	}
+	
+	
+	/* 잦은 지출 상세 내역 */
+	$(document).ready(function(){
+		$('.frequentDetailBtn').click(function(){
+			let btn = this;
+			let elements = $(this).attr('id').split('.');
+			let str = '';
+			
+			$.ajax({
+				url : '${ pageContext.request.contextPath }/frequentDetail',
+				type : 'get',
+				data : {
+					accountNumber : elements[0],
+					toName : elements[1]
+				},
+				success : function(data){
+					
+					$('#modalDiv').empty();
+					let list = JSON.parse(data);
+					
+					$(list).each(function(){
+						
+					
+						str += '<hr>';
+						str += '<div>';
+						str += '<strong>' + this.logDate + '</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' + this.amount + '원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + this.toName + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+						str += '</div>';
+					})
+					
+					$("#modalDiv").append(str);
+					$("#frequentModal").modal('show');
+
+				}
+			})
+			
+		})
+	})
 	
 </script>
 </head>
 <body>
 
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" />
+
 
 
 <br>
@@ -63,6 +113,7 @@
     </div>
 
 <br>
+
 
 <!-- 입출금 자유 ----------------------------------------------------------------------------------------------------------->
 
@@ -183,11 +234,11 @@
 
 
 <!----------------------------------------------------------------------------------------------------------------->
-<section class="service-section bg-gray section">
+<section class="service-section bg-gray section" style="height:420px">
     <div class="container">
         <div class="section-title text-center">
             <h3>${ loginVO.name }님
-                <span>에게 필요한 정보</span>
+                <span>에게 추천합니다</span>
             </h3>
         </div>
         <div class="row items-container clearfix">
@@ -198,8 +249,8 @@
                 <div class="inner-box">
                     
                     <div class="image-content text-center">
-                        <h6>${month}월  고객님이<br>진행 중인 도전 </h6>
-                        <button class="btn-style-one" onclick="#">보러가기</button>
+                        <h6>고객님이<br>진행 중인 도전을 관리하세요! </h6><br>
+                        <input type="button" value="보러가기" class="btn-style-one" onclick="goChallenge()">
                     </div>
                 </div>
             </div>
@@ -208,13 +259,14 @@
                 <div class="inner-box">
                     
                     <div class="image-content text-center">
-                        <h6>${month}월 '${ loginVO.ageGroup }'가 <br>
-                                                        가장 많이 가입한 입출금 자유 계좌는<br>
-                            <c:if test="${ ageGroupDepositAccountType.equals(\"1\") }">하나 플러스통장입니다</c:if>
-                            <c:if test="${ ageGroupDepositAccountType.equals(\"2\") }">영하나 플러스통장입니다</c:if>
-                            <c:if test="${ ageGroupDepositAccountType.equals(\"3\") }">주거래 하나 통장입니다</c:if>
+                        <h6>'${ loginVO.ageGroup }' Pick <br>
+                                                         입출금 자유 예금 상품은<br>
+                            <c:if test="${ ageGroupDepositAccountBankBook.equals(\"1\") }">'하나 플러스통장'입니다</c:if>
+                            <c:if test="${ ageGroupDepositAccountBankBook.equals(\"2\") }">'영하나 플러스통장'입니다</c:if>
+                            <c:if test="${ ageGroupDepositAccountBankBook.equals(\"3\") }">'주거래 하나 통장'입니다</c:if>
                         </h6>
-                        <button class="btn-style-one" onclick="goChallenge()">보러가기</button>
+                        <input type="button" value="보러가기" class="btn-style-one" onclick="goDepositRecommend()">
+                    
                     </div>
                 </div>
             </div>
@@ -223,8 +275,13 @@
                 <div class="inner-box">
                     
                     <div class="image-content text-center">
-                        <h6>${month}월 '${ loginVO.jobKey }'이(가) <br>가장 많이 가입한 적금</h6>
-                        <button class="btn-style-one" onclick="#">보러가기</button>
+                        <h6>'${ loginVO.jobKey }' Pick <br>
+                        	  정기 적금 상품은<br>
+                        	  <c:if test="${ jobSavingsAccountBankBook.equals(\"1\") }">'하나 원큐 적금'입니다</c:if>
+                            <c:if test="${ jobSavingsAccountBankBook.equals(\"2\") }">'내집마련 적금'입니다</c:if>
+                            <c:if test="${ jobSavingsAccountBankBook.equals(\"3\") }">'꿈하나 적금'입니다</c:if>
+                         </h6>
+                        <input type="button" value="보러가기" class="btn-style-one" onclick="goSavingsRecommend()">
                     </div>
                 </div>
             </div>
@@ -233,6 +290,94 @@
         </div>
     </div>
 </section>
+
+
+<!-- 잦은 거래  --------------------------------------------------------------------------------- -->
+
+<section class="service-section bg-gray section" style="height:420px">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>${ month }월
+                <span>잦은 지출 목록입니다</span>
+            </h3>
+        </div>
+        <div class="row items-container clearfix">       
+        
+       	  <c:forEach items="${ frequentExpenditureList}" var="account">
+       	  <c:if test='${ !account.toName.equals(loginVO.name) && account.count >=3 }'>
+        	<div class="item">
+                <div class="inner-box">
+                    
+                    <div class="image-content text-center">
+                        <h6>${ account.toName }
+                             <br> 총 ${ account.count }번 지출</h6><br>
+                        <input type="button" value="내역보기" class="frequentDetailBtn btn-style-one" id="${ account.accountNumber }.${ account.toName }">
+                    </div>
+                </div>
+            </div>
+         </c:if>   
+         </c:forEach>
+        	  
+        </div>
+    </div>
+</section>
+
+
+<!-- 지출 Top3  --------------------------------------------------------------------------------- -->
+
+<section class="service-section bg-gray section" style="height:420px">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>${ month }월
+                <span>지출 Top3입니다</span>
+            </h3>
+        </div>
+        <div class="row items-container clearfix">       
+        
+       	  <c:forEach items="${ expenditureTop3List}" var="account">
+        	<div class="item">
+                <div class="inner-box">
+                    
+                    <div class="image-content text-center">
+                        <h6>${ account.toName } 
+                             <br> ${ String.format("%,d", account.amount) }원 지출
+                             <br>${ account.logDate }</h6><br>
+                    </div>
+                </div>
+            </div>
+         </c:forEach>
+        	  
+        </div>
+    </div>
+</section>
+
+
+
+<br>
+<br>
+<!-- 모달-----------------------------------------------------  -->
+<div class="modal fade" id="frequentModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">잦은 지출 내역보기</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body" id= "modalDiv">
+         	
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-style-one" data-dismiss="modal">확인</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 
 

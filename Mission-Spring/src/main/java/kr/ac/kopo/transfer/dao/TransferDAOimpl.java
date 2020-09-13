@@ -16,11 +16,11 @@ public class TransferDAOimpl implements TransferDAO {
 
 	
 	@Override
-	public String accountOwner(TransferVO transferVO) {
+	public String accountOwner(String accountNumber) {
 		
-		System.out.println(transferVO.getToAccountNumber());
-		String tName = sqlSession.selectOne("transfer.dao.TransferDAO.accountOwner",transferVO);
-		System.out.println("tName :" + tName );
+		System.out.println("check 1 : " + accountNumber);
+		String tName = sqlSession.selectOne("transfer.dao.TransferDAO.accountOwner",accountNumber);
+		System.out.println("check 2 :" + tName );
 		return tName;
 	}
 
@@ -57,6 +57,7 @@ public class TransferDAOimpl implements TransferDAO {
 
 	@Override
 	public void addSavingsLog(TransferVO transferVO) {
+		System.out.println(transferVO);
 		sqlSession.insert("transfer.dao.TransferDAO.addSavingsLog", transferVO);
 	}
 
@@ -69,6 +70,12 @@ public class TransferDAOimpl implements TransferDAO {
 	public void autoTransferDelete(String accountNumber) {
 		sqlSession.delete("transfer.dao.TransferDAO.autoTransferDelete", accountNumber);
 		
+	}
+
+	@Override
+	public String getAccountNumByCardNum(String cardNumber) {
+		String accountNumber = sqlSession.selectOne("transfer.dao.TransferDAO.getAccountNumByCardNum", cardNumber);
+		return accountNumber;
 	}
 
 	

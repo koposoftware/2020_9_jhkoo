@@ -16,5 +16,8 @@ public interface ChallengeDAO {
 	public void challengeDelete();
 	
 	// 내 나이대 가장 많이 이용하는 입출금 통장 명
-	public String ageGroupDepositAccount(String id);
+	public String ageGroupDepositAccount(String myAgeGroup);
+	
+	// 내 직업과 같은 사람들 중에서 가장 많이 이용하는 적금 통장 명
+	public String jobSavingsAccount(String myJob);
 }

@@ -1,5 +1,7 @@
 package kr.ac.kopo.transfer.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,8 @@ import kr.ac.kopo.account.service.DepositAccountService;
 import kr.ac.kopo.account.service.SavingsAccountService;
 import kr.ac.kopo.account.vo.DepositAccountVO;
 import kr.ac.kopo.account.vo.SavingsAccountVO;
+import kr.ac.kopo.favorite.service.FavoriteService;
+import kr.ac.kopo.favorite.vo.FavoriteVO;
 import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.transfer.service.TransferService;
 import kr.ac.kopo.transfer.vo.TransferVO;
@@ -32,8 +37,15 @@ public class TransferController {
 	private DepositAccountService depositAccountService;
 	@Autowired
 	private SavingsAccountService savingsAccountService;
+	@Autowired
+	private FavoriteService favoriteService;
 	
-	// 보유한 입출금 계좌 리스트
+	
+	
+	/**
+	 *  나의 입출금 계좌 중에서 이체를 시행할 계좌 선택하는 페이지. 
+	 *  보유한 입출금 계좌의 정보 리스트를 공유영역에 올립니다.
+	 */
 	@RequestMapping("/transferChoose")
 	public ModelAndView transferList(HttpSession session) {
 		
@@ -49,9 +61,13 @@ public class TransferController {
 		return mav;
 	}
 	
-	// 이체 form
+	/**
+	 *  이체 FORM 페이지.
+	 *  선택된 입출금 계좌 번호를 받아서, 이체에 필요한 내용들을 공유영역에 올려 표시해줍니다.
+	 *  Spring Form태그 방식으로, 사용자의 입력값을 담아올 transferVO를 생성하여 공유영역에 올려줍니다. 
+	 */
 	@GetMapping("/transfer/{accountNumber}")
-	public ModelAndView transferForm(@PathVariable String accountNumber) {
+	public ModelAndView transferForm(@PathVariable String accountNumber, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView("transfer/transfer");
 		
@@ -60,16 +76,24 @@ public class TransferController {
 		
 		// 해당 계좌의 정보
 		DepositAccountVO depositAccount = depositAccountService.getDepositAccountInfo(accountNumber);
-		
-		
-		
 		mav.addObject("depositAccount",depositAccount);
+		
+		// 즐겨찾기 목록
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String id = loginVO.getId();
+		List<FavoriteVO> favoriteList = favoriteService.getFavoriteList(id);
+		mav.addObject("favoriteList", favoriteList);
+
 		
 		return mav;
 	}
 	
 	// 이체하기
-	@PostMapping("/transfer/{accountNumber}")	// 이게 맞나.. 
+	/**
+	 *   이체하기. (1. 이체    2. 최근이체목록에 등록) 두 가지의 작업이 수행되므로 트랜잭션 처리를 해줘야합니다.   
+	 */
+	@Transactional
+	@PostMapping("/transfer/{accountNumber}")	
 	public String transfer(@Valid TransferVO transferVO, BindingResult result, HttpSession session) {
 		
 		if(result.hasErrors()) {
@@ -77,10 +101,9 @@ public class TransferController {
 			return "transfer/transferFail";
 		}
 		
-		// 고치기!!!!
 		// 상대방 이름 가져오기. 이체 내역에 상대방 이름 찍혀야 하므로, 해당 계좌의 주인 이름 가져옴
-		//	String toName = transferService.accountOwner(transferVO);
-		transferVO.setToName("구재희");
+		String toName = transferService.accountOwner(transferVO.getToAccountNumber());
+		transferVO.setToName(toName);
 		
 		// 이체. 내 이름 넣어서 vo 보냄
 		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
@@ -89,17 +112,27 @@ public class TransferController {
 		
 		transferService.transfer(transferVO);
 		
+		// 이체 시, 최근 이체 목록 테이블에 들어감
+		FavoriteVO favoriteVO = new FavoriteVO();
+		favoriteVO.setId(loginVO.getId());
+		favoriteVO.setToAccountNumber(transferVO.getToAccountNumber());
+		favoriteVO.setToName(toName);
+		favoriteService.addFavorite(favoriteVO);
 		
 		return "transfer/transferSuccess";
 	}
 	
 	
-	/////// 예약 이체. 전 설정
-	
-	// 1. 확인창. 계좌 정보 받아서 setAutoSavingBool  Y로 바꿔줌
-	// 2. autoTransfer DB에 내용 저장
+
+	/**
+	 *  예약 이체 설정하기.(적금 계좌에서 예약이체 설정한 경우) (수행은 아래 스케쥴러 어노테이션에서함!)
+	 *  여러 작업이 수행되므로 트랜잭션 처리를 해줍니다.
+	 *  1. 예약 이체 Flag 값을  N에서 Y로 바꿔줍니다.
+	 *  2. 예약 이체 테이블에 이체 정보를 저장합니다. -> 이후에 일정 시간에 이체가 수행됩니다.
+	 */
+	@Transactional
 	@GetMapping("/autoTransferConfirm/{accountNumber}")
-	public ModelAndView autoTransfer1confirm(@PathVariable String accountNumber, HttpSession session) {
+	public ModelAndView autoTransferConfirm(@PathVariable String accountNumber, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView("transfer/autoTransferFinish");
 		
@@ -111,15 +144,17 @@ public class TransferController {
 		
 		// autoTransfer DB에 내용 저장하기
 		TransferVO transferVO = new TransferVO();
-		transferVO.setAccountNumber(savingsAccount.getAutoSaving());	// 출금 계좌
+		transferVO.setAccountNumber(savingsAccount.getAutoSaving());	   // 출금 계좌
 		transferVO.setToAccountNumber(savingsAccount.getAccountNumber());  // 내 적금 계좌
-		transferVO.setToAmount(savingsAccount.getAvgAmount());          // 계산된 평균 금액 송금 됨
-		transferVO.setToType("2");	 									// 이체 타입(이체)
+		transferVO.setToAmount(savingsAccount.getAvgAmount());             // 계산된 평균 금액 송금 됨
+		transferVO.setToType("2");	 									   // 이체 타입(이체)
+		transferVO.setAutoTransDay(savingsAccount.getSavingDay()); 		   // 예약 이체 날짜
 		
 		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
 		String myName = loginVO.getName();
-		transferVO.setToName(myName);								// 받는사람 이름(적금 계좌 )
-		transferVO.setMyName("보내는 사람입니다");						// 보내는 사람 이름 
+		transferVO.setToName(myName);								       // 받는사람 이름(적금 계좌 )
+		transferVO.setMyName(myName);								       // 보내는 사람 이름 
+
 		
 		transferService.insertAutoTransfer1(transferVO);
 		
@@ -127,14 +162,75 @@ public class TransferController {
 	}
 	
 	
-	// 3. 자동 이체 실행. 매월 1일 12시
-	@Scheduled(cron = "0 0 12 1 * *")
-	public void autoTransfer1() {
+	
+	
+	/**
+	 *  입출금 계좌에서 예약이체하는 Form페이지.(입출금계좌이체에서)
+	 * 
+	 */
+	@GetMapping("/autoTransferToDeposit/{accountNumber}")
+	public ModelAndView autoTransferForm(@PathVariable String accountNumber, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("transfer/autoTransfer");
+		
+		TransferVO transferVO = new TransferVO();
+		mav.addObject("transferVO", transferVO);
+		
+		// 해당 계좌의 정보
+		DepositAccountVO depositAccount = depositAccountService.getDepositAccountInfo(accountNumber);
+		mav.addObject("depositAccount",depositAccount);
+		
+		// 즐겨찾기 목록
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String id = loginVO.getId();
+		List<FavoriteVO> favoriteList = favoriteService.getFavoriteList(id);
+		mav.addObject("favoriteList", favoriteList);
+
+		return mav;
+	}
+	
+	/**
+	 *   입출금 계좌에서 예약이체
+	 */
+	@Transactional
+	@PostMapping("/autoTransferToDeposit/{accountNumber}")
+	public ModelAndView autoTransferToDeposit(TransferVO transferVO, HttpSession session) {
+		ModelAndView mav = new ModelAndView("transfer/autoTransferFinish");
+		
+		// 상대방 이름 가져오기. 이체 내역에 상대방 이름 찍혀야 하므로, 해당 계좌의 주인 이름 가져옴
+		String toName = transferService.accountOwner(transferVO.getToAccountNumber());
+		transferVO.setToName(toName);
+
+		// 내 이름 넣기
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String myName = loginVO.getName();
+		transferVO.setMyName(myName);		
+		
+		transferService.insertAutoTransfer1(transferVO);
+		
+		return mav;
+	}
+	
+	
+
+	/**
+	 *  자동 이체 실행. 
+	 *  자동 이체 테이블의 정보로 이체함.
+	 *  매일 12시 시행. 오늘 날짜와 예약이체 날이 같으면 이체 실행됨
+	 */
+	@Scheduled(cron = "0 0 12 * * *")
+	public void autoTransfer() {
+		
 		transferService.autoTransfer1();
 	}
 	
 	
-	// 예약이체 해지 - 예약이체 테이블에서 삭제, 상태 Y->N 변경
+
+	/**
+	 *  예약 이체 해지
+	 *  예약 이체 테이블에서 삭제.
+	 *  예약 이체 Flag Y에서 N.
+	 */
 	@GetMapping("/autoTransferDelete/{accountNumber}")
 	public ModelAndView autoTransferDelete(@PathVariable String accountNumber) {
 		transferService.autoTransferDelete(accountNumber);
@@ -143,4 +239,34 @@ public class TransferController {
 		return mav;
 	}
 	
+	
+	
+	//card////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 *  카드리더기 form 페이지.
+	 */
+	@GetMapping("/card")
+	public ModelAndView cardForm(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("card/card");
+		
+		TransferVO transferVO = new TransferVO();
+		mav.addObject("transferVO", transferVO);
+	
+		return mav;
+	}
+	
+
+	/**
+	 *   결제하기 
+	 *   1. 카드번호로 계좌번호 가져오기        2. 결제하기(이체)  
+	 */
+
+	@PostMapping("/card")	
+	public String card(TransferVO transferVO) {
+	
+		transferService.payment(transferVO);
+
+		return "redirect:/card";
+	}
 }

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 	function depositFreeJoin(){
-		location.href = "${ pageContext.request.contextPath}/product/depositFreeJoin/" + 1;
+		location.href = "${ pageContext.request.contextPath}/product/depositFreeJoin/" + "2";
 	}
 </script>
 </head>
@@ -26,7 +26,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="accordion-section">
     <div class="section-title">
-        <h3>주거래하나 통장 가입하기</h3>
+        <h3>영하나 플러스 통장 가입하기</h3>
     </div>
     
     
@@ -37,7 +37,7 @@
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            	주거래하나 통장 특징
+                            	영하나 플러스 통장 특징
                         </a>
                     </h4>
                 </div>
@@ -54,7 +54,7 @@
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
                             aria-controls="collapseTwo">
-                            	주거래하나 통장 정보
+                            	영하나 플러스 통장 정보
                         </a>
                     </h4>
                 </div>

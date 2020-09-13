@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recommend.dao.recommendDAO">
+
+
+	<!-- 내 나이대가 가장 많이든 입출금 계좌 순서 테이블  -->
+  	<select id="ageGroupDepositAccount" resultType="recommendVO" parameterType="String">
+	  	select d.bank_book_key as bankBookKey, count(*) as cnt, m.age_group as ageGroup 
+		 from  dw_account d left join member m  
+		    on d.id = m.id
+		 group by d.bank_book_key, m.age_group
+		 having m.age_group = #{myAgeGroup} 
+		 order  by cnt desc
+  	</select>
+
+	<!-- 나와 같은 직업의 사람들이 가장 많이든 적금 계좌 순서 테이블  -->
+	<select id="jobSavingsAccount" resultType="recommendVO" parameterType="String">
+		 select s.bank_book_key as bankBookKey, count(*) as cnt, j.value as jobKeyName
+			 from  savings_account s 
+		        left join member m  
+			    on s.id = m.id
+		        left join job j
+		        on m.job_key = j.key
+		        
+			 group by s.bank_book_key, j.value
+			 having j.value = #{myJob} 
+			 order  by cnt desc
+	</select>
+
+</mapper>

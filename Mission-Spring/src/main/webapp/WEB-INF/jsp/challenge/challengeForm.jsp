@@ -59,18 +59,8 @@
             		<input type="hidden" name="challengeName" value="${ challengeName }" />
                     <input type="text" name="targetAmount" class="form-control" placeholder="도전할 금액을 입력하세요"/><span></span>
                 </div>
-                
-                <!-- 각오 컬럼 추가할까? -->
             </div>
-            
-            
-            
-            
-            
-            
-            
-            
-             
+
             <div class="col-md-12 col-sm-12 col-xs-12">         
                 <div class="form-group text-center">
                     <button type="submit" class="btn-style-one">도전 시작하기</button>
@@ -93,10 +83,9 @@
         <br>
         <br>
         <h4>지난 달 ${ challengeName.substring(0, challengeName.length()-3) } 총 소비액은<br>
-                    	<span>${ String.format("%,d",lastMonthSumByCatesgory) }원입니다.</span><br>
+                    	<span style="color:red">${ String.format("%,d",lastMonthSumByCatesgory) }</span>원입니다.<br>
                     	<br>
-                    	목표금액 초과 시 <span style="color:red">10,000원의 벌금</span>
-                    	을 지불하게 되니 <br>신중히 결정하세요!
+                    	해당 카테고리의 지난 달 지출액을 확인하고<br> 신중히 결정하세요!
                     </h4>
     </div>
     <br>

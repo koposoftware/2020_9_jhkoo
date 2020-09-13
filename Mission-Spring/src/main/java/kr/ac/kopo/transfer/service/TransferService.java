@@ -18,7 +18,7 @@ public interface TransferService {
 	/**
 	 *  상대 이름 가져오기
 	 */
-	public String accountOwner(TransferVO transferVO);
+	public String accountOwner(String accountNumber);
 	
 	
 	/**
@@ -35,5 +35,13 @@ public interface TransferService {
 	 *  예약 이체 해지. 예약이체 테이블에서 삭제, 상태 Y->N 변경
 	 */
 	public void autoTransferDelete(String accountNumber);
+	
+	/**
+	 *  카드 결제하기  
+	 *  1. 카드번호로 계좌번호 가져오기 
+	 *  2. 결제 내역 남기기
+	 *  3. 잔액 조정하기
+	 */
+	public void payment(TransferVO transferVO);
 	
 }

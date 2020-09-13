@@ -27,7 +27,7 @@
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="accordion-section">
     <div class="section-title">
-        <h3>하나 원큐 적금 상품 정보</h3>
+        <h3>내집 마련 적금 상품 정보</h3>
     </div>
     <div class="accordion-holder">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -94,8 +94,8 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 
                 <form:hidden path="id" value="${ loginVO.id }"  /> 	
-                <form:hidden path="bankBookKey" value="1"  />
-                <form:hidden path="rate" value="2.5"  /> 
+                <form:hidden path="bankBookKey" value="2"  />
+                <form:hidden path="rate" value="2.3"  /> 
                 
 
                 <div class="form-group">

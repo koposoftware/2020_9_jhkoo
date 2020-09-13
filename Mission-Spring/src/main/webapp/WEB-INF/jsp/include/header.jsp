@@ -20,7 +20,7 @@
   <!-- Stylesheets -->
   <link href="${pageContext.request.contextPath }/resources/assets/css/style.css" rel="stylesheet">
   
-
+<script src="http://code.jquery.com/jquery-3.5.1.min.js" ></script>
 </head>
 <body>
 
@@ -36,9 +36,11 @@
                         <li class="active">
                               <a href="${pageContext.request.contextPath }/">Home</a>
                         </li>
+                        <!-- 
                         <li>
                               <a href="#">Q&A</a>
                         </li>
+                         -->
                         <li>
                               <a href="${pageContext.request.contextPath }/account">내 계좌 관리</a>
                         </li>
@@ -48,7 +50,18 @@
                         <li>
                               <a href="${pageContext.request.contextPath }/product">예금/적금 상품 가입</a>
                         </li>
-						
+                        
+                        <li>
+                        	  <a href = "${pageContext.request.contextPath }/challengeChoose">도전</a>
+                        </li>
+                        
+                        <li>
+                        	  <a href = "${pageContext.request.contextPath }/friend">비교</a>
+                        </li>
+                        <li>
+                        	  <a href = "${pageContext.request.contextPath }/eda">분석</a>
+                        </li>
+						<%-- 
 						<li class="dropdown" >
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                               		도전하기
@@ -68,14 +81,14 @@
                         			</li>
                               </ul>
                         </li>
-						
+						 --%>
                         <c:choose>
                         	<c:when test="${ empty loginVO }">
 		                         <li><a href="${pageContext.request.contextPath }/login">로그인</a></li>
 		                                              		
                         	</c:when>
                         	<c:otherwise>
-                        		<li><a>'${ loginVO.name }'님 환영합니다! </a></li>
+                        	<%-- 	<li><a>'${ loginVO.name }'님 환영합니다! </a></li> --%>
                         		<li><a href="${pageContext.request.contextPath }/logout">로그아웃</a><li>
                         	</c:otherwise>
                         </c:choose>

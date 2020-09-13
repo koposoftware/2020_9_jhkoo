@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="friend.dao.friendDAO">
+
+	<!-- 친구 테이블 목록에 추가 -->
+	<insert id="insertRequest" parameterType="friendVO">
+		insert into friend(no, id, friend_id, content)
+		 values(seq_friend_no.nextval, #{id}, #{friendId}, #{content})
+	</insert>
+
+	<!-- 내가 보낸 요청 가져오기  -->
+	<select id="getRequestList" resultType="friendVO" parameterType="String">
+		select f.no, f.id, f.friend_id as friendId, m.name as friendName,f.content, 
+		       to_char(f.reg_date, 'YYYY"년 "MM"월 "DD"일"') as regDate, f.agree_flag as agreeFlag
+		 from friend f left join member m
+		      on f.friend_id = m.id
+		 where f.id = #{id}
+	</select>
+	
+	
+	<!-- 내가 받은 요청 가져오기  -->
+	<select id="getRequestedList" resultType="friendVO" parameterType="String">
+		 select f.no, f.id, f.friend_id as friendId, m.name as friendName, f.content, 
+		        to_char(f.reg_date, 'YYYY"년 "MM"월 "DD"일"') as regDate, f.agree_flag as agreeFlag
+		  from friend f left join member m
+		   on f.id = m.id
+		  where f.friend_id = #{id}
+	</select>
+
+
+	<!-- 친구가 보낸 요청 승인하기 -->
+	<update id="agreeRequest" parameterType="friendVO">
+		update friend
+		 set
+		  agree_flag = #{agreeFlag}
+		 where id = #{id} and
+		       friend_id = #{friendId}
+	</update>
+
+
+	<!-- 내가 보낸 요청 중 승인된 친구 아이디  -->
+	<select id="getFriendsIdList1" resultType="String" parameterType="String">
+		select friend_id
+		 from friend
+		 where id = #{id} and
+		 	   agree_flag = '1'
+	</select>
+	
+	
+	
+	<!-- 내가 받은 요청 중 승인한 친구 아이디  -->
+	<select id="getFriendsIdList2" resultType="String" parameterType="String">
+		select id
+		 from friend
+		 where friend_id = #{id} and
+		       agree_flag = '1'
+	</select>
+	
+	
+	<!-- 내가 보낸 요청 중 승인된 친구 이름  -->
+	<select id="getFriendsNameList1" resultType="String" parameterType="String">
+		select m.name as friendName 
+		 from friend f left join member m
+		      on f.friend_id = m.id
+		 where f.id = #{id} and
+		 	   agree_flag = '1'
+	</select>
+	
+	
+	
+	<!-- 내가 받은 요청 중 승인한 친구 이름  -->
+	<select id="getFriendsNameList2" resultType="String" parameterType="String">
+		 select m.name as friendName 
+		  from friend f left join member m
+		   on f.id = m.id
+		  where f.friend_id = #{id} and
+		       agree_flag = '1'
+	</select>
+
+
+	<!-- 도전 초기화 -->
+	<delete id="resetChallenge">
+		delete from friend
+	</delete>
+
+</mapper>

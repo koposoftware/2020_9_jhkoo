@@ -2,8 +2,6 @@ package kr.ac.kopo.challenge.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import kr.ac.kopo.challenge.vo.ChallengeVO;
 
 public interface ChallengeService {
@@ -47,6 +45,11 @@ public interface ChallengeService {
 	/**
 	 *  내 나이대가 가장 많이든 입출금 통장명
 	 */
-	String ageGroupDepositAccount(String id);
+	String ageGroupDepositAccount(String myAgeGroup);
+	
+	/**
+	 *  내 직업과 같은 사람들이 가장 많이든 적금 통장명
+	 */
+	String jobSavingsAccount(String myJob);
 	
 }

@@ -46,7 +46,7 @@ public class DepositFreeAccountController {
 	}
 	
 	
-	@PostMapping("/product/depositFreeJoin")
+	@PostMapping("/product/depositFreeJoin/{num}")
 	public String depositFreeJoin(@Valid DepositAccountVO depositAccountVO, BindingResult result) {
 		
 		if(result.hasErrors()) {

@@ -98,30 +98,25 @@
 	
 	
 	<!-- 컨트롤러 없이 페이지 매핑. 그냥 포워드만 해주는 경우  -->
-	<mvc:view-controller path="/file/fileUploadForm.do" view-name="file/fileUploadForm"/>	
-	
+
 	<!-- 계좌 개설 페이지 -->
 	<mvc:view-controller path="/product" view-name="accountProduct/product"/>
 	<mvc:view-controller path="/product/depositFreeChoose" view-name="accountProduct/depositFreeChoose"/>
-	<mvc:view-controller path="/product/depositFreeExplain" view-name="accountProduct/depositFreeExplain1"/>
+	<mvc:view-controller path="/product/depositFreeExplain1" view-name="accountProduct/depositFreeExplain1"/>
 	<mvc:view-controller path="/product/depositFreeExplain2" view-name="accountProduct/depositFreeExplain2"/>
 	<mvc:view-controller path="/product/depositFreeExplain3" view-name="accountProduct/depositFreeExplain3"/>
 	
-	<!--  <mvc:view-controller path="/product/depositFreeJoin" view-name="accountProduct/depositFreeJoin"/> -->
-	
 	<mvc:view-controller path="/product/savingsChoose" view-name="accountProduct/savingsChoose"/>
-	<mvc:view-controller path="/product/savingsExplain" view-name="accountProduct/savingsExplain1"/>
+	<mvc:view-controller path="/product/savingsExplain1" view-name="accountProduct/savingsExplain1"/>
 	<mvc:view-controller path="/product/savingsExplain2" view-name="accountProduct/savingsExplain2"/>
 	<mvc:view-controller path="/product/savingsExplain3" view-name="accountProduct/savingsExplain3"/>
 	
-	<!--  
-	<mvc:view-controller path="/savingsBankBook" view-name="accountProduct/savingsBankBook"/>
-	<mvc:view-controller path="/savingsBankBookAdd" view-name="accountProduct/savingsBankBookAdd"/>
+	<mvc:view-controller path="/friend" view-name="friend/friend"/>
 	
-	<mvc:view-controller path="/savings1" view-name="accountProduct/savingsBankBookAdd"/>
-	-->
 	
-	   <!-- 인터셉터와 빈으로 등록 -->
+	
+	
+   <!-- 인터셉터와 빈으로 등록 -->
    <bean class="kr.ac.kopo.interceptor.LoginInterceptor" id="loginInterceptor"/>
    <mvc:interceptors>
       <mvc:interceptor>
@@ -134,7 +129,8 @@
          <mvc:exclude-mapping path="/idCheck/**"/>
          <mvc:exclude-mapping path="/board"/> <!-- 게시판 목록은 그냥 보여줄거야 -->
          <mvc:exclude-mapping path="/resources/**"/>  <!-- /resources아래에 있는 모든 폴더도 그냥 보여줄거야 -->
-         
+         <mvc:exclude-mapping path="/card"/>
+        
        
          <ref bean="loginInterceptor" />
       </mvc:interceptor>

@@ -138,17 +138,5 @@ public class DepositDetailController {
 	
 	
 	
-	// 실패 !
-	// 스크롤 다운
-	@PostMapping("/infiniteScrollDown")
-	public @ResponseBody List<DepositDetailVO>
-			infiniteScrollDown(@RequestBody DepositDetailVO depositDetailVO){
-		
-		// 이번 달 값
-		depositDetailVO.setLogDate( depositDetailVO.getLogDate().substring(6,8));
-
-		
-		return depositDetailService.infiniteScrollDown(depositDetailVO);
-		
-	}
+	
 }

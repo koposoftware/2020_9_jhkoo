@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	 function goFavoriteList(){
+		 location.href = "${ pageContext.request.contextPath}/favoriteList";
+	 }
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" />
@@ -33,6 +38,7 @@
                         	      잔액 : ${ String.format("%,d", account.getBalance()) }원 <br>
                                                              별칭 : ${ account.getNickName() }</p>
                     </div>
+
                 </div>
             </div>
         </c:forEach> 
@@ -42,7 +48,7 @@
     </div>
 <div class="col-md-12 col-sm-12 col-xs-12">         
     <div class="form-group text-center">
-        <button onclick="depositFreeJoin()" class="btn-style-one">즐겨찾는 계좌 목록 관리</button>
+        <button onclick="goFavoriteList()" class="btn-style-one">즐겨찾는 계좌 목록 관리</button>
     </div>
 </div>
 </section>

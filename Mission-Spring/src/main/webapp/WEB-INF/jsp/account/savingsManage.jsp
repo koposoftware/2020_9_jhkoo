@@ -70,8 +70,8 @@
 	    		<select name="savingDay">
 				    <option selected>현재 입금 일 : 매월 &nbsp; ${ savingsAccount.getSavingDay()}일 </option>
 				    <option value=1>매월 1일</option>
-				    <option value=2>매월 15일</option>
-				    <option value=3>매월 28일</option>
+				    <option value=15>매월 15일</option>
+				    <option value=28>매월 28일</option>
 				</select>
 			</td>
     	</tr>

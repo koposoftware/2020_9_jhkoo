@@ -57,7 +57,7 @@ public class SavingsAccountController {
 	}
 	
 	
-	@PostMapping("/product/savingsJoin")
+	@PostMapping("/product/savingsJoin/{num}")
 	public String savingsJoin(@Valid SavingsAccountVO savingsAccountVO, BindingResult result, HttpSession session) {
 		
 		if(result.hasErrors()) {

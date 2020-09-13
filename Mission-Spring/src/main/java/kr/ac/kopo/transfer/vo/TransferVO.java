@@ -26,6 +26,19 @@ public class TransferVO {
 	private String toDate;
 	
 	private String myName;	//이체 테이블에는 없음. 
+	private String cardNumber; //이체 테이블에는 없음.
+
+	private int autoTransDay;
+
+	
+	
+	public int getAutoTransDay() {
+		return autoTransDay;
+	}
+
+	public void setAutoTransDay(int autoTransDay) {
+		this.autoTransDay = autoTransDay;
+	}
 
 	public String getAccountNumber() {
 		return accountNumber;
@@ -91,20 +104,25 @@ public class TransferVO {
 		this.myName = myName;
 	}
 
+	
+	
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "TransferVO [accountNumber=" + accountNumber + ", accountPassword=" + accountPassword + ", toName="
 				+ toName + ", toAccountNumber=" + toAccountNumber + ", toAmount=" + toAmount + ", toType=" + toType
-				+ ", toDate=" + toDate + ", myName=" + myName + "]";
+				+ ", toDate=" + toDate + ", myName=" + myName + ", cardNumber=" + cardNumber + ", autoTransDay="
+				+ autoTransDay + "]";
 	}
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
+
+		
 }

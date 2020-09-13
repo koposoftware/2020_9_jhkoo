@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/table.css"> 
+
 <script>
 	// 도전 신청하러~
 	function goChallenge(param){

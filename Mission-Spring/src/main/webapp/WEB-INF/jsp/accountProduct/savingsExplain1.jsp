@@ -26,7 +26,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="accordion-section">
     <div class="section-title">
-        <h3>내집 마련 적금 가입하기</h3>
+        <h3>하나 원큐 적금 가입하기</h3>
     </div>
     
     
@@ -43,9 +43,10 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
-			                        주택청약종합저축 가입하고<br>
-			                        같은 날 내집마련 더블업 적금 가입하면<br>
-			                        적금 만기때 까지 청약저축 유지함녀 금리가 두 배!
+			                         이 예금의 가입자가 아래 항목을 충족하는 경우 최대 연1.80%의 우대금리를 만기에 제공합니다. (단, 중도해지 시 미제공)<br>
+						1. 상품ㆍ서비스 마케팅동의 우대(연1.0%) : 이 예금 가입 전 ㈜하나은행 상품ㆍ서비스 마케팅동의 항목 모두를 동의한 경우<br>
+						2. 하나오픈뱅킹 등록 우대(연0.3%) : 하나오픈뱅킹 서비스를 이용 동의하고 출금계좌 등록한 경우<br>
+						3. 하나오픈뱅킹 이체 우대(연0.5%) : 하나오픈뱅킹 서비스를 통하여 다른은행 계좌에서 출금이체로 이 예금에 6회 이상 납입한 경우(월 1회만 인정)<br>
                     </div>
                 </div>
             </div>

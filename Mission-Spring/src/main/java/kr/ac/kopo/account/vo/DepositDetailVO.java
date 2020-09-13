@@ -8,7 +8,22 @@ public class DepositDetailVO {
 	private String logTypeKey;
 	private String toAccountNumber;
 	private String toName;
+	private int count;
+	private int sumAmount;
 	
+	
+	public int getSumAmount() {
+		return sumAmount;
+	}
+	public void setSumAmount(int sumAmount) {
+		this.sumAmount = sumAmount;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public String getAccountNumber() {
 		return accountNumber;
 	}
@@ -48,8 +63,11 @@ public class DepositDetailVO {
 	@Override
 	public String toString() {
 		return "DepositDetailVO [accountNumber=" + accountNumber + ", logDate=" + logDate + ", amount=" + amount
-				+ ", logTypeKey=" + logTypeKey + ", toAccountNumber=" + toAccountNumber + ", toName=" + toName + "]";
+				+ ", logTypeKey=" + logTypeKey + ", toAccountNumber=" + toAccountNumber + ", toName=" + toName
+				+ ", count=" + count + ", sumAmount=" + sumAmount + "]";
 	}
+	
+	
 	
 	
 	

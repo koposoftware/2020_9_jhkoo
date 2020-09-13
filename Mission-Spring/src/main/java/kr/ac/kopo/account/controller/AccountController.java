@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.ac.kopo.account.service.DepositAccountService;
 import kr.ac.kopo.account.service.DepositDetailService;
 import kr.ac.kopo.account.service.SavingsAccountService;
 import kr.ac.kopo.account.vo.DepositAccountVO;
+import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.account.vo.SavingsAccountVO;
 import kr.ac.kopo.challenge.service.ChallengeService;
 import kr.ac.kopo.member.service.MemberService;
@@ -82,9 +84,25 @@ public class AccountController {
 		
 		
 		//내 나이대가 가장 많이든 입출금 계좌
-		String ageGroupDepositAccountType = challengeService.ageGroupDepositAccount(id);
-		mav.addObject("ageGroupDepositAccountType", ageGroupDepositAccountType);
+		String myAgeGroup = loginVO.getAgeGroup();
+		String ageGroupDepositAccountBankBook = challengeService.ageGroupDepositAccount(myAgeGroup);
+		mav.addObject("ageGroupDepositAccountBankBook", ageGroupDepositAccountBankBook);
 		
+		//내 직업과 같은 사람들이 가장 많이든 적금 계좌
+		String myJob = loginVO.getJobKey();
+		String jobSavingsAccountBankBook = challengeService.jobSavingsAccount(myJob);
+		mav.addObject("jobSavingsAccountBankBook", jobSavingsAccountBankBook);
+		
+		
+		// 이번달 잦은 지출 
+		List<DepositDetailVO> frequentExpenditureList = depositDetailService.frequentExpenditureList(id);
+		mav.addObject("frequentExpenditureList", frequentExpenditureList);
+		
+		// 이번달 최고 지출금 Top3
+		List<DepositDetailVO> expenditureTop3List = depositDetailService.expenditureTop3List(id);
+		mav.addObject("expenditureTop3List", expenditureTop3List);
+		
+
 		return mav;
 	}
 	
@@ -142,5 +160,6 @@ public class AccountController {
 		savingsAccountService.changeSavingsManage(savingsAccountVO);
 		return "redirect:/account";
 	}
+	
 	
 }

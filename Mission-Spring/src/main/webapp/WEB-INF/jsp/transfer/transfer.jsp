@@ -7,16 +7,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js" ></script>
 <script>
-	function doModal(){
+	
+	$(document).ready(function(){
+		/* 즐겨찾는 계좌 클릭 시 바로 계좌번호 입력-------------------------------------- */
+		$('.favoriteBtn').click(function(){
+			let btn = this;
+			let element = $(this).attr('id');
+
+			$('#transferAccountNumber').val(element);	
+		})
 		
+		
+		$('.addMoneyBtn').click(function(){
+			let btn = this;
+			let addAmount = Number( $(this).attr('id') ) ;	/* Number() string을 int로 해주는 jquery 함수 */
+			let originAmount = Number( $('#toAmount').val() );
+			
+			$('#toAmount').val(addAmount + originAmount);
+		})
+	})
+	
+	
+	function goAutoTransferToDeposit(){
+		location.href = "${ pageContext.request.contextPath}/autoTransferToDeposit/${depositAccount.getAccountNumber()}" 
 	}
+	
 </script>
 </head>
 <body>
 
 
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" /> 
+
 
       
 <section class="appoinment-section section">
@@ -26,7 +50,10 @@
 <div class="col-md-6 col-sm-12 col-xs-12">
    <div class="accordion-section">
     <div class="section-title">
-        <h3>상품 정보</h3>
+        <br><br>
+        <h3>이체하기
+        	<button onclick="goAutoTransferToDeposit()" class="btn-style-one">정기 예약 이체하러 가기!</button>
+        </h3> 
     </div>
     <div class="accordion-holder">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -34,13 +61,13 @@
                 <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Why Should I choose Medical Health
+                            	주의사항
                         </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                     <div class="panel-body">
-                        	내용
+                        	본인 이외에 서비스 사용을 금지합니다.
                     </div>
                 </div>
             </div>
@@ -49,7 +76,7 @@
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
                             aria-controls="collapseTwo">
-                            What are the Centre’s visiting hours?
+                            	계좌 이체 설명
                         </a>
                     </h4>
                 </div>
@@ -64,7 +91,7 @@
                     <h4 class="panel-title">
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false"
                             aria-controls="collapseThree">
-                            How many visitors are allowed?
+                            	서비스 상세 설명
                         </a>
                     </h4>
                 </div>
@@ -112,31 +139,49 @@
 	                </div>
 	                
 	                <div class="form-group">
-	                	<label>즐겨찾는 계좌 목록 </label> 
-	                	
+	                	<label>이체 보낼 계좌번호 </label> <form:errors path="toAccountNumber" class="error" />
+	                	<form:input id="transferAccountNumber" path="toAccountNumber" class="form-control" placeholder="'-'을 포함하여 입력하세요"/>
+	                </div>	                
+	                
+	                <div class="form-group">                	
 	                	<div class="dropdown">
-						  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    즐겨찾는 목록
-						  </button>
-						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						    <a class="dropdown-item" href="#">Action</a>
-						    <a class="dropdown-item" href="#">Another action</a>
-						    <a class="dropdown-item" href="#">Something else here</a>
-						  </div>
-						</div>
+	  						<button class="btn btn-secondary dropdown-toggle btn-style-one" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	   							 즐겨찾기 목록에서 계좌를 선택하세요
+	  						</button>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							    
+							  <c:forEach items="${ favoriteList }" var = "favorite">
+								<button type="button" class="btn btn-style-one favoriteBtn" id="${ favorite.toAccountNumber }">
+									${ favorite.toAccountNumber }(${ favorite.toName })</button>						    
+							  </c:forEach>
+							    
+							  </div>
+  						</div>
 						
 	                </div>
 	                
-	                <div class="form-group">
-	                	<label>이체 보낼 계좌번호 </label> <form:errors path="toAccountNumber" class="error" />
-	                	<form:input path="toAccountNumber" class="form-control" placeholder="'-'을 포함하여 입력하세요"/>
-	                </div>
 	                
 	                <div class="form-group">
 	                	<label>이체 금액 &nbsp;</label> <form:errors path="toAmount" class="error" />
-	                	<form:input path="toAmount" class="form-control"  placeholder="0원 "/>
-	                	
+	                	<form:input id = "toAmount" path="toAmount" class="form-control"  placeholder="0원 "/>
 	                </div>  
+	                
+	       			<div class="form-group">
+	       				<div class="dropdown">
+	  						<button class="btn btn-secondary dropdown-toggle btn-style-one" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	   							 간편 이체금액 선택
+	  						</button>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							    <button type="button" class="btn btn-style-one addMoneyBtn" id="100000" >+10만원</button>
+			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="70000" >+7만원</button>	
+			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="50000" >+5만원</button>
+			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="30000" >+3만원</button>
+			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="10000" >+1만원</button>		    
+							  </div>
+  						</div>
+	       			
+	       				
+	                </div>
 	                    
 					<div class="form-group">
 						<label> &nbsp;</label> 
@@ -144,7 +189,7 @@
 	                
 	                <div class="form-group text-center">
 	                    <button type="submit" class="btn-style-one" >이체하기</button>
-	                </div>   <!-- data-toggle="modal" data-target="#confirm" -->
+	                </div>   
 	
 	            </div>
 	            

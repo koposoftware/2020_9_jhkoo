@@ -25,7 +25,7 @@
                     <div class="contents text-center">
                         <h4>하나 원큐 적금</h4>
                         <p>간편하게 우대금리를 제공하는 스마트폰적금</p>
-                        <a href="${pageContext.request.contextPath }/product/savingsExplain2" class="btn btn-main">개설하기</a>
+                        <a href="${pageContext.request.contextPath }/product/savingsExplain1" class="btn btn-main">개설하기</a>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <div class="contents text-center">
                         <h4>내집마련 적금</h4>
                         <p>내집마련의 꿈을 하나은행이 응원합니다</p>
-                        <a href="${pageContext.request.contextPath }/product/savingsExplain1" class="btn btn-main">개설하기</a>
+                        <a href="${pageContext.request.contextPath }/product/savingsExplain2" class="btn btn-main">개설하기</a>
                     </div>
                 </div>
             </div>

@@ -149,9 +149,15 @@ public class ChallengeServiceimpl implements ChallengeService {
 	}
 
 	@Override
-	public String ageGroupDepositAccount(String id) {
-		String ageGroupDepositAccount = challengeDAO.ageGroupDepositAccount(id);
+	public String ageGroupDepositAccount(String myAgeGroup) {
+		String ageGroupDepositAccount = challengeDAO.ageGroupDepositAccount(myAgeGroup);
 		return ageGroupDepositAccount;
+	}
+
+	@Override
+	public String jobSavingsAccount(String myJob) {
+		String jobSavingsAccount = challengeDAO.jobSavingsAccount(myJob);
+		return jobSavingsAccount;
 	}
 	
 	
