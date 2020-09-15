@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.ac.kopo.account.service.DepositDetailService;
 import kr.ac.kopo.account.vo.DepositDetailVO;
+import kr.ac.kopo.challenge.service.ChallengeService;
+import kr.ac.kopo.challenge.vo.ChallengeVO;
 import kr.ac.kopo.friend.service.FriendService;
 import kr.ac.kopo.friend.vo.FriendVO;
 import kr.ac.kopo.member.vo.MemberVO;
@@ -31,7 +33,8 @@ public class FriendController {
 	private FriendService friendService;
 	@Autowired
 	private DepositDetailService depositDetailService;
-	
+	@Autowired
+	private ChallengeService challengeService;	
 	
 	/**
 	 *   친구에게 비교 요청 보내는 FORM 페이지.
@@ -111,6 +114,16 @@ public class FriendController {
 		friendService.agreeRequest(friendVO);
 	}
 	
+	/**
+	 *   친구가 보낸 요청 거절하기
+	 *   테이블에서 삭제합니다.
+	 */
+	@ResponseBody
+	@GetMapping("/friend/disAgreeRequest")
+	public void disAgreeRequest(FriendVO friendVO) {
+		friendService.disAgreeREquest(friendVO);
+	}
+	
 	
 	/**
 	 *   매월 1일에 도전 초기화
@@ -131,9 +144,10 @@ public class FriendController {
 	public ModelAndView compare(HttpSession session) {
 		ModelAndView mav = new ModelAndView("friend/compare");
 		
-		// id
+		// id, name
 		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
 		String myId = loginVO.getId();
+		String myName = loginVO.getName();
 
 		// 나의 요청이 승인된 친구들의 id, 내가 요청을 승락한 친구들의 id 가져오기
 		List<String> friendsIdList = friendService.getFriendsIdList(myId);
@@ -172,8 +186,32 @@ public class FriendController {
 		mav.addObject("str", str);
 		
 		
-		//
+		//도전 공유///////////////////////////////////////////////
+		//이번 월
+		String month = depositDetailService.month();
+		mav.addObject("month", month);		
 
+		// 도전 진행 정보. 나 + 내 요청을 승인하거나 내가 요청을 승인한 친구들 //	
+		List<ChallengeVO> challengeList = new ArrayList<ChallengeVO>();
+		
+		// 내가 진행 중인 도전 정보VO 가져오고, 도전 실패 여부 판단 후 VO에 담고, 리스트에 저장
+		List<ChallengeVO> myChallenge = challengeService.myChallenge(myId);
+//		challengeService.challengeJudge(myId);		
+//		challengeList.addAll(myChallenge);
+		
+		// 친구들 도전 정보 같은 방법으로 담기
+		for(String friendId:friendsIdList) {
+			List<ChallengeVO> friendChallenge = challengeService.myChallenge(friendId);
+			challengeService.challengeJudge(friendId);		
+			challengeList.addAll(friendChallenge);
+		}
+		mav.addObject("challengeList",challengeList);
+		
+		for(ChallengeVO c:challengeList) {
+			System.out.println(c);
+		}
+		
+		
 		return mav;
 	}
 	

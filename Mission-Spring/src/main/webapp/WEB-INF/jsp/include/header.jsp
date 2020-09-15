@@ -42,24 +42,24 @@
                         </li>
                          -->
                         <li>
-                              <a href="${pageContext.request.contextPath }/account">내 계좌 관리</a>
+                              <a href="${pageContext.request.contextPath }/account">계좌 관리</a>
                         </li>
                         <li>
                               <a href="${pageContext.request.contextPath }/transferChoose">이체</a>
                         </li>
                         <li>
-                              <a href="${pageContext.request.contextPath }/product">예금/적금 상품 가입</a>
+                              <a href="${pageContext.request.contextPath }/product">상품 가입</a>
                         </li>
                         
                         <li>
-                        	  <a href = "${pageContext.request.contextPath }/challengeChoose">도전</a>
+                        	  <a href = "${pageContext.request.contextPath }/challengeChoose">도전하기</a>
                         </li>
                         
                         <li>
-                        	  <a href = "${pageContext.request.contextPath }/friend">비교</a>
+                        	  <a href = "${pageContext.request.contextPath }/friend">공유하기</a>
                         </li>
                         <li>
-                        	  <a href = "${pageContext.request.contextPath }/eda">분석</a>
+                        	  <a href = "${pageContext.request.contextPath }/eda">분석하기</a>
                         </li>
 						<%-- 
 						<li class="dropdown" >

@@ -36,7 +36,7 @@
                 <div class="inner-box">
                     
                     <div class="image-content text-center" onclick="location.href='${ pageContext.request.contextPath }/friend/requestManage'">
-						<h6>등록된 요청</h6>
+						<h6>요청 관리하기</h6>
                         <p>자신이 보낸 요청과 받은 요청을 <br> 관리하세요</p>
                     </div>
                 </div>

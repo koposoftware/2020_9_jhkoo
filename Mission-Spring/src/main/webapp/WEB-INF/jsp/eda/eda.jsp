@@ -322,7 +322,7 @@ $(document).ready(function(){
     </div>
 </section>
 
-<div id="chart_div"></div>
+
 
 
 <!--모달!!  -->

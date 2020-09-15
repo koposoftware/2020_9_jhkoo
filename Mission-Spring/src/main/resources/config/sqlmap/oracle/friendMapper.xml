@@ -38,7 +38,14 @@
 		 where id = #{id} and
 		       friend_id = #{friendId}
 	</update>
-
+	
+	
+	<!-- 친구가 보낸 요청 거절하기 -->
+	<delete id="disAgreeRequest" parameterType="friendVO">
+		delete from friend
+		 where id = #{id} and
+		       friend_id = #{friendId}
+	</delete>
 
 	<!-- 내가 보낸 요청 중 승인된 친구 아이디  -->
 	<select id="getFriendsIdList1" resultType="String" parameterType="String">

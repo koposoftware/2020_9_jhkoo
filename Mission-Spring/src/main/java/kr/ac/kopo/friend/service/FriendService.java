@@ -27,6 +27,11 @@ public interface FriendService {
 	public void agreeRequest(FriendVO friendVO);
 	
 	/**
+	 *  친구가 보낸 요청 거절하기
+	 */
+	public void disAgreeREquest(FriendVO friendVO);
+	
+	/**
 	 *  나의 요청이 승인된 친구들의 id, 내가 요청을 승락한 친구들의 id 가져오기
 	 */
 	public List<String> getFriendsIdList(String id);

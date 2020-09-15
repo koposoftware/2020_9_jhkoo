@@ -118,6 +118,7 @@ public class TransferServiceimpl implements TransferService {
 
 	
 	
+	@Transactional
 	@Override
 	public void payment(TransferVO transferVO) {
 		

@@ -35,6 +35,11 @@ public class FriendDAOimpl implements FriendDAO {
 	public void agreeRequest(FriendVO friendVO) {
 		sqlSession.update("friend.dao.friendDAO.agreeRequest", friendVO);	
 	}
+	
+	@Override
+	public void disAgreeRequest(FriendVO friendVO) {
+		sqlSession.delete("friend.dao.friendDAO.disAgreeRequest", friendVO);	
+	}
 
 	@Override
 	public List<String> getFriendsIdList1(String id) {

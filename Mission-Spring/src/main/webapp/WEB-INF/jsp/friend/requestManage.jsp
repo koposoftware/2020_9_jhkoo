@@ -23,8 +23,13 @@
 					friendId : elements[1]
 				},
 				success : function(){
+					
+					//모달 창 띄우기
+					$("#agreeModal").modal('show')
+					
 					$(btn).attr('disabled', true)
 					$(btn).val("승인 완료")
+					$('#disAgreeModal').remove
 				},
 				error : function(){
 					alrt('fail')
@@ -32,6 +37,31 @@
 			})
 		})
 	})
+	
+	
+	/* 받은 요청 거절 ajax---------------------------------------------------*/
+	$(document).ready(function(){
+		$('.disAgreeRequestBtn').click(function(){
+			let btn = this;
+			let elements = $(this).attr('id').split('.');
+			
+			$.ajax({
+				url : '${ pageContext.request.contextPath }/friend/disAgreeRequest',
+				type : 'get',
+				data : {
+					id : elements[0],
+					friendId : elements[1]
+				},
+				success : function(){
+					$(btn).attr('disabled', true)
+					$(btn).val("거절 완료")
+				},
+				error : function(){
+					alrt('fail')
+				}
+			})
+		})
+	})	
 
 </script>
 </head>
@@ -94,7 +124,8 @@
                                 	<p>${ requested.content }<br> ${ requested.regDate }</p>
                                 	
                                 	<c:if test='${ requested.agreeFlag.equals("0") }'>
-                                		<input type="button" value="승인 하기" class="agreeRequestBtn btn-style-one" id="${ requested.id }.${ requested.friendId }">
+                                		<input type="button" value="승인하기" class="agreeRequestBtn btn-style-one" id="${ requested.id }.${ requested.friendId }">
+                                		<input type="button" value="거절하기" class="disAgreeRequestBtn btn-style-one" id="${ requested.id }.${ requested.friendId }">
                                 	</c:if>
                                 	
                                 	<c:if test='${ requested.agreeFlag.equals("1") }'>
@@ -121,15 +152,14 @@
 		    <div class="modal-dialog modal-dialog-centered">
 		      <div class="modal-content">
   	          <!-- Modal Header -->
-			  <div class="modal-header"><h4 class="modal-title">정보 제공에 동의하시겠습니까?</h4></div>
+			  <div class="modal-header"><h4 class="modal-title">정보 제공에 동의서</h4></div>
 			  <!-- Modal body -->
-				<div class="modal-body">당신의 소비 통계 정보가 상대방에게 보여집니다.<br>
-										동의 시 상대의 소비 통계 정보를 공유하며 피드백을 받을 수 있습니다.<br>
-										동의하지 않으시면 '거절'하시면 됩니다.</div>
+				<div class="modal-body">당신의 도전 정보가 상대방에게 보여집니다.<br>
+										동의 시 서로의 도전 정보를 공유하며 피드백을 나눌 수 있습니다.<br>
+										동의하시겠습니까?</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
-				<button type="button" class="btn-style-one" data-dismiss="modal">거절</button>
-				<button type="button" class="btn-style-one" >동의</button>
+				<button type="button" class="btn-style-one" data-dismiss="modal">동의</button>
 				</div>
 			</div>
 		</div>

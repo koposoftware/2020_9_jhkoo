@@ -27,6 +27,11 @@ public interface FriendDAO {
 	public void agreeRequest(FriendVO friendVO);
 	
 	/**
+	 *  친구가 보낸 요청 거절하기
+	 */
+	public void disAgreeRequest(FriendVO friendVO);
+	
+	/**
 	 *  내가 보낸 요청 중 승인된 친구 아이디
 	 */
 	public List<String> getFriendsIdList1(String id);

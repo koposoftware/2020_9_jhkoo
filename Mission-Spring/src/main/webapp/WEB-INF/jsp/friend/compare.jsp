@@ -35,16 +35,71 @@ function drawBasic() {
 <body>
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" />
 
-
-<br><br>
-
+<!-- 
+<br>
+<br>
  <div id="chart_div"></div>
- 
+<br>
+<br>
+ -->
+<!-- 도전 공유 ------------------------------------------------------------------------------------->
+<section class="service-section bg-gray section">
+    <div class="container">
+        <div class="section-title text-center">
+            <h3>친구들
+                <span>의 공유된 도전</span>
+            </h3>
+            <p>${ month }월에 공유된 친구들의 도전 목록입니다.<br>
+           	   <span style="color:red">목표는 공유할수록 달성할 확률이 높습니다. 
+           	       더 많은 친구들과 도전을 공유하세요! </span>
+            </p>
+        </div>
+        
+        <div class="row items-container clearfix">
+        
+        <c:forEach items="${ challengeList }" var="challenge">
+            <div class="item">
+                <div class="inner-box">
+                    <div class="img_holder">
+                        <a href="service.html">
+                            <img src="${pageContext.request.contextPath }/resources/assets/images/친구.jpg" alt="images" class="img-responsive">
+                        </a>
+                    </div>
+                    <div class="image-content text-center">
+                        <span>${ challenge.challengeName }에 도전 중</span>
+                        <h6>${ challenge.id }님</h6>
+                        <p>
+                        	목표금액은 ${ String.format("%,d", challenge.targetAmount) }이고,<br>
+                                                        현재까지 지출금액은 ${ String.format("%,d", challenge.nowBalanceByType) }입니다.<br>
+                            <c:if test="${ challenge.challengeFail == true }">
+                            	<span style="color:red; font-weight:bold">다음에 친구들과의 약속을 꼭 지켜주세요!</span>
+							</c:if>
+							<c:if test="${ challenge.challengeFail == false }">
+                            	<span style="color:red; font-weight:bold">도전 진행중입니다. </span>
+							</c:if>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>        
+                        
+        </div>
+    </div>
+</section>
 
-<br>
-<br>
-<br>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 <jsp:include page="/WEB-INF/jsp/include/scroll.jsp" />
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

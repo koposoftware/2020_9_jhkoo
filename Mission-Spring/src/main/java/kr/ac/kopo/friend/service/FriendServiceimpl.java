@@ -36,6 +36,11 @@ public class FriendServiceimpl implements FriendService {
 	public void agreeRequest(FriendVO friendVO) {
 		friendDAO.agreeRequest(friendVO);
 	}
+	
+	@Override
+	public void disAgreeREquest(FriendVO friendVO) {
+		friendDAO.disAgreeRequest(friendVO);
+	}
 
 	@Override
 	public List<String> getFriendsIdList(String id) {
