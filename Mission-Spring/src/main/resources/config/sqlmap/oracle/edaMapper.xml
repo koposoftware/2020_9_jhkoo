@@ -73,4 +73,30 @@
 			 group by logTypeKey
 	         order by sumAmount desc	
 	</select>
+	
+	
+	<!-- 정기 메일링 서비스 테이블에 insert -->
+	<insert id="addMailService" parameterType="emailVO">
+		insert into mail(no, id, to_mail, title, content)
+		 values(seq_mail_no.nextval, #{id}, #{toMail}, #{title}, #{content})
+	</insert>
+	
+	<!-- 정기 메일링 서비스 취소 -->
+	<delete id="deleteMailService" parameterType="String">
+		delete from mail
+		 where id = #{id}
+	</delete>
+	
+	<!-- 정기 메일링 서비스 리스트 -->
+	<select id="getMailList" resultType="emailVO">
+		select to_mail as toMail, title, content
+		 from mail
+	</select>
+	
+	<!-- 메일 서비스 구독 여부 -->
+	<select id="mailServiceBool" resultType="int" parameterType="String">
+		select count(*) 
+		 from mail 
+		 where id = #{id}
+	</select>
 </mapper>

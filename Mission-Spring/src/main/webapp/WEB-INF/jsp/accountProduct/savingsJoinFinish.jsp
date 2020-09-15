@@ -55,9 +55,3 @@
 
 
 
-
-
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" /> 
-	<jsp:include page="/WEB-INF/jsp/include/scroll.jsp" /> 
-</body>
-</html>

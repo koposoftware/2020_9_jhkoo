@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.eda.vo.EdaVO;
+import kr.ac.kopo.eda.vo.EmailVO;
 
 @Repository
 public class EdaDAOimpl implements EdaDAO {
@@ -40,6 +41,32 @@ public class EdaDAOimpl implements EdaDAO {
 	public List<DepositDetailVO> categorySumList(String accountNumber) {
 		List<DepositDetailVO> categorySumList = sqlSession.selectList("eda.dao.EdaDAO.categorySum", accountNumber);
 		return categorySumList;
+	}
+
+
+	@Override
+	public void addMailService(EmailVO emailVO) {
+		sqlSession.delete("eda.dao.EdaDAO.addMailService", emailVO);
+	}
+
+
+	@Override
+	public void deleteMailService(String id) {
+		sqlSession.insert("eda.dao.EdaDAO.deleteMailService", id);
+	}
+
+
+	@Override
+	public List<EmailVO> getMailList() {
+		List<EmailVO> emailList = sqlSession.selectList("eda.dao.EdaDAO.getMailList");
+		return emailList;
+	}
+
+
+	@Override
+	public int mailServiceBool(String id) {
+		int bool = sqlSession.selectOne("eda.dao.EdaDAO.mailServiceBool",id);
+		return bool;
 	}
 
 	

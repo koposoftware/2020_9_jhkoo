@@ -122,7 +122,15 @@ $(document).ready(function(){
         chart.draw(data, options);
       }
 
+/* 메일 서비스 신청, 취소 ***************************************************************************/
+function goAddMailService(){
+	location.href = "${ pageContext.request.contextPath }/addMailService";
+}
 
+function goDeleteMailService(){
+	location.href = "${ pageContext.request.contextPath }/deleteMailService";
+}
+      
       
 </script>
 </head>
@@ -291,21 +299,14 @@ $(document).ready(function(){
 <section class="team-section section">
     <div class="container">
         <div class="section-title text-center">
-            <h3>카테고리별
-                <span>지출 비율</span>
-            </h3>
+            <h3>카테고리별<span>지출 비율</span></h3>
             <p>${ month }월 고객님의 카테고리별 지출 비율을 확인하세요.<br>
-           	     지출이 가장 많은 카테고리는 <span style="color:red">${ biggestCategory }</span>입니다. 
-            </p>
-            
+           	     지출이 가장 많은 카테고리는 <span style="color:red">${ biggestCategory }</span>입니다.</p>
             <input type="button" value="카테고리별 지출 관리하기" class="btn-style-one" onclick="goChallenge()">
-        
         </div>
         
         <div id="curve_chart" style="width: 1200px; height: 300px"></div>
-        
         <div class="row">
-        
         <c:forEach items="${ amountByTypeList }" var="amount">
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="team-member">
@@ -316,16 +317,32 @@ $(document).ready(function(){
                     </div>
                 </div>
             </div>
-         </c:forEach>  
-               
+        </c:forEach>  
         </div>
-    </div>
+    	</div>
+    	
+    	<br>
+    	<br>
+    	<br>
+    	<br>
+    	
+         <div class="section-title text-center">
+            <h3>분석 메일링 서비스</h3>
+            <c:if test="${ mailServiceBool == 0 }">
+	            <p>회원가입 시 등록한 이메일로 매월 말 분석 내용을 이메일로 제공받으세요!<br></p>
+	            <input type="button" value="신청하기" class="btn-style-one" data-toggle="modal" data-target="#addMailServiceModal">
+            </c:if>
+            <c:if test="${ mailServiceBool == 1 }">
+	            <p>분석 내용 이메일 구독 서비스를 취소하실 수 있습니다.<br></p>
+	            <input type="button" value="취소하기" class="btn-style-one" data-toggle="modal" data-target="#deleteMailServiceModal">
+            </c:if>
+        </div>   	
 </section>
 
 
 
 
-<!--모달!!  -->
+<!--모달  -->
 <!-- 잦은 지출 상세내역 모달-------------------------------------------------------------------------------------------->
 <div class="modal fade" id="frequentModal">
     <div class="modal-dialog modal-dialog-centered">
@@ -376,7 +393,55 @@ $(document).ready(function(){
     </div>
   </div>
 
+<!-- 메일 서비스 구독 모달 ------------------------------------------------------------------------------>
+ <div class="modal fade" id="addMailServiceModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">분석내용 이메일 서비스를 신청하시겠습니까?</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         	 매월 28일에 내역을 분석한 내용이 이메일로 보내집니다.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-style-one" data-dismiss="modal">돌아가기</button>
+          <button type="button" class="btn-style-one" onclick="goAddMailService()">신청하기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
+<!-- 메일 서비스 구독 취소 모달 ------------------------------------------------------------------------------>
+ <div class="modal fade" id="deleteMailServiceModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">분석내용 이메일 서비스를 취소하시겠습니까?</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         	 매월 28일에 내역을 분석한 내용이 이메일로 보내지던 서비스가 종료됩니다.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-style-one" data-dismiss="modal">돌아가기</button>
+          <button type="button" class="btn-style-one" onclick="goDeleteMailService()">최소하기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 <jsp:include page="/WEB-INF/jsp/include/scroll.jsp" />

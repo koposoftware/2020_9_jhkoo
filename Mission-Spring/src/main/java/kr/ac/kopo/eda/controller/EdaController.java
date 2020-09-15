@@ -2,9 +2,14 @@ package kr.ac.kopo.eda.controller;
 
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +22,7 @@ import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.challenge.service.ChallengeService;
 import kr.ac.kopo.eda.service.EdaService;
 import kr.ac.kopo.eda.vo.EdaVO;
+import kr.ac.kopo.eda.vo.EmailVO;
 import kr.ac.kopo.member.vo.MemberVO;
 
 @Controller
@@ -30,6 +36,8 @@ public class EdaController {
 	private ChallengeService challengeService;
 	@Autowired
 	private DepositAccountService depositAccountService;
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 
 	
 	/**
@@ -107,6 +115,10 @@ public class EdaController {
 		str += "]";
 		mav.addObject("str",str);
 		
+		// 이메일 서비스 구독 여부
+		int mailServiceBool = edaService.mailServiceBool(id);
+		mav.addObject("mailServiceBool", mailServiceBool);
+		
 		return mav;
 	}
 
@@ -148,4 +160,107 @@ public class EdaController {
 		
 		return detailListByCotegory;
 	}
+	
+	
+	/**
+	 *  정기 메일 서비스
+	 */	
+	@RequestMapping("/addMailService")
+	public String addMailService(HttpSession session) {
+		//사용자 아이디, 이메일 가져오기
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String id = loginVO.getId();
+		String toMail = loginVO.getEmail();
+		
+		//제목
+		String title = depositDetailService.month() + "월 " +
+		               loginVO.getName() +  "님의 계좌 내역 분석 메일링 서비스입니다.";
+		
+		//내용
+		String content = "";
+		content += "잦은 지출 내역입니다. 잦은 지출을 했던 곳을 확인하시고 습관적으로 방문하는 것은 아닌지 생각해 보는 것은 어떨까요? \n";
+		// 이번달 잦은 지출 
+		List<DepositDetailVO> frequentExpenditureList = depositDetailService.frequentExpenditureList(id);		
+		for(DepositDetailVO vo:frequentExpenditureList) {
+			// 나와의 거래는 제외, 거래 3회 이상인 경우만 알려줌
+			if(!vo.getToName().equals(loginVO.getName()) && vo.getCount() >= 3) {
+				content += vo.getToName() + "에서 총 " + vo.getCount() + "번 지출했습니다. \n";
+			}
+		}
+		
+		content += "\n";
+		// 지출 Top3
+		content += "지출 Top3 내역입니다. 이번 달 지출 금액이 컸던 내역을 확인하세요. 충동적 소비는 경계하시길 바랍니다! \n";
+		List<DepositDetailVO> expenditureTop3List = depositDetailService.expenditureTop3List(id);
+		for(DepositDetailVO vo:expenditureTop3List) {
+			content += vo.getLogDate() + "에 " + vo.getToName() + "에서 " + vo.getAmount() + "원 지출하였습니다 \n";
+		}
+		content += "\n";
+		
+		// 이번달 카테고리별 지출액 
+		List<EdaVO> amountByTypeList = edaService.amountByType(id);
+		// 이번달 총 지출액
+		int totalThisMonth = amountByTypeList.get(0).getTotalThisMonth();	
+		content += "총 지출은 " + totalThisMonth + "입니다. \n";
+		for(EdaVO vo:amountByTypeList) {
+			content += vo.getCategory() +"에 " + vo.getTotalAmountByType() + "원 지출하였습니다. \n";
+		}
+		
+		EmailVO emailVO = new EmailVO();
+		emailVO.setId(id);
+		emailVO.setToMail(toMail);
+		emailVO.setTitle(title);
+		emailVO.setContent(content);
+		
+		edaService.addMailService(emailVO);
+		
+		return "redirect:/eda";
+	}
+	
+	
+	
+	/**
+	 *  정기 메일 서비스 취소
+	 */
+	@RequestMapping("/deleteMailService")
+	public String deleteMailService(HttpSession session) {
+		
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String id = loginVO.getId();
+		
+		edaService.deleteMailService(id);
+		
+		return "redirect:/eda";
+	}
+	
+	/**
+	 *  메일 보내기. 매월 말
+	 */
+//	@Scheduled(cron = "0 0 12 28 * *")
+	@Scheduled(cron = "0 6 16 * * *")
+	public void sendMail() {
+		
+		List<EmailVO> emailList = edaService.getMailList();
+		String setFrom = "KOO";
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
+			
+			for(EmailVO vo:emailList) {
+				
+				messageHelper.setFrom(setFrom);
+				messageHelper.setTo(vo.getToMail());
+				messageHelper.setSubject(vo.getTitle());
+				messageHelper.setText(vo.getContent());
+				
+				mailSender.send(message);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+	
+	
 }

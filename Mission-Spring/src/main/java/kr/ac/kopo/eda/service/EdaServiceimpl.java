@@ -9,6 +9,7 @@ import kr.ac.kopo.account.dao.DepositAccountDAO;
 import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.eda.dao.EdaDAO;
 import kr.ac.kopo.eda.vo.EdaVO;
+import kr.ac.kopo.eda.vo.EmailVO;
 
 @Service
 public class EdaServiceimpl implements EdaService {
@@ -72,6 +73,36 @@ public class EdaServiceimpl implements EdaService {
 	}
 
 
+
+	@Override
+	public void addMailService(EmailVO emailVO) {
+		edaDAO.addMailService(emailVO);
+	}
+
+
+
+	@Override
+	public void deleteMailService(String id) {
+		edaDAO.deleteMailService(id);
+	}
+
+
+
+	@Override
+	public List<EmailVO> getMailList() {
+		List<EmailVO> emailList = edaDAO.getMailList();
+		return emailList;
+	}
+
+
+
+	@Override
+	public int mailServiceBool(String id) {
+		int bool = edaDAO.mailServiceBool(id);
+		return bool;
+	}
+
+	
 
 
 	

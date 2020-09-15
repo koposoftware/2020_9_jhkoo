@@ -86,7 +86,7 @@
 </div>
 
 
-<!-- 탈퇴 modal -->
+<!-- 탈퇴 modal ---------------------------------------------------------------------------------------->
 <div class="modal fade" id="deleteModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

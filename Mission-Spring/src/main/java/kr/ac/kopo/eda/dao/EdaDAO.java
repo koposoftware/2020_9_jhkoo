@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.eda.vo.EdaVO;
+import kr.ac.kopo.eda.vo.EmailVO;
 
 public interface EdaDAO {
 
@@ -19,4 +20,16 @@ public interface EdaDAO {
 	
 	// 이번 달 카테고리별 지출 합
 	public List<DepositDetailVO> categorySumList(String accountNumber);
+	
+	// 정기 이메일 서비스 insert
+	public void addMailService(EmailVO emailVO);
+	
+	// 정기 이메일 서비스 취소
+	public void deleteMailService(String id);
+	
+	// 정기 이메일 리스트 
+	public List<EmailVO> getMailList();
+	
+	// 정기 구독 여부 판단
+	public int mailServiceBool(String id);
 }
