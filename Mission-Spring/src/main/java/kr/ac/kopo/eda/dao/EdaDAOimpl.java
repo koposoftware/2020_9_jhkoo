@@ -69,5 +69,39 @@ public class EdaDAOimpl implements EdaDAO {
 		return bool;
 	}
 
+
+	@Override
+	public int depositByMonth1(String accountNumber) {
+		int depositByMonth1 = sqlSession.selectOne("account.dao.DepositDetailDAO.depositByMonth1", accountNumber);
+		return depositByMonth1;
+	}
+	@Override
+	public int depositByMonth2(String accountNumber) {
+		int depositByMonth2 = sqlSession.selectOne("account.dao.DepositDetailDAO.depositByMonth2", accountNumber);
+		return depositByMonth2;
+	}
+	@Override
+	public int depositByMonth3(String accountNumber) {
+		int depositByMonth3 = sqlSession.selectOne("account.dao.DepositDetailDAO.depositByMonth3", accountNumber);
+		return depositByMonth3;
+	}
+	@Override
+	public int withdrawByMonth1(String accountNumber) {
+		int withdrawByMonth1 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth1", accountNumber);
+		return withdrawByMonth1;
+	}
+	@Override
+	public int withdrawByMonth2(String accountNumber) {
+		int withdrawByMonth2 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth2", accountNumber);
+		return withdrawByMonth2;
+	}
+	@Override
+	public int withdrawByMonth3(String accountNumber) {
+		int withdrawByMonth3 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth3", accountNumber);
+		return withdrawByMonth3;
+	}
+
+	
+	
 	
 }

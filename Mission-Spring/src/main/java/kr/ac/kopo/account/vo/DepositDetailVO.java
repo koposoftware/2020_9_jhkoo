@@ -10,8 +10,15 @@ public class DepositDetailVO {
 	private String toName;
 	private int count;
 	private int sumAmount;
+	private int week;
 	
 	
+	public int getWeek() {
+		return week;
+	}
+	public void setWeek(int week) {
+		this.week = week;
+	}
 	public int getSumAmount() {
 		return sumAmount;
 	}
@@ -64,8 +71,9 @@ public class DepositDetailVO {
 	public String toString() {
 		return "DepositDetailVO [accountNumber=" + accountNumber + ", logDate=" + logDate + ", amount=" + amount
 				+ ", logTypeKey=" + logTypeKey + ", toAccountNumber=" + toAccountNumber + ", toName=" + toName
-				+ ", count=" + count + ", sumAmount=" + sumAmount + "]";
+				+ ", count=" + count + ", sumAmount=" + sumAmount + ", week=" + week + "]";
 	}
+	
 	
 	
 	

@@ -91,4 +91,8 @@
   		delete from dw_account
   		 where account_number = #{accountNumber}
   	</delete>
+  	
+  	
+
+  	
 </mapper>

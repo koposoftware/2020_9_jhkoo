@@ -21,6 +21,9 @@ function goSavingsRecommend(){
 function goChallenge(){
 	location.href = "${ pageContext.request.contextPath }/challengeChoose";
 }
+function goSavings(){
+	location.href = "${ pageContext.request.contextPath }/product/savingsChoose";
+}
 
 
 $(document).ready(function(){
@@ -96,7 +99,7 @@ $(document).ready(function(){
  
 })
 
-	/* 그래프 **************************************************************************************************************** */
+	/* 최대 지출 카테고리 최근 2개월 추이 그래프 **************************************************************************************************************** */
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -121,7 +124,128 @@ $(document).ready(function(){
 
         chart.draw(data, options);
       }
+      /* 최근 3개월 수입, 지출 영역 그래프  *********************************************************************************************************************/
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart2);
 
+      function drawChart2() {
+        var data = google.visualization.arrayToDataTable([
+          ['월', '수입', '지출'],
+          [${month-2} + '월',${depositByLast3Month.get(2)},${withdrawByLast3Month.get(2)}],
+          [${month-1} + '월',${depositByLast3Month.get(1)},${withdrawByLast3Month.get(1)}],
+          [${month} + '월',  ${depositByLast3Month.get(0)},${withdrawByLast3Month.get(0)}]
+        ]);
+
+        var options = {
+          title: '최근 3개월 수입, 지출 추이',
+          hAxis: {title: '',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      
+	/* 주별 지출액 그래프  *******************************************************************/
+ 
+      
+      google.charts.load('49', {'packages': ['vegachart']}).then(drawChart3);
+
+      function drawChart3() {
+        const dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({type: 'string', 'id': 'category'});
+        dataTable.addColumn({type: 'number', 'id': 'amount'});
+        dataTable.addRows(
+      	${str2}	  
+        );
+
+        const options = {
+          hAxis: {title: '',  titleTextStyle: {color: '#333'}},		
+        		
+          "vega": {
+            "$schema": "https://vega.github.io/schema/vega/v4.json",
+            "padding": 3,
+
+            'data': [{'name': 'table', 'source': 'datatable'}],
+
+            "signals": [
+              {
+                "name": "tooltip",
+                "value": {},
+                "on": [
+                  {"events": "rect:mouseover", "update": "datum"},
+                  {"events": "rect:mouseout",  "update": "{}"}
+                ]
+              }
+            ],
+
+            "scales": [
+              {
+                "name": "xscale",
+                "type": "band",
+                "domain": {"data": "table", "field": "category"},
+                "range": "width",
+                "padding": 0.5,
+                "round": true
+              },
+              {
+                "name": "yscale",
+                "domain": {"data": "table", "field": "amount"},
+                "nice": true,
+                "range": "height"
+              }
+            ],
+
+            "axes": [
+              { "orient": "bottom", "scale": "xscale" },
+              { "orient": "left", "scale": "yscale" }
+            ],
+
+            "marks": [
+              {
+                "type": "rect",
+                "from": {"data":"table"},
+                "encode": {
+                  "enter": {
+                    "x": {"scale": "xscale", "field": "category"},
+                    "width": {"scale": "xscale", "band": 1},
+                    "y": {"scale": "yscale", "field": "amount"},
+                    "y2": {"scale": "yscale", "value": 0}
+                  },
+                  "update": {
+                    "fill": {"value": "steelblue"}
+                  },
+                  "hover": {
+                    "fill": {"value": "red"}
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "encode": {
+                  "enter": {
+                    "align": {"value": "center"},
+                    "baseline": {"value": "bottom"},
+                    "fill": {"value": "#333"}
+                  },
+                  "update": {
+                    "x": {"scale": "xscale", "signal": "tooltip.category", "band": 0.5},
+                    "y": {"scale": "yscale", "signal": "tooltip.amount", "offset": -2},
+                    "text": {"signal": "tooltip.amount"},
+                    "fillOpacity": [
+                      {"test": "datum === tooltip", "value": 0},
+                      {"value": 1}
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        };
+
+        const chart = new google.visualization.VegaChart(document.getElementById('week_chart'));
+        chart.draw(dataTable, options);
+      }
 /* 메일 서비스 신청, 취소 ***************************************************************************/
 function goAddMailService(){
 	location.href = "${ pageContext.request.contextPath }/addMailService";
@@ -229,8 +353,7 @@ function goDeleteMailService(){
             <a href="${pageContext.request.contextPath }/product" class="btn btn-style-one">전체 상품 보러가기</a>
             </div>
             
-
-   
+ 
     <!-- 지출액 Top3, 잦은 거래  ------------------------------------------------------------->        
             <div class="service-box col-md-12">
             <br><br>
@@ -270,7 +393,7 @@ function goDeleteMailService(){
                             </div>
                             <ul class="content-list">
                             	<c:forEach items="${ frequentExpenditureList}" var="account">
-                                <c:if test='${ !account.toName.equals(loginVO.name) && account.count >=3 }'>
+                                <c:if test='${ !account.toName.equals(loginVO.name) && account.count >=4 }'>
                                 
 	                                <li>
 	                                    <i class="fa fa-caret-right"></i>
@@ -281,7 +404,7 @@ function goDeleteMailService(){
                             </ul>
                             
                             <c:forEach items="${ frequentExpenditureList}" var="account">
-                            <c:if test='${ !account.toName.equals(loginVO.name) && account.count >=3 }'>
+                            <c:if test='${ !account.toName.equals(loginVO.name) && account.count >=4 }'>
                                 <input type="button" value="내역확인" class="frequentDetailBtn btn-style-one" id="${ account.accountNumber }.${ account.toName }"> 
                             </c:if>
                             </c:forEach>
@@ -291,6 +414,64 @@ function goDeleteMailService(){
             </div>
         </div>
     </div>
+</section>
+
+<!-- 이번 주 지출 ------------------------------------------------------------------------------------------------->
+<section class="team-section section">
+    <div class="container">
+        <div class="section-title text-center">
+	        <h3>주별 지출액 </h3>
+
+	            <c:forEach items="${ expenditureByWeekList }" var="expenditureByWeek">                
+	              <i class="fa fa-caret-right"></i>${ expenditureByWeek.week - 35 }주차 지출액은 ${ String.format("%,d", expenditureByWeek.sumAmount ) }원입니다. &nbsp;&nbsp;&nbsp;&nbsp;
+	            </c:forEach>
+                
+                
+                <ul class="content-list">
+                	<li><i class="fa fa-check-circle-o"></i>주 평균 지출액은 ${ String.format("%,d",avgExpenditureByWeek) }원입니다. </li>
+		            <c:if test="${ avgExpenditureByWeek > expenditureByWeekList.get(expenditureByWeekList.size()-1).sumAmount }">
+						<li><i class="fa fa-check-circle-o"></i><span style="color:red">평균 지출액 보다 현재까지 ${ avgExpenditureByWeek - expenditureByWeekList.get(expenditureByWeekList.size()-1).sumAmount }원 덜 지출하셨습니다!</span></li>
+		            </c:if>
+	            </ul>
+	        <br>
+        </div>
+        
+		<div id="week_chart" style="width: 1000px; height: 200px"></div>
+
+    	</div>
+
+</section>
+
+
+<!-- 최근 3개월 수입, 지출 추이----------------------------------------------------------------------------------------- -->
+<section class="team-section section">
+    <div class="container">
+        <div class="section-title text-center">
+	        <h3>최근 3개월 <span>잔여금 추이</span></h3>
+	        <p>
+	        	<c:if test="${ depositByLast3Month.get(0) - withdrawByLast3Month.get(0) > depositByLast3Month.get(1) - withdrawByLast3Month.get(1) &&
+	        	               depositByLast3Month.get(1) - withdrawByLast3Month.get(1) > depositByLast3Month.get(2) - withdrawByLast3Month.get(2) }">
+	        	<span style="color:red">최근 3개월 잔여금이 연속 증가했습니다!</span><br>	               
+	        	</c:if>
+				<i class="fa fa-caret-right"></i>${ month-2 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(2)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(2)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
+				<i class="fa fa-caret-right"></i>${ month-1 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(1)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(1)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
+				<i class="fa fa-caret-right"></i>${ month-0 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(0)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(0)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
+	        	
+				
+				
+                <ul class="content-list">
+                  <li><i class="fa fa-check-circle-o"></i>${ month-2 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(2) - withdrawByLast3Month.get(2))) }원입니다.</li>
+                  <li><i class="fa fa-check-circle-o"></i>${ month-1 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(1) - withdrawByLast3Month.get(1))) }원입니다.</li>
+                  <li><i class="fa fa-check-circle-o"></i>${ month-0 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(0) - withdrawByLast3Month.get(0))) }원입니다.</li>
+                </ul>
+	        <br>
+	        <input type="button" value="적금 상품 보러 가기" class="btn-style-one" onclick="goSavings()">
+        </div>
+        
+        <div id="chart_div" style="width: 1200px; height: 300px"></div>
+
+    	</div>
+
 </section>
 
 

@@ -31,4 +31,7 @@ public interface DepositDetailDAO {
 	
 	// 이번 지출 Top3
 	List<DepositDetailVO> expenditureTop3(String accountNumber);
+	
+	// 이번달 주별 지출
+	List<DepositDetailVO> expenditureByWeekList(String accountNumber);
 }

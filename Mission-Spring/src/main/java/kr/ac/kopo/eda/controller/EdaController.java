@@ -119,6 +119,47 @@ public class EdaController {
 		int mailServiceBool = edaService.mailServiceBool(id);
 		mav.addObject("mailServiceBool", mailServiceBool);
 		
+		
+		// 최근 3개월 수입, 지출액 
+		List<Integer> depositByLast3Month = edaService.depositByLast3Month(accountNumber);
+		List<Integer> withdrawByLast3Month = edaService.withdrawByLast3Month(accountNumber);
+		mav.addObject("depositByLast3Month", depositByLast3Month);
+		mav.addObject("withdrawByLast3Month", withdrawByLast3Month);
+		
+		
+		
+		// 이번달 주별 지출액
+		List<DepositDetailVO> expenditureByWeekList = depositDetailService.expenditureByWeekList(accountNumber);
+		mav.addObject("expenditureByWeekList", expenditureByWeekList);
+		
+		// 주 평균 지출액
+		int avgExpenditureByWeek = 0;
+		for(DepositDetailVO vo:expenditureByWeekList) {
+			avgExpenditureByWeek += vo.getSumAmount();
+		}
+
+		mav.addObject("avgExpenditureByWeek", (int)Math.ceil((double)avgExpenditureByWeek / expenditureByWeekList.size()) ); 
+		
+		// 주별 그래프 위한 작업
+		String str2 = "[";
+		int num2 = 0;
+		for(DepositDetailVO vo:expenditureByWeekList) {
+			str2 += "['";
+			str2 += Integer.toString(vo.getWeek() - 35) + "주차";
+			str2 += "', ";
+			str2 += vo.getSumAmount();
+			str2 += "]";
+			
+			num2 ++;
+			if(num2 < expenditureByWeekList.size()) {
+				str2 += ",";
+			}
+		}
+		str2 += "]";
+		System.out.println(str2);
+		mav.addObject("str2",str2);
+		
+		
 		return mav;
 	}
 

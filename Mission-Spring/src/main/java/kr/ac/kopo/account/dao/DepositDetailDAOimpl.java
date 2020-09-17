@@ -74,6 +74,12 @@ public class DepositDetailDAOimpl implements DepositDetailDAO {
 		return expenditureTop3List;
 	}
 
+	@Override
+	public List<DepositDetailVO> expenditureByWeekList(String accountNumber) {
+		List<DepositDetailVO> expenditureByWeekList = sqlSession.selectList("account.dao.DepositDetailDAO.expenditureByWeek", accountNumber);
+		return expenditureByWeekList;
+	}
+
 	
 	
 	

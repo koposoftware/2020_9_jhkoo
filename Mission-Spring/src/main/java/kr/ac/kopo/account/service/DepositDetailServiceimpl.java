@@ -96,6 +96,12 @@ public class DepositDetailServiceimpl implements DepositDetailService {
 		return expenditureTop3List;
 	}
 
+	@Override
+	public List<DepositDetailVO> expenditureByWeekList(String accountNumber) {
+		List<DepositDetailVO> expenditureByWeekList = depositDetailDAO.expenditureByWeekList(accountNumber);
+		return expenditureByWeekList;
+	}
+
 	
 	
 

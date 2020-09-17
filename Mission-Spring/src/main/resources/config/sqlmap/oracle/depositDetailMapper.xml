@@ -121,7 +121,8 @@
 		       on d.log_type_key = l.key
 		  where account_number = #{accountNumber} and
 		  		extract(month from log_date) = extract(month from sysdate) and
-                extract(year from log_date) = extract(year from sysdate) 
+                extract(year from log_date) = extract(year from sysdate) and
+                d.log_type_key != '1'
            order by count desc  	
   	</select>
   	
@@ -159,6 +160,64 @@
   	]]>
   	</select>
   	
+  	
+  	
+  	<!-- 이번 월 수입 알려주기 -->
+  	<select id="depositByMonth1" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), 0 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key = '1'
+  	</select>
+  	<!-- 저번 월 수입 알려주기 -->
+  	<select id="depositByMonth2" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -1 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key = '1'
+  	</select>  
+  	<!-- 저저번 월 수입 알려주기 -->
+  	<select id="depositByMonth3" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -2 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key = '1'
+  	</select>  		
+  	
+  	
+  	<!-- 이번 월 지출 알려주기 -->
+   	<select id="withdrawByMonth1" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), 0 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key != '1'
+  	</select>
+  	<!-- 저번 월 지출 알려주기 -->
+  	<select id="withdrawByMonth2" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -1 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key != '1'
+  	</select>  
+  	<!-- 저저번 월 지출 알려주기 -->
+  	<select id="withdrawByMonth3" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -2 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key != '1'
+  	</select>   	
+  	
+  	
+  	<!-- 이번 달 주별 지출액 -->
+  	<select id="expenditureByWeek" resultType="depositDetailVO" parameterType="String">
+  	select to_char(log_date, 'IW') as week, sum(amount) as sumAmount
+	 from dw_card_log
+	 where log_type_key != '1' and 
+	       account_number = #{accountNumber} and
+	       extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), 0 )) and
+	       extract(year from log_date) = extract(year from sysdate)
+	 group by to_char(log_date, 'IW')
+  	</select>
   	
   	
 </mapper>

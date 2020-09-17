@@ -34,5 +34,8 @@ public interface DepositDetailService {
 	
 	// 이번달 지출 Top3
 	List<DepositDetailVO> expenditureTop3List(String id);
+	
+	// 이번달 주별 지출액
+	List<DepositDetailVO> expenditureByWeekList(String accountNumber);
 
 }

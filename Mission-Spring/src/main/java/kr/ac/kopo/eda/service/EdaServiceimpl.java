@@ -1,5 +1,6 @@
 package kr.ac.kopo.eda.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,35 @@ public class EdaServiceimpl implements EdaService {
 	public int mailServiceBool(String id) {
 		int bool = edaDAO.mailServiceBool(id);
 		return bool;
+	}
+
+
+
+	@Override
+	public List<Integer> depositByLast3Month(String accountNumber) {
+		int depositByMonth1 = edaDAO.depositByMonth1(accountNumber);
+		int depositByMonth2 = edaDAO.depositByMonth2(accountNumber);
+		int depositByMonth3 = edaDAO.depositByMonth3(accountNumber);
+		
+		List<Integer> depositByLast3Month = new ArrayList<Integer>();
+		depositByLast3Month.add(depositByMonth1);
+		depositByLast3Month.add(depositByMonth2);
+		depositByLast3Month.add(depositByMonth3);
+		
+		return depositByLast3Month;
+	}
+	@Override
+	public List<Integer> withdrawByLast3Month(String accountNumber) {
+		int withdrawByMonth1 = edaDAO.withdrawByMonth1(accountNumber);
+		int withdrawByMonth2 = edaDAO.withdrawByMonth2(accountNumber);
+		int withdrawByMonth3 = edaDAO.withdrawByMonth3(accountNumber);
+		
+		List<Integer> withdrawByLast3Month = new ArrayList<Integer>();
+		withdrawByLast3Month.add(withdrawByMonth1);
+		withdrawByLast3Month.add(withdrawByMonth2);
+		withdrawByLast3Month.add(withdrawByMonth3);
+		
+		return withdrawByLast3Month;
 	}
 
 	

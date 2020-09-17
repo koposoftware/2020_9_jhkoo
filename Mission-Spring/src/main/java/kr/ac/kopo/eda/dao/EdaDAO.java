@@ -32,4 +32,15 @@ public interface EdaDAO {
 	
 	// 정기 구독 여부 판단
 	public int mailServiceBool(String id);
+	
+	// 이번달, 저번달, 저저번달 수입
+	public int depositByMonth1(String accountNumber);
+	public int depositByMonth2(String accountNumber);
+	public int depositByMonth3(String accountNumber);
+	
+	// 이번달, 저번달, 저저번달 지출
+	public int withdrawByMonth1(String accountNumber);
+	public int withdrawByMonth2(String accountNumber);
+	public int withdrawByMonth3(String accountNumber);
+	
 }

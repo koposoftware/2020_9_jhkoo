@@ -52,4 +52,13 @@ public interface EdaService {
 	 */
 	public int mailServiceBool(String id);
 	
+	/**
+	 *  이번달, 저번달, 저저번달 수입액 리스트
+	 */
+	public List<Integer> depositByLast3Month(String accountNumber);
+	/**
+	 *  이번달, 저번달, 저저번달 지출액 리스트
+	 */
+	public List<Integer> withdrawByLast3Month(String accountNumber);	
+	
 }
