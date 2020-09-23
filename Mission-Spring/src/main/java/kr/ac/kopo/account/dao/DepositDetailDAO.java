@@ -3,6 +3,7 @@ package kr.ac.kopo.account.dao;
 import java.util.List;
 
 import kr.ac.kopo.account.vo.DepositDetailVO;
+import kr.ac.kopo.util.PagingVO;
 
 public interface DepositDetailDAO {
 
@@ -34,4 +35,14 @@ public interface DepositDetailDAO {
 	
 	// 이번달 주별 지출
 	List<DepositDetailVO> expenditureByWeekList(String accountNumber);
+	
+	
+	// 페이징. 게시물 총 갯수
+	int countBoard(String accountNumber);
+	
+	// 페이징. 페이징 처리 게시글 조회
+	List<DepositDetailVO> selectBoard(PagingVO vo);
+	
+	// 페이징. 페이징 처리 게시글 조회 월 변화
+	List<DepositDetailVO> selectBoardMonthChange(PagingVO vo);
 }

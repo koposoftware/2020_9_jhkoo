@@ -86,6 +86,11 @@ public class EdaDAOimpl implements EdaDAO {
 		return depositByMonth3;
 	}
 	@Override
+	public int depositByMonth4(String accountNumber) {
+		int depositByMonth4 = sqlSession.selectOne("account.dao.DepositDetailDAO.depositByMonth4", accountNumber);
+		return depositByMonth4;
+	}
+	@Override
 	public int withdrawByMonth1(String accountNumber) {
 		int withdrawByMonth1 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth1", accountNumber);
 		return withdrawByMonth1;
@@ -100,7 +105,11 @@ public class EdaDAOimpl implements EdaDAO {
 		int withdrawByMonth3 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth3", accountNumber);
 		return withdrawByMonth3;
 	}
-
+	@Override
+	public int withdrawByMonth4(String accountNumber) {
+		int withdrawByMonth4 = sqlSession.selectOne("account.dao.DepositDetailDAO.withdrawByMonth4", accountNumber);
+		return withdrawByMonth4;
+	}
 	
 	
 	

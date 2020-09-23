@@ -37,10 +37,11 @@ public interface EdaDAO {
 	public int depositByMonth1(String accountNumber);
 	public int depositByMonth2(String accountNumber);
 	public int depositByMonth3(String accountNumber);
+	public int depositByMonth4(String accountNumber);
 	
 	// 이번달, 저번달, 저저번달 지출
 	public int withdrawByMonth1(String accountNumber);
 	public int withdrawByMonth2(String accountNumber);
 	public int withdrawByMonth3(String accountNumber);
-	
+	public int withdrawByMonth4(String accountNumber);
 }

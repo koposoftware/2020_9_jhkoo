@@ -183,6 +183,13 @@
 	       	   account_number=#{accountNumber} and
 	       	   log_type_key = '1'
   	</select>  		
+  	<!-- 저저저번 월 수입 알려주기 -->
+  	<select id="depositByMonth4" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -3 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key = '1'
+  	</select>  
   	
   	
   	<!-- 이번 월 지출 알려주기 -->
@@ -206,6 +213,13 @@
 	       	   account_number=#{accountNumber} and
 	       	   log_type_key != '1'
   	</select>   	
+  	<!-- 저저저번 월 지출 알려주기 -->
+  	<select id="withdrawByMonth4" resultType="int" parameterType="String">
+  	select sum(amount) from dw_card_log 
+	 	 where extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), -3 )) and
+	       	   account_number=#{accountNumber} and
+	       	   log_type_key != '1'
+  	</select>
   	
   	
   	<!-- 이번 달 주별 지출액 -->
@@ -217,7 +231,63 @@
 	       extract(month from log_date) = extract(month from ADD_MONTHS( TRUNC(sysdate,'MM'), 0 )) and
 	       extract(year from log_date) = extract(year from sysdate)
 	 group by to_char(log_date, 'IW')
+	 order by week
   	</select>
   	
   	
+  	<!-- 페이징. 총 게시글 갯수 -->
+  	<select id="countBoard" resultType="int">
+  		select count(*) 
+  		 from dw_card_log 
+  		 where account_number = #{accountNumber}
+  	</select>
+  	
+  	<!-- 페이징. 페이징 처리 후 게시글 조회 -->
+  	<select id="selectBoard" resultType="depositDetailVO">
+        select 
+        	   rn, account_number as accountNumber, log_date as logDate, amount, log_type_key as logTypeKey, to_account_number as logAccountNumber, to_name as toName
+  		 from( select rownum rn, A.*
+  		 		from(		
+  		  select 
+			   d.account_number,
+		       to_char(d.log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as log_date ,
+		       d.amount,
+		       l.value as log_type_key,
+		       d.to_account_number,
+		       d.to_name
+		  from dw_card_log d left join log_type l
+		       on d.log_type_key = l.key
+		  where account_number = #{accountNumber} and
+		  		extract(month from log_date) = extract(month from sysdate) and
+                extract(year from log_date) = extract(year from sysdate)
+		  order by log_date desc) A 
+  		 )
+  		 where rn between #{start} and #{end} 
+  	</select>
+  	
+  	<!-- 페이징. 월 이동 -->
+   	<select id="selectBoardMonthChange" resultType="depositDetailVO">
+        select 
+        	   rn, account_number as accountNumber, log_date as logDate, amount, log_type_key as logTypeKey, to_account_number as logAccountNumber, to_name as toName
+  		 from( 
+  		 select rownum rn, A.*
+  		 		from(		
+  		 	  		select 
+						   d.account_number,
+					       to_char(d.log_date,'YYYY"년 "MM"월 "DD"일("hh24"시 "mi"분)"') as log_date ,
+					       d.amount,
+					       l.value as log_type_key,
+					       d.to_account_number,
+					       d.to_name
+					  from dw_card_log d left join log_type l
+					       on d.log_type_key = l.key
+					  where account_number = #{accountNumber} and
+					  		extract(month from log_date) = #{logDate} - 1 and
+			                extract(year from log_date) = extract(year from sysdate)
+					  order by log_date desc) A 
+  		        )
+  		 where rn between #{start} and #{end} 
+  	</select>
+  	
+  	 	
 </mapper>

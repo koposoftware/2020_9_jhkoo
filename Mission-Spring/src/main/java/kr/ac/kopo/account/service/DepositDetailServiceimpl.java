@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.ac.kopo.account.dao.DepositAccountDAO;
 import kr.ac.kopo.account.dao.DepositDetailDAO;
 import kr.ac.kopo.account.vo.DepositDetailVO;
+import kr.ac.kopo.util.PagingVO;
 
 @Service
 public class DepositDetailServiceimpl implements DepositDetailService {
@@ -100,6 +101,25 @@ public class DepositDetailServiceimpl implements DepositDetailService {
 	public List<DepositDetailVO> expenditureByWeekList(String accountNumber) {
 		List<DepositDetailVO> expenditureByWeekList = depositDetailDAO.expenditureByWeekList(accountNumber);
 		return expenditureByWeekList;
+	}
+
+	
+	@Override
+	public int countBoard(String accountNumber) {
+		int countBoard = depositDetailDAO.countBoard(accountNumber);
+		return countBoard;
+	}
+
+	@Override
+	public List<DepositDetailVO> selectBoard(PagingVO vo) {
+		List<DepositDetailVO> selectBoard = depositDetailDAO.selectBoard(vo);
+		return selectBoard;
+	}
+
+	@Override
+	public List<DepositDetailVO> selectBoardMonthChange(PagingVO vo) {
+		List<DepositDetailVO> selectBoardMonthChange = depositDetailDAO.selectBoardMonthChange(vo);
+		return selectBoardMonthChange;
 	}
 
 	

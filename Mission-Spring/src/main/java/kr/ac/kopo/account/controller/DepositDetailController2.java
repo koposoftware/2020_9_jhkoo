@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,37 +18,21 @@ import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.util.PagingVO;
 
 @Controller
-public class DepositDetailController {
+public class DepositDetailController2 {
 
 	@Autowired
 	private DepositDetailService depositDetailService;
 	@Autowired
 	private DepositAccountService depositAccountService; 
 	
-	
+	/*
 	
 	// 이번 달 내역
 	@RequestMapping("/depositDetail/{accountNumber}")
 	public ModelAndView depositDetail(@PathVariable("accountNumber") String accountNumber,
-									  PagingVO vo,
-									  @RequestParam(value="nowPage", required=false)String nowPage,
-									  @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+									PagingVO vo) {
 		
 		ModelAndView mav = new ModelAndView("account/depositDetail");
-		
-		int total = depositDetailService.countBoard(accountNumber);
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "20";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "20";
-		}
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		vo.setAccountNumber(accountNumber);
-		mav.addObject("paging", vo);
-		mav.addObject("viewAll", depositDetailService.selectBoard(vo));
 		
 		// 해당 계좌의 내역 리스트
 		List<DepositDetailVO> depositDetailList = depositDetailService.depositDetailList(accountNumber);
@@ -92,17 +75,9 @@ public class DepositDetailController {
 		List<DepositDetailVO> depositDetailListMonthAgo = depositDetailService.depositDetailListMonthAgo(depositDetailVO);
 		mav.addObject("depositDetailListMonthAgo", depositDetailListMonthAgo);
 		
-		//이번 달 가져오기
-		String thisMonth = depositDetailService.month();
-		int nowMonth = Integer.parseInt(thisMonth);
-		mav.addObject("nowMonth",nowMonth);
-		
 		// month 지난 달로 업데이트
 		int lastMonth = month - 1;
 		mav.addObject("month", lastMonth);
-		
-		System.out.println("lastMonth"+lastMonth);
-		System.out.println(nowMonth);
 		
 		return mav;		
 	}
@@ -135,13 +110,6 @@ public class DepositDetailController {
 		int aheadMonth = month + 2;
 		mav.addObject("month", aheadMonth);
 		
-		//이번 달 가져오기
-		String thisMonth = depositDetailService.month();
-		int nowMonth = Integer.parseInt(thisMonth);
-		mav.addObject("nowMonth",nowMonth);
-
-		System.out.println("aheadMonth : " + aheadMonth);
-		System.out.println(nowMonth);		
 		return mav;		
 	}
 	
@@ -164,21 +132,16 @@ public class DepositDetailController {
 		String nowMonth = Integer.toString(month);
 		depositDetailVO.setLogDate(nowMonth);
 		depositDetailVO.setLogTypeKey(logTypeKey);
-
 		
 		// 해당 계좌의 해당 월, 해당 카테고리의 내역 리스트
 		List<DepositDetailVO> depositDetailCategoryList = depositDetailService.depositDetailCategory(depositDetailVO);
 		mav.addObject("depositDetailCategoryList", depositDetailCategoryList);
 		
-		//이번 달 가져오기
-		int thisMonth = Integer.parseInt(depositDetailService.month());
-		mav.addObject("thisMonth",thisMonth);
-		
 		return mav;
 	}
 	
 	
-	
+	*/
 	
 	
 	

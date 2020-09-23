@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.kopo.account.vo.DepositDetailVO;
+import kr.ac.kopo.util.PagingVO;
 
 @Repository
 public class DepositDetailDAOimpl implements DepositDetailDAO {
@@ -78,6 +79,24 @@ public class DepositDetailDAOimpl implements DepositDetailDAO {
 	public List<DepositDetailVO> expenditureByWeekList(String accountNumber) {
 		List<DepositDetailVO> expenditureByWeekList = sqlSession.selectList("account.dao.DepositDetailDAO.expenditureByWeek", accountNumber);
 		return expenditureByWeekList;
+	}
+
+	@Override
+	public int countBoard(String accountNumber) {
+		int countBoard = sqlSession.selectOne("account.dao.DepositDetailDAO.countBoard", accountNumber);
+		return countBoard;
+	}
+
+	@Override
+	public List<DepositDetailVO> selectBoard(PagingVO vo) {
+		List<DepositDetailVO> selectBoard = sqlSession.selectList("account.dao.DepositDetailDAO.selectBoard", vo);
+		return selectBoard;
+	}
+
+	@Override
+	public List<DepositDetailVO> selectBoardMonthChange(PagingVO vo) {
+		List<DepositDetailVO> selectBoardMonthChange = sqlSession.selectList("account.dao.DepositDetailDAO.selectBoardMonthChange", vo);
+		return selectBoardMonthChange;
 	}
 
 	

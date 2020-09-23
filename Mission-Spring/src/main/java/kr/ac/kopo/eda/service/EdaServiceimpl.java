@@ -110,11 +110,13 @@ public class EdaServiceimpl implements EdaService {
 		int depositByMonth1 = edaDAO.depositByMonth1(accountNumber);
 		int depositByMonth2 = edaDAO.depositByMonth2(accountNumber);
 		int depositByMonth3 = edaDAO.depositByMonth3(accountNumber);
+		int depositByMonth4 = edaDAO.depositByMonth4(accountNumber);
 		
 		List<Integer> depositByLast3Month = new ArrayList<Integer>();
 		depositByLast3Month.add(depositByMonth1);
 		depositByLast3Month.add(depositByMonth2);
 		depositByLast3Month.add(depositByMonth3);
+		depositByLast3Month.add(depositByMonth4);
 		
 		return depositByLast3Month;
 	}
@@ -123,11 +125,13 @@ public class EdaServiceimpl implements EdaService {
 		int withdrawByMonth1 = edaDAO.withdrawByMonth1(accountNumber);
 		int withdrawByMonth2 = edaDAO.withdrawByMonth2(accountNumber);
 		int withdrawByMonth3 = edaDAO.withdrawByMonth3(accountNumber);
+		int withdrawByMonth4 = edaDAO.withdrawByMonth4(accountNumber);
 		
 		List<Integer> withdrawByLast3Month = new ArrayList<Integer>();
 		withdrawByLast3Month.add(withdrawByMonth1);
 		withdrawByLast3Month.add(withdrawByMonth2);
 		withdrawByLast3Month.add(withdrawByMonth3);
+		withdrawByLast3Month.add(withdrawByMonth4);
 		
 		return withdrawByLast3Month;
 	}

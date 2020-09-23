@@ -37,9 +37,19 @@ public class SavingsAccountVO {
 	
 	private int avgAmount;		// db에 없음
 	
+	private String certification;
+	
+	
+	
+	
+	public String getCertification() {
+		return certification;
+	}
 
-	
-	
+	public void setCertification(String certification) {
+		this.certification = certification;
+	}
+
 	public int getAvgAmount() {
 		return avgAmount;
 	}
