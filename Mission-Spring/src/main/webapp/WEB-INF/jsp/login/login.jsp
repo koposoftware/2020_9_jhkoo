@@ -34,7 +34,8 @@
 
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" />
 
-
+<br>
+<br>
 <section class="appoinment-section section">
     <div class="container">
         <div class="row">
@@ -77,6 +78,9 @@
         </div>                    
     </div>
 </section>
+<br>
+<br>
+<br>
 
 		
 

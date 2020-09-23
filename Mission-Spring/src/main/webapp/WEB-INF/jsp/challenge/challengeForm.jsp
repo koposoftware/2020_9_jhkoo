@@ -76,30 +76,30 @@
   </div>
             
       <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="accordion-section">
-    <div class="section-title">
-        <h3>주의사항</h3>
-        <br>
-        <br>
-        <br>
-        <h4>지난 달 ${ challengeName.substring(0, challengeName.length()-3) } 총 소비액은<br>
-                    	<span style="color:red">${ String.format("%,d",lastMonthSumByCatesgory) }</span>원입니다.<br>
-                    	<br>
-                    	해당 카테고리의 지난 달 지출액을 확인하고<br> 신중히 결정하세요!
-                    </h4>
-    </div>
-    <br>
-    <br>
-    
+        <div class="accordion-section">
+		    <div class="section-title">
+		        <h3>주의사항</h3>
+		        <br>
+		        <br>
+		        <br>
+		        <h4>지난 달 ${ challengeName.substring(0, challengeName.length()-3) } 총 소비액은<br>
+		           <span style="color:red">${ String.format("%,d",lastMonthSumByCatesgory) }</span>원입니다.<br>
+		           <br>해당 카테고리의 지난 달 지출액을 확인하고<br> 신중히 결정하세요!
+		        </h4>
+		    </div>
+		</div>
+      </div>      
+            
+            
+   </div>                    
 </div>
-            </div>      
-            
-            
-        </div>                    
-    </div>
 </section>
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
 	
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" /> 
 	<jsp:include page="/WEB-INF/jsp/include/scroll.jsp" />

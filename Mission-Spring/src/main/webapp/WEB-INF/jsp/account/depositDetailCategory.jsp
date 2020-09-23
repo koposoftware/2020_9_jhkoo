@@ -69,7 +69,9 @@
   
   <div class="btn-group" style="float:left;">
     <button type="button" class="btn btn-style-one" onclick="goMonthAgo()">${month- 1}월 내역 보기</button>
- 	<button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month }월 내역 보기</button>  
+ 	<c:if test="${ month != thisMonth }">
+	 	<button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month + 1 }월 내역 보기</button>  
+ 	</c:if>
   </div>
   
   <div class="dropdown" style="float:left;">

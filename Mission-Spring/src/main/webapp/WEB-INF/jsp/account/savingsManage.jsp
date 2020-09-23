@@ -24,6 +24,8 @@
 
 
 <div class="container" align="center">
+
+<br><br><br><br>
   
 <div class="section-title">
     <h3>적금
@@ -31,7 +33,7 @@
      </h3>
 </div> 
   
-     
+<br><br>    
  <form action="${ pageContext.request.contextPath }/savingsManageChange" method="post">
   <input type="hidden" name="accountNumber" value="${savingsAccount.getAccountNumber()}">
   <table class="table table-hover" style="width:50%;">
@@ -113,7 +115,7 @@
   
 </form>         
 </div>
-
+ <br>  <br> 
 
 <!-- 예약이체 등록 modal -->
 <div class="modal fade" id="myModal">

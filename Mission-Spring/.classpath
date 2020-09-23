@@ -42,9 +42,25 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/rn926/spring-workspace/maven-repository/org/springframework/spring-test/4.3.28.RELEASE/spring-test-4.3.28.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/Users/rn926/spring-workspace/maven-repository/org/springframework/spring-test/4.3.28.RELEASE/spring-test-4.3.28.RELEASE-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/Rserve-0.6-8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/JRIEngine-0.9-7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/REngine-0.9-7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/JRI-0.9-7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/Rserve-0.6-8.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/JRIEngine-0.9-7.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/REngine-0.9-7.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/rn926/Downloads/JRI-0.9-7.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

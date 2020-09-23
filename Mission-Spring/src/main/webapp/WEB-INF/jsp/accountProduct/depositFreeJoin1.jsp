@@ -9,6 +9,54 @@
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
+  <script src="http://code.jquery.com/jquery-3.5.1.min.js" ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+var certificationNumber = '';
+
+$(document).ready(function(){
+	$('#certCheck').click(function(){
+		
+		$.ajax({
+			type:'get',
+			url:'${ pageContext.request.contextPath }/certificate',
+			success : function(data){
+				
+				$("#sendEmailModal").modal('show');
+				certificationNumber = data;
+				
+			},
+			error : function(){
+				alert("fail")
+			}
+		
+		})
+	})
+})
+
+
+
+$(document).ready(function(){
+	
+	$('#certConfirm').click(function(){
+		let certification = $('#certification').val();
+		certificationNumber = certificationNumber.substring(1,7);
+		
+		console.log(certification);
+		console.log(certificationNumber);
+		if(certificationNumber == certification){
+			$("#completeEmailModal").modal('show');
+		} else{
+			alert("fail")
+		}
+		
+	})
+})
+
+
+</script>  
 <style>
 	.error {
 		color:red;
@@ -121,6 +169,22 @@
                     
                 </div>
                 
+                <div class="form-group">
+                	<label>인증번호 &nbsp;</label>
+                	<button type="button" class="btn btn-style-one" id="certCheck">
+						인증번호 발송하기</button>	
+					<div style="width:385px; float:left;">
+						<form:input id = "certification" path="certification" class="form-control"  placeholder="이메일로 발송된 인증번호를 입력하세요"/>				
+                	</div>
+                	<div style="width:100px; float:left;">
+                	<button type="button" class="btn btn-style-one" id="certConfirm" >
+						확인</button>
+                	</div>
+                </div>
+                
+                <br>
+                <br>
+                <br>
                 
                 <div class="form-group text-center">
                     <button type="submit" class="btn-style-one">상품 가입</button>
@@ -138,7 +202,52 @@
 </section>
 <!-- End Contact Section -->
 
+<!--모달  ---------------------------------------------------------------------->
+<div class="modal fade" id="sendEmailModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">이메일이 발송되었습니다.</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         	 이메일로 보내진 인증번호 6자리 값을 입력해주시기 바랍니다.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-style-one" data-dismiss="modal">확인</button>          
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
+<div class="modal fade" id="completeEmailModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">인증완료</h4>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         	 이메일 인증이 완료되었습니다.
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-style-one" data-dismiss="modal">확인</button>          
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 
 

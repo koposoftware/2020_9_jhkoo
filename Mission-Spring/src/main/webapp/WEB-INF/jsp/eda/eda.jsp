@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +84,7 @@ $(document).ready(function(){
 					str += '<hr>';
 					str += '<div>';
 					str += '<strong>' + this.logDate + '</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' + this.sumAmount +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + this.sumAmount +'원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + this.toName + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					str += '</div>';
 				})
@@ -131,6 +132,7 @@ $(document).ready(function(){
       function drawChart2() {
         var data = google.visualization.arrayToDataTable([
           ['월', '수입', '지출'],
+          [${month-3} + '월',${depositByLast3Month.get(3)},${withdrawByLast3Month.get(3)}],
           [${month-2} + '월',${depositByLast3Month.get(2)},${withdrawByLast3Month.get(2)}],
           [${month-1} + '월',${depositByLast3Month.get(1)},${withdrawByLast3Month.get(1)}],
           [${month} + '월',  ${depositByLast3Month.get(0)},${withdrawByLast3Month.get(0)}]
@@ -147,105 +149,31 @@ $(document).ready(function(){
       }
       
 	/* 주별 지출액 그래프  *******************************************************************/
- 
-      
-      google.charts.load('49', {'packages': ['vegachart']}).then(drawChart3);
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart5);
 
-      function drawChart3() {
-        const dataTable = new google.visualization.DataTable();
-        dataTable.addColumn({type: 'string', 'id': 'category'});
-        dataTable.addColumn({type: 'number', 'id': 'amount'});
-        dataTable.addRows(
-      	${str2}	  
-        );
+      function drawChart5() {
+        var data = google.visualization.arrayToDataTable( ${str2} );
 
-        const options = {
-          hAxis: {title: '',  titleTextStyle: {color: '#333'}},		
-        		
-          "vega": {
-            "$schema": "https://vega.github.io/schema/vega/v4.json",
-            "padding": 3,
-
-            'data': [{'name': 'table', 'source': 'datatable'}],
-
-            "signals": [
-              {
-                "name": "tooltip",
-                "value": {},
-                "on": [
-                  {"events": "rect:mouseover", "update": "datum"},
-                  {"events": "rect:mouseout",  "update": "{}"}
-                ]
+        var options = {
+          title: '주별 지출액 추이',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          legend:'none',
+          vAxis: {
+              viewWindow: {
+                  min: 0
               }
-            ],
+       	}
 
-            "scales": [
-              {
-                "name": "xscale",
-                "type": "band",
-                "domain": {"data": "table", "field": "category"},
-                "range": "width",
-                "padding": 0.5,
-                "round": true
-              },
-              {
-                "name": "yscale",
-                "domain": {"data": "table", "field": "amount"},
-                "nice": true,
-                "range": "height"
-              }
-            ],
-
-            "axes": [
-              { "orient": "bottom", "scale": "xscale" },
-              { "orient": "left", "scale": "yscale" }
-            ],
-
-            "marks": [
-              {
-                "type": "rect",
-                "from": {"data":"table"},
-                "encode": {
-                  "enter": {
-                    "x": {"scale": "xscale", "field": "category"},
-                    "width": {"scale": "xscale", "band": 1},
-                    "y": {"scale": "yscale", "field": "amount"},
-                    "y2": {"scale": "yscale", "value": 0}
-                  },
-                  "update": {
-                    "fill": {"value": "steelblue"}
-                  },
-                  "hover": {
-                    "fill": {"value": "red"}
-                  }
-                }
-              },
-              {
-                "type": "text",
-                "encode": {
-                  "enter": {
-                    "align": {"value": "center"},
-                    "baseline": {"value": "bottom"},
-                    "fill": {"value": "#333"}
-                  },
-                  "update": {
-                    "x": {"scale": "xscale", "signal": "tooltip.category", "band": 0.5},
-                    "y": {"scale": "yscale", "signal": "tooltip.amount", "offset": -2},
-                    "text": {"signal": "tooltip.amount"},
-                    "fillOpacity": [
-                      {"test": "datum === tooltip", "value": 0},
-                      {"value": 1}
-                    ]
-                  }
-                }
-              }
-            ]
-          }
         };
+        
+        var chart = new google.visualization.LineChart(document.getElementById('week_chart'));
 
-        const chart = new google.visualization.VegaChart(document.getElementById('week_chart'));
-        chart.draw(dataTable, options);
+        chart.draw(data, options);
       }
+
+
 /* 메일 서비스 신청, 취소 ***************************************************************************/
 function goAddMailService(){
 	location.href = "${ pageContext.request.contextPath }/addMailService";
@@ -416,6 +344,9 @@ function goDeleteMailService(){
     </div>
 </section>
 
+<!--  -->
+
+<!--  -->
 <!-- 이번 주 지출 ------------------------------------------------------------------------------------------------->
 <section class="team-section section">
     <div class="container">
@@ -430,13 +361,13 @@ function goDeleteMailService(){
                 <ul class="content-list">
                 	<li><i class="fa fa-check-circle-o"></i>주 평균 지출액은 ${ String.format("%,d",avgExpenditureByWeek) }원입니다. </li>
 		            <c:if test="${ avgExpenditureByWeek > expenditureByWeekList.get(expenditureByWeekList.size()-1).sumAmount }">
-						<li><i class="fa fa-check-circle-o"></i><span style="color:red">평균 지출액 보다 현재까지 ${ avgExpenditureByWeek - expenditureByWeekList.get(expenditureByWeekList.size()-1).sumAmount }원 덜 지출하셨습니다!</span></li>
+						<li><i class="fa fa-check-circle-o"></i><span style="color:red">평균 지출액 보다 현재까지 ${ String.format("%,d",avgExpenditureByWeek - expenditureByWeekList.get(expenditureByWeekList.size()-1).sumAmount) }원 덜 지출하셨습니다!</span></li>
 		            </c:if>
 	            </ul>
 	        <br>
         </div>
         
-		<div id="week_chart" style="width: 1000px; height: 200px"></div>
+		<div id="week_chart" style="width: 1200px; height: 200px"></div>
 
     	</div>
 
@@ -449,21 +380,17 @@ function goDeleteMailService(){
         <div class="section-title text-center">
 	        <h3>최근 3개월 <span>잔여금 추이</span></h3>
 	        <p>
-	        	<c:if test="${ depositByLast3Month.get(0) - withdrawByLast3Month.get(0) > depositByLast3Month.get(1) - withdrawByLast3Month.get(1) &&
-	        	               depositByLast3Month.get(1) - withdrawByLast3Month.get(1) > depositByLast3Month.get(2) - withdrawByLast3Month.get(2) }">
-	        	<span style="color:red">최근 3개월 잔여금이 연속 증가했습니다!</span><br>	               
+	        	  <i class="fa fa-caret-right"></i>${ month-3 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(3) - withdrawByLast3Month.get(3))) }원입니다. &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-caret-right"></i>${ month-2 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(2) - withdrawByLast3Month.get(2))) }원입니다. &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-caret-right"></i>${ month-1 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(1) - withdrawByLast3Month.get(1))) }원입니다. &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="fa fa-caret-right"></i>${ month-0 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(0) - withdrawByLast3Month.get(0))) }원입니다. &nbsp;&nbsp;&nbsp;&nbsp;
+				
+				<br>
+	        	<c:if test="${ depositByLast3Month.get(1) - withdrawByLast3Month.get(1) > depositByLast3Month.get(2) - withdrawByLast3Month.get(2) &&
+	        	               depositByLast3Month.get(2) - withdrawByLast3Month.get(2) > depositByLast3Month.get(3) - withdrawByLast3Month.get(3) }">
+	        	<span style="color:red"><i class="fa fa-check-circle-o"></i>최근 3개월 잔여금이 연속 증가했습니다!</span><br>	               
 	        	</c:if>
-				<i class="fa fa-caret-right"></i>${ month-2 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(2)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(2)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
-				<i class="fa fa-caret-right"></i>${ month-1 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(1)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(1)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
-				<i class="fa fa-caret-right"></i>${ month-0 }월 수입 : ${ String.format("%,d", (depositByLast3Month.get(0)))}원, 지출 : ${ String.format("%,d", (withdrawByLast3Month.get(0)))}원  &nbsp;&nbsp;&nbsp;&nbsp;
-	        	
-				
-				
-                <ul class="content-list">
-                  <li><i class="fa fa-check-circle-o"></i>${ month-2 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(2) - withdrawByLast3Month.get(2))) }원입니다.</li>
-                  <li><i class="fa fa-check-circle-o"></i>${ month-1 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(1) - withdrawByLast3Month.get(1))) }원입니다.</li>
-                  <li><i class="fa fa-check-circle-o"></i>${ month-0 }월 잔여금은 ${ String.format("%,d", (depositByLast3Month.get(0) - withdrawByLast3Month.get(0))) }원입니다.</li>
-                </ul>
+                  
 	        <br>
 	        <input type="button" value="적금 상품 보러 가기" class="btn-style-one" onclick="goSavings()">
         </div>
@@ -502,11 +429,86 @@ function goDeleteMailService(){
         </div>
     	</div>
     	
-    	<br>
-    	<br>
-    	<br>
-    	<br>
+</section>
+ 
+<!-- 예측 ---------------------------------------------------------------------------------------------------------------> 
+<section class="service-overview section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="content-block">
+                    <h2>지출액 예측</h2>
+                    <p></p>
+                  
+                <div class="accordion-section">
+                    <div class="accordion-holder">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            	Holt-Winters 모형을 이용한 지출액 예측
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        	고객님의 지출 이력 데이터를 이용하여 지출액을 예측(3개월)하였습니다.<br>
+                                        	 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            	Holt-Winters 모형의 특징
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body">
+                                        	내용
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingThree">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                         	   주의사항
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                    <div class="panel-body">
+                                     	내용
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="content-block">
+                   <img src="${pageContext.request.contextPath }/resources/assets/images/R/p.jpg" style="height:400px; width:500px">
+                </div>
+            </div>    
+		</div>
+	</div>
+</section>              	
     	
+    	
+
+    	
+    	
+    	
+<!-- 메일 서비스 -------------------------------------------------------------------------------------------------------------->    	
+ <section class="team-section section">   	
          <div class="section-title text-center">
             <h3>분석 메일링 서비스</h3>
             <c:if test="${ mailServiceBool == 0 }">

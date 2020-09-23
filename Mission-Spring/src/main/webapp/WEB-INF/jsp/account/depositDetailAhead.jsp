@@ -13,7 +13,7 @@
 <script>
 
 	function category(param){
-		location.href = "${ pageContext.request.contextPath}/categoryDetail/${depositAccount.getAccountNumber()}/${month}/" + param;
+		location.href = "${ pageContext.request.contextPath}/categoryDetail/${depositAccount.getAccountNumber()}/${month-1}/" + param;
 	}
 
 	function goMonthAgo(){
@@ -68,7 +68,10 @@
   <h3>${ month - 1 }월 내역 조회중입니다</h3>
   <div class="btn-group" style="float:left;">
     <button type="button" class="btn btn-style-one" onclick="goMonthAgo()">${ month - 2 }월 내역 보기</button>
-    <button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month }월 내역 보기</button>
+    <c:if test="${ month - 1 != nowMonth }">
+    <button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month }월 내역 보기</button>    
+    </c:if>
+    
   </div>
   
   <div class="dropdown" style="float:left;">

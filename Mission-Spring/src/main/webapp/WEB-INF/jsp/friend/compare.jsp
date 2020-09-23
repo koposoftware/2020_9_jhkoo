@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src='https://www.gstatic.com/charts/loader.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawBasic);
@@ -61,9 +64,7 @@ function drawBasic() {
             <div class="item">
                 <div class="inner-box">
                     <div class="img_holder">
-                        <a href="service.html">
-                            <img src="${pageContext.request.contextPath }/resources/assets/images/친구.jpg" alt="images" class="img-responsive">
-                        </a>
+                            <img src="${pageContext.request.contextPath }/resources/assets/images/친구.jpg" alt="images" class="img-responsive">                     
                     </div>
                     <div class="image-content text-center">
                         <span>${ challenge.challengeName }에 도전 중</span>
@@ -71,6 +72,9 @@ function drawBasic() {
                         <p>
                         	목표금액은 ${ String.format("%,d", challenge.targetAmount) }이고,<br>
                                                         현재까지 지출금액은 ${ String.format("%,d", challenge.nowBalanceByType) }입니다.<br>
+ 						    <div class="progress">
+			 					<div class="progress-bar " style="width:${(challenge.nowBalanceByType/challenge.targetAmount)*100}%">${Math.round((challenge.nowBalanceByType/challenge.targetAmount)*100)}%</div>
+						    </div>                                                       
                             <c:if test="${ challenge.challengeFail == true }">
                             	<span style="color:red; font-weight:bold">다음에 친구들과의 약속을 꼭 지켜주세요!</span>
 							</c:if>

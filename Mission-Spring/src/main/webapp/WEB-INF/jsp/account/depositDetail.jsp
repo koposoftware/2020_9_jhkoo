@@ -33,6 +33,8 @@
 		          });
 		        });
 		      }); 
+	
+
 </script>
 
 <style>
@@ -68,7 +70,7 @@
   
   <div class="btn-group" style="float:left;">
     <button type="button" class="btn btn-style-one" onclick="goMonthAgo()">${month- 1}월 내역 보기</button>
- 	<button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month + 1 }월 내역 보기</button>
+<!--  <button type="button" class="btn btn-style-one" onclick="goMonthAhead()">${ month + 1 }월 내역 보기</button> --> 	
   </div>
   
   
@@ -77,16 +79,16 @@
 	    카테고리별 내역
 	  </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-     <button type="button" class="btn btn-style-one" onclick="category('1')">입금</button>
-    <button type="button" class="btn btn-style-one" onclick="category('2')">이체</button>
-    <button type="button" class="btn btn-style-one" onclick="category('3')">식비</button>
-    <button type="button" class="btn btn-style-one" onclick="category('4')">카페,간식</button>
-    <button type="button" class="btn btn-style-one" onclick="category('5')">편의점,마트</button>
-    <button type="button" class="btn btn-style-one" onclick="category('6')">술,유흥</button>
-    <button type="button" class="btn btn-style-one" onclick="category('7')">쇼핑</button>
-    <button type="button" class="btn btn-style-one" onclick="category('8')">취미,여가</button>
-    <button type="button" class="btn btn-style-one" onclick="category('9')">미용</button>
-    <button type="button" class="btn btn-style-one" onclick="category('10')">주거,통신</button>
+     <button type="button" class="btn btn-style-one" onclick="category('1')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;입금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('2')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이체&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('3')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;식비&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('4')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카페,간식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('5')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;편의점,마트&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('6')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;술,유흥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('7')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇼핑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('8')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;취미,여가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('9')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;미용&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('10')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주거,통신&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
   </div>
   </div>
   
@@ -98,7 +100,7 @@
 	 <button type="submit" class="btn-style-one" 
 	   onclick="location.href='${ pageContext.request.contextPath }/account '">돌아가기</button>
   </div>
-  
+
 </div>
 
 
@@ -117,7 +119,7 @@
     <tbody id="myTable">
     
   
-     <c:forEach items="${ depositDetailList }" var="depositDetail" varStatus="loop">
+     <c:forEach items="${ viewAll }" var="depositDetail" varStatus="loop">
       <tr >
        <td >
        	${ depositDetail.getLogDate() } 
@@ -138,172 +140,39 @@
 
     </tbody>
   </table>
+  
+   <!-- 페이지 선택 -->
+        <div class="styled-pagination" style="float:right">
+        <ul>
+			<c:if test="${paging.startPage != 1 }">
+				<li><a href="${ pageContext.request.contextPath}/depositDetail/${depositAccount.getAccountNumber()}?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">
+				<span class="fa fa-angle-left" aria-hidden="true"></span>
+				</a></li>
+			</c:if>
+			<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+				<c:choose>
+					<c:when test="${p == paging.nowPage }">
+						<li><a class="active">${p }</a></li>
+					</c:when>
+					<c:when test="${p != paging.nowPage }">
+						<li><a href="${ pageContext.request.contextPath}/depositDetail/${depositAccount.getAccountNumber()}?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${paging.endPage != paging.lastPage}">
+				<li><a href="${ pageContext.request.contextPath}/depositDetail/${depositAccount.getAccountNumber()}?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">
+				<span class="fa fa-angle-right" aria-hidden="true"></span>
+				</a></li>
+			</c:if> 
+		</ul>           
+        </div> 
+  
   </div> 
+
   
 </div>
 
 
-
-
-
-
-
-<!--  
-<script>
-
- 
- 
- var lastScrollTop = 0;
- var easeEffect = 'easeInQuint';
- 
- // 1. 스크롤 이벤트 최초 발생
- $(window).scroll(function(){
-	 
-	 var currentScrollTop = $(window).scrollTop();
-	 
-	 /*
-	 	========== 다운 스크롤인 상태 ==============
-	 */
-	 if(currentScrollTop - lastScrollTop > 0){
-		 //down-scroll : 현재 게시글 다음의 글을 불러온다.
-		 console.log("down-scroll");
-	 
-	 
-	// 2. 현재 스크롤의 top좌표가 > (게시글을 불러온 화면 height - 윈도우창의 height)되는 순간 
-	//    현재스크롤의 위치가 화면의 보이는 위치보다 크다면
-	if($(window).scrollTop() >= ($(document).height() - $(window).height())){
-		// 3. class가 scrolling인 것의 요소 중 마지막인 요소를 선택한 다음 그것의 data-bno속성 값을 받아온다.
-		//    즉, 현재 뿌려진 게시글의 마지막 bno값을 읽어오는 것(이 다음의 게시글들을 가져오기 위해 필요)
-		var lastLogDate = $(".scrolling:last").attr("data-logDate");
-		
-		// 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 logDate를 서버로 보내어 그 다음 달의 게시물 데이터 받아온다.
-		$.ajax({
-			type:'post',
-			url:'${ pageContext.request.contextPath }/infiniteScrollDown',
-			headers:{
-				"Content-Type":"application/json",
-				"X-HTTP-Method-Override":"POST"
-			},
-			dataType:'json',
-			data:JSON.stringify({
-				logDate:lastLogDate,
-				accountNumber:${ depositAccount.getAccountNumber() }
-			}),
-			success:function(data){
-				
-				var str="";
-				
-				//5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다
-				if(data != ""){
-					// 6. 서버로부터 받아온 data가 list이므로 이각각의 원소에 접근하려면 each문을 사용한다.
-					$(data).each(
-						// 7. 새로운 데이터를 갖고 html코드 형태의 문자열을 만들어준다.
-						function(){
-							console.log(this);
-							str += "<tr class=" + "'listToChange'" + ">"
-						    +      "<td class=" +"'scrolling'" + "data-logDate='" + this.logDate + "'>"
-						    +          this.logDate
-						    +       "</td>"
-						    +       "<td>" + this.toName + "</td>"
-						    +       "<td>" + this.logTypeKey + "</td>"
-						    +       "<td>" + this.amount + "</td>"
-						    +       "<td>" + this.amount + "</td>"
-						    +   "</tr>";
-						}
-					);//each
-					
-					// 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을 뿌려준다.
-					$(".listToChange").empty();
-					$(".scrollLocation").after(str);
-				}
-				else{	//데이터 없다면
-					alert("더 불러올 ㄹ데이터가 없습니다.");
-				}
-			}
-		});
-	 
-		//여기서 class가 listToChange인 것중 가장 처음인 것을 찾아서 그 위치로 이동
-		var position = $(".listToChange:first").offset(); //위치값
-		
-		//이동 위로 부터 positioin.top px 위치로 스크롤 하는 것. 그걸 500ms 동안 애니메이션으로 이루어짐.
-		$('html,body').stop().animate({scrollTop:position.top}, 600, easeEffect);
-	 	
-     } //if: 현재 스크롤의 top좌표가 > (게시글을 불러온 화면 height - 윈도우창의 height)되는 순간 
-     	// lastScrollTop을 현재 currentScrollTop으로 갱신
-     	lastScrollTop = currentScrollTop;
- 	}//다운스크롤인 상태
-     
- 	/*
- 			=============== 업 스트롤인 상태 ============
- 	*/
- 	else{
- 		console.log("up-scroll");
- 		
- 		// 2
- 		if($(window).scrollTop() <= 0){
- 			
- 			// 3
- 			var firstLogDate = $(".scrolling:first").attr("data-logDate");
- 			
- 			// 4
- 			$.ajax({
- 				type:'post',
- 				url:'${ pageContext.request.contextPath }/infiniteScrollUp',
- 				headers:{
- 					"Content-Type":"application/json",
- 					"X-HTTP-Method-Ovrride":"POST",
- 				},
- 				dataType:'json',
- 				data:JSON.stringify({
- 					logDate:firstLogDate,
- 					accountNumber:${ depositAccount.getAccountNumber() }
- 				}),
- 				success:function(data){
- 					var str="";
- 					
- 					// 5
- 					if(data != ""){
- 						// 6
- 						$(data).each(
- 							// 7
- 							function(){
- 								console.log(this);
- 								str += "<tr class=" + "'listToChange'" + ">"
- 							    +      "<td class=" +"'scrolling'" + "data-logDate='" + this.logDate + "'>"
- 							    +          this.logDate
- 							    +       "</td>"
- 							    +       "<td>" + this.toName + "</td>"
- 							    +       "<td>" + this.logTypeKey + "</td>"
- 							    +       "<td>" + this.amount + "</td>"
- 							    +       "<td>" + this.amount + "</td>"
- 							    +   "</tr>"; 
- 							}	
- 						)//each
- 						// 8
- 						$(".listToChange").empty();
- 						$(".scrollLocation").after(str);
- 					}//if
- 					else{
- 						// 9
- 						alert("더 불러올 데이터가 없습니다.");
- 					}
- 				}
- 			});
- 			
- 			var position=($(document).height() - $(window).height()) -10;
- 			
- 			$('html,body').stop().animate({scrollTop:position}, 600, easeEffect);
- 		}//if 현재 스크롤의 top 좌표가 <=0 되는 순간
- 		
- 		// lastScrollTop을 현재 currentScrollTop으로 갱신
- 		lastScrollTop = currentScrollTop;
- 	}// else :업 스크롤인 상태
- 	
- }); //scroll event
-
-</script>
-
--->
 
 
 

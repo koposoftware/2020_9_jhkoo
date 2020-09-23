@@ -111,7 +111,7 @@
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="contact-area style-two">
                     <div class="section-title">
-                        <h3>현재 보유 현금 <span>을 입력하세요</span></h3>
+                        <h3>현금 사용 내역 <span>을 입력하세요</span></h3>
                     </div>
                     <form name="rform" class="default-form contact-form">
                         <div class="row">
@@ -120,7 +120,7 @@
                                 <input type="hidden" name="id" value="${ loginVO.id }">
                                 
                                 <div class="form-group">
-                                    <input type="text" name="cash" placeholder="현재 보유 현금을 입력하세요">
+                                    <input type="text" name="cash" placeholder="현금 변동금액을 입력하세요">
                                 </div>
                                                            
                             </div>

@@ -6,8 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 <script>
 	// 도전 신청하러~
 	function goChallenge(param){
@@ -145,7 +148,10 @@
 						                        <c:if test="${ challenge.challengeFail == true }">
 						                        <p style="color:white">    도전 목표 : ${ String.format("%,d", challenge.targetAmount) }원 <br>
 						                        	       이번 달 지출 : ${ String.format("%,d", challenge.nowBalanceByType) }원 <br>
-						                                                               도전 마감일 : ${ challenge.challengeEndDate }<br><br>
+						                                                               도전 마감일 : ${ challenge.challengeEndDate }
+						                              <div class="progress">
+													    <div class="progress-bar bg-danger" style="width:${(challenge.nowBalanceByType/challenge.targetAmount)*100}%">${Math.round((challenge.nowBalanceByType/challenge.targetAmount)*100)}%</div>
+													  </div>
 							                    	   <span style="color:red; font-weight:bold">
 							                    	       실패한 도전입니다.<br> 다음 달에 다시 도전하세요!</span>
 						                         </p>
@@ -155,11 +161,14 @@
 						                        <c:if test="${ challenge.challengeFail == false }">
 						                        <p style="color:white">    도전 목표 : ${ String.format("%,d", challenge.targetAmount) }원 <br>
 						                        	       이번 달 지출 : ${ String.format("%,d", challenge.nowBalanceByType) }원 <br>
-						                                                               도전 마감일 : ${ challenge.challengeEndDate }<br><br>
+						                                                               도전 마감일 : ${ challenge.challengeEndDate }
+						                              <div class="progress">
+													    <div class="progress-bar" style="width:${(challenge.nowBalanceByType/challenge.targetAmount)*100}%">${Math.round((challenge.nowBalanceByType/challenge.targetAmount)*100)}%</div>
+													  </div>
 							                    	   <span style="color:red; font-weight:bold">
 							                    	       하루 평균 ${ String.format("%,d", challenge.expectedAmount) }원 미만 사용한다면,<br>
 							                    	        도전에 성공하실 수 있습니다!</span>
-						                         </p>
+						                         </p>												
 						                         </c:if>
 						                    </div>
 						                </div>

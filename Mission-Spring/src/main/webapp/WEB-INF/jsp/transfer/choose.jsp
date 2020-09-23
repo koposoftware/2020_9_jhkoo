@@ -32,7 +32,7 @@
         	<div class="item">
                 <div class="inner-box">
                     
-                    <div class="image-content text-center" onclick="location.href='${pageContext.request.contextPath }/transfer/${ account.getAccountNumber() }'">
+                    <div class="image-content text-center" onclick="location.href='${pageContext.request.contextPath }/transfer/${ account.getAccountNumber() }'" >
                         <h6>${ account.getBankBookKey() }</h6>
                         <p>    번호 : ${ account.getAccountNumber() }<br>
                         	      잔액 : ${ String.format("%,d", account.getBalance()) }원 <br>

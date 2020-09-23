@@ -178,9 +178,7 @@
 			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="30000" >+3만원</button>
 			                	<button type="button" class="btn btn-style-one addMoneyBtn" id="10000" >+1만원</button>		    
 							  </div>
-  						</div>
-	       			
-	       				
+  						</div>	
 	                </div>
 	                    
 					<div class="form-group">

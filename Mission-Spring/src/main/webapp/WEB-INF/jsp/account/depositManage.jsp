@@ -18,14 +18,15 @@
 
 
 
-
+<section class="service-section bg-gray section">
 <div class="container" align="center">
   
-<div class="section-title">
-    <h3>계좌
-        <span>상세 정보입니다.</span>
-     </h3>
-</div> 
+        <div class="section-title text-center">
+		    <h3>계좌
+		        <span>상세 정보</span>
+		     </h3>
+            <p style="color:red"></p>
+        </div>
   
      
  <form action="${ pageContext.request.contextPath }/depositManageChange" method="post">
@@ -84,6 +85,9 @@
   <input type="button" value="탈퇴" class="btn-style-one" data-toggle="modal" data-target="#deleteModal">
 </form>         
 </div>
+</section>
+
+
 
 
 <!-- 탈퇴 modal ---------------------------------------------------------------------------------------->
