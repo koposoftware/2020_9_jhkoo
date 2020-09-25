@@ -1,6 +1,7 @@
 package kr.ac.kopo.transfer.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -9,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.codec.binary.Base32;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -284,56 +286,37 @@ public class TransferController {
 	
 	
 	/**
-	 *   이체 시 인증메일 보내기
+	 *   인증 키 생성
 	 */
 	@ResponseBody
-	@GetMapping("/certificate")
-	public String sendCertificateNumber(HttpSession session) {
+	@GetMapping("/otp")
+	public ModelAndView otp(HttpSession session) {
 		
-		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
-		String id = loginVO.getId();
-		String toMail = loginVO.getEmail();
+		ModelAndView mav = new ModelAndView();
 		
-		//인증번호
-		Random random = new Random();
-		String cert = Integer.toString(random.nextInt(10)); 
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
+		byte[] buffer = new byte[5 + 5 * 5];
+		new Random().nextBytes(buffer);
 		
-		//제목
-		String title = "인증번호입니다.";
+		Base32 codec = new Base32();
+		byte[] secretKey = Arrays.copyOf(buffer, 5);
+		byte[] bEncodeKey = codec.encode(secretKey);
 		
-		//내용, 인증번호 포함
-		String content = "";
-		content += "하나은행 이체서비스 인증번호입니다. \n";
-		content += "인증번호 : " + cert + "\n";
+		//생성된 Key
+		String encodedKey = new String(bEncodeKey);
+		System.out.println("encodedKey : " + encodedKey);
 		
-		EmailVO emailVO = new EmailVO();
-		emailVO.setId(id);
-		emailVO.setToMail(toMail);
-		emailVO.setTitle(title);
-		emailVO.setContent(content);
+		String url = getQRBarcodeURL("hj", "company.com", encodedKey);
+		System.out.println("URL : " + url);
 		
-		String setFrom = "KOO";
+		mav.addObject(encodedKey);
+		mav.addObject(url);
 		
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
-			
-			messageHelper.setFrom(setFrom);
-			messageHelper.setTo(emailVO.getToMail());
-			messageHelper.setSubject(emailVO.getTitle());
-			messageHelper.setText(emailVO.getContent());
-			
-			mailSender.send(message);
-			
-		} catch(Exception e) {
-			System.out.println(e);
-		}
-		
-		return cert;
+		return mav;
+	}
+	
+	public static String getQRBarcodeURL(String user, String host, String secret) {
+		String format = "http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s&amp;chld=H|0";
+        
+        return String.format(format, user, host, secret);
 	}
 }

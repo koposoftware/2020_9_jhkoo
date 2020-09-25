@@ -2,10 +2,15 @@ package kr.ac.kopo.account.controller;
 
 
 import java.util.List;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +26,7 @@ import kr.ac.kopo.account.vo.DepositAccountVO;
 import kr.ac.kopo.account.vo.DepositDetailVO;
 import kr.ac.kopo.account.vo.SavingsAccountVO;
 import kr.ac.kopo.challenge.service.ChallengeService;
+import kr.ac.kopo.eda.vo.EmailVO;
 import kr.ac.kopo.member.service.MemberService;
 import kr.ac.kopo.member.vo.MemberVO;
 
@@ -37,7 +43,8 @@ public class AccountController {
 	private DepositDetailService depositDetailService;
 	@Autowired
 	private ChallengeService challengeService;
-	
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 	
 	@RequestMapping("/account")
 	public ModelAndView accountList(HttpSession session) {
@@ -160,6 +167,58 @@ public class AccountController {
 		savingsAccountService.changeSavingsManage(savingsAccountVO);
 		return "redirect:/account";
 	}
+
 	
+	// 상품 가입 시 인증번호 메일로 보내기
+	@ResponseBody
+	@GetMapping("/certificate")
+	public String sendCertificateNumber(HttpSession session) {
+		
+		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
+		String id = loginVO.getId();
+		String toMail = loginVO.getEmail();
+		
+		//인증번호
+		Random random = new Random();
+		String cert = Integer.toString(random.nextInt(10)); 
+		cert += Integer.toString(random.nextInt(10));
+		cert += Integer.toString(random.nextInt(10));
+		cert += Integer.toString(random.nextInt(10));
+		cert += Integer.toString(random.nextInt(10));
+		cert += Integer.toString(random.nextInt(10));
+		
+		//제목
+		String title = "인증번호입니다.";
+		
+		//내용, 인증번호 포함
+		String content = "";
+		content += "하나은행 이체서비스 인증번호입니다. \n";
+		content += "인증번호 : " + cert + "\n";
+		
+		EmailVO emailVO = new EmailVO();
+		emailVO.setId(id);
+		emailVO.setToMail(toMail);
+		emailVO.setTitle(title);
+		emailVO.setContent(content);
+		
+		String setFrom = "KOO";
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
+			
+			messageHelper.setFrom(setFrom);
+			messageHelper.setTo(emailVO.getToMail());
+			messageHelper.setSubject(emailVO.getTitle());
+			messageHelper.setText(emailVO.getContent());
+			
+			mailSender.send(message);
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return cert;
+	}
 	
 }

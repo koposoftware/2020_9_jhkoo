@@ -124,7 +124,7 @@ public class EdaController {
 		// 이메일 서비스 구독 여부
 		int mailServiceBool = edaService.mailServiceBool(id);
 		mav.addObject("mailServiceBool", mailServiceBool);
-		
+		System.out.println(mailServiceBool);
 		
 		// 최근 3개월 수입, 지출액 
 		List<Integer> depositByLast3Month = edaService.depositByLast3Month(accountNumber);

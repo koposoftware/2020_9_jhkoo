@@ -6,6 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
+
+	Kakao.init('8bc9b77c19ddac3da1ce99aed34ab243'); // 카카오 로그인 버튼을 생성합니다.
+    function sendTo() {
+
+          
+         Kakao.Link.sendCustom({
+             templateId: 37243,
+             //url: /hanati/participant/invite/${param}      //param은 안심계좌번호
+             templateArgs: {
+                    name : 'fdf',
+                    content : 'dfd'
+             },   callback: function(){
+                  alert("초대 메세지가 전송되었습니다");
+                  
+               }
+           })
+       }
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/include/header.jsp" />
@@ -41,7 +61,7 @@
                                     <form:textarea path="content" placeholder="친구에게 보낼 한 마디" />
                                 </div>
                                 <div class="form-group text-center">
-                                    <button type="submit" class="btn-style-one">요청 보내기</button>
+                                    <button type="submit" class="btn-style-one" onclick="sendTo()">요청 보내기</button>
                                     
                                 </div>                            
                             </div>
@@ -58,5 +78,7 @@
 
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 <jsp:include page="/WEB-INF/jsp/include/scroll.jsp" />
+
+
 </body>
 </html>
