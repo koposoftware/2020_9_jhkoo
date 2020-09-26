@@ -64,7 +64,8 @@
   	
   	<!-- 예약 이체 리스트 가져오기  -->
   	<select id="autoTransferList" resultType="transferVO">
-  		select account_number as accountNumber, my_name as myName, to_type as toType ,to_name as toName, to_account_number as toAccountNumber, to_amount as toAmount
+  		select account_number as accountNumber, my_name as myName, to_type as toType ,
+  			   to_name as toName, to_account_number as toAccountNumber, to_amount as toAmount, auto_trans_day as autoTransDay
   		 from auto_transfer
   	</select>
   	

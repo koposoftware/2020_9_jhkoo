@@ -284,7 +284,7 @@ public class EdaController {
 	 *  메일 보내기. 매월 말
 	 */
 //	@Scheduled(cron = "0 0 12 28 * *")
-	@Scheduled(cron = "0 6 16 * * *")
+	@Scheduled(cron = "0 28 20 * * *")
 	public void sendMail() {
 		
 		List<EmailVO> emailList = edaService.getMailList();

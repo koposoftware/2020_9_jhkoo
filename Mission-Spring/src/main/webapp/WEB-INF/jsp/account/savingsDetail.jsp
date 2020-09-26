@@ -19,7 +19,10 @@ function drawChart() {
 	${str}	  
   );
 
+
+  
   const options = {
+		  		  
     "vega": {
       "$schema": "https://vega.github.io/schema/vega/v4.json",
       "width": 900,
@@ -68,15 +71,15 @@ function drawChart() {
           "encode": {
             "enter": {
               "x": {"scale": "xscale", "field": "category"},
-              "width": {"scale": "xscale", "band": 1},
+              "width": {"scale": "xscale", "band": 0.6},
               "y": {"scale": "yscale", "field": "amount"},
               "y2": {"scale": "yscale", "value": 0}
             },
             "update": {
-              "fill": {"value": "steelblue"}
+              "fill": {"value": "#48BDC5"}
             },
             "hover": {
-              "fill": {"value": "red"}
+              "fill": {"value": "#319299"}
             }
           }
         },
@@ -86,7 +89,7 @@ function drawChart() {
             "enter": {
               "align": {"value": "center"},
               "baseline": {"value": "bottom"},
-              "fill": {"value": "#333"}
+              "fill": {"value": "#319299"}
             },
             "update": {
               "x": {"scale": "xscale", "signal": "tooltip.category", "band": 0.5},

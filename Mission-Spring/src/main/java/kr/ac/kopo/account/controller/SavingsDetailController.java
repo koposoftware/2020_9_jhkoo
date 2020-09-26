@@ -48,7 +48,7 @@ public class SavingsDetailController {
 		for(SavingsDetailVO vo:savingsDetailList) {
 			
 			str += "['";
-			str += vo.getLogDate().substring(0,10);
+			str += vo.getLogDate().substring(2,10);
 			str += "', ";
 			str += vo.getAmount();
 			str += " ]";

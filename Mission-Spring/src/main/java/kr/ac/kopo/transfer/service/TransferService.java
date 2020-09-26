@@ -27,7 +27,7 @@ public interface TransferService {
 	public void insertAutoTransfer1(TransferVO transferVO);
 	
 	/**
-	 *  예약 이체
+	 *  예약 이체(입출금 -> 적금)
 	 */
 	public void autoTransfer1();
 	

@@ -32,6 +32,7 @@ public class SavingsAccountDAOimpl implements SavingsAccountDAO {
 
 	@Override
 	public void insert(SavingsAccountVO savingsAccountVO) {
+		System.out.println("DAO : " + savingsAccountVO);
 		sqlSession.insert("account.dao.SavingsAccountDAO.insert", savingsAccountVO);
 	}
 

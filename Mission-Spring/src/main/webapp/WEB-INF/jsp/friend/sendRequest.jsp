@@ -12,13 +12,12 @@
 	Kakao.init('8bc9b77c19ddac3da1ce99aed34ab243'); // 카카오 로그인 버튼을 생성합니다.
     function sendTo() {
 
-          
          Kakao.Link.sendCustom({
              templateId: 37243,
              //url: /hanati/participant/invite/${param}      //param은 안심계좌번호
              templateArgs: {
-                    name : 'fdf',
-                    content : 'dfd'
+                    name : '${loginVO.name}',
+                    content : '하나'
              },   callback: function(){
                   alert("초대 메세지가 전송되었습니다");
                   

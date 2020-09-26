@@ -79,16 +79,16 @@
 	    카테고리별 내역
 	  </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-     <button type="button" class="btn btn-style-one" onclick="category('1')">입금</button>
-    <button type="button" class="btn btn-style-one" onclick="category('2')">이체</button>
-    <button type="button" class="btn btn-style-one" onclick="category('3')">식비</button>
-    <button type="button" class="btn btn-style-one" onclick="category('4')">카페,간식</button>
-    <button type="button" class="btn btn-style-one" onclick="category('5')">편의점,마트</button>
-    <button type="button" class="btn btn-style-one" onclick="category('6')">술,유흥</button>
-    <button type="button" class="btn btn-style-one" onclick="category('7')">쇼핑</button>
-    <button type="button" class="btn btn-style-one" onclick="category('8')">취미,여가</button>
-    <button type="button" class="btn btn-style-one" onclick="category('9')">미용</button>
-    <button type="button" class="btn btn-style-one" onclick="category('10')">주거,통신</button>
+     <button type="button" class="btn btn-style-one" onclick="category('1')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;입금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('2')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이체&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('3')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;식비&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('4')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카페,간식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('5')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;편의점,마트&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('6')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;술,유흥&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('7')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇼핑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('8')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;취미,여가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('9')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;미용&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button type="button" class="btn btn-style-one" onclick="category('10')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주거,통신&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
   </div>
   </div>
   

@@ -51,9 +51,12 @@
    <div class="accordion-section">
     <div class="section-title">
         <br><br>
-        <h3>이체하기
-        	<button onclick="goAutoTransferToDeposit()" class="btn-style-one">정기 예약 이체하러 가기!</button>
-        </h3> 
+        <h3>이체하기</h3> 
+        <br>
+        <h4> 자동이체 추가하기</h4>
+        	<button onclick="goAutoTransferToDeposit()" class="btn-style-one">매월</button>
+        	<button onclick="goAutoTransferToDeposit()" class="btn-style-one">1회</button>
+        
     </div>
     <div class="accordion-holder">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

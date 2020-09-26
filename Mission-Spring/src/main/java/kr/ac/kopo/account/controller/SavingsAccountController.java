@@ -77,7 +77,7 @@ public class SavingsAccountController {
 		
 		// 적금 정보 가져오기 - 문제
 		SavingsAccountVO savingsAccount = savingsAccountService.getSavingsAccountInfoForTrans(savingsAccountVO.getAccountNumber());
-
+		System.out.println("문제? : " + savingsAccount);
 		
 		 // 기본가입금액 자동이체하기. 입출금 -> 적금 TransferVO transferVO = new TransferVO();
 		 TransferVO transferVO = new TransferVO();
@@ -89,7 +89,7 @@ public class SavingsAccountController {
 		 MemberVO loginVO = (MemberVO)session.getAttribute("loginVO"); 
 		 String myName = loginVO.getName(); 
 		 transferVO.setToName(myName);
-		 transferVO.setMyName("보내는 사람입니다");
+		 transferVO.setMyName(myName);
 		 
 		 // 이체 입출금 -> 적금 
 		 transferService.transferToSavings(transferVO);

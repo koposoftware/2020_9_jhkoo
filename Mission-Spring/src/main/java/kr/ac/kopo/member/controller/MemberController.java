@@ -73,7 +73,6 @@ public class MemberController {
    public String logout(SessionStatus status) {
       
       status.setComplete();
-      System.out.println(status.isComplete());
       
       return "redirect:/";
    }
@@ -110,7 +109,7 @@ public class MemberController {
  		} else {
  			idCheckBool = false;
  		}
- 		System.out.println(idCheckBool);
+
  		return idCheckBool;
  	}
  	
