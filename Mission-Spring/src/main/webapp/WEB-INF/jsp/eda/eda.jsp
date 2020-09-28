@@ -207,14 +207,14 @@ function goDeleteMailService(){
                     </p>
                     <ul>
                         <li><i class="fa fa-caret-right"></i>
-                        	'${ loginVO.ageGroup }' Pick 입출금 자유 예금 상품은
+                        	'${ loginVO.ageGroup }, ${ loginVO.jobKey }' Pick 입출금 자유 예금 상품은
                         	<c:if test="${ ageGroupDepositAccountBankBook.equals(\"1\") }">'하나 플러스통장'입니다.</c:if>
                             <c:if test="${ ageGroupDepositAccountBankBook.equals(\"2\") }">'영하나 플러스통장'입니다.</c:if>
                             <c:if test="${ ageGroupDepositAccountBankBook.equals(\"3\") }">'주거래 하나 통장'입니다.</c:if>
                             <input type="button" value="보러가기" class="btn-style-one" onclick="goDepositRecommend()">
                         </li>
                         <li><i class="fa fa-caret-right"></i>
-                        	'${ loginVO.jobKey }' Pick 정기 적금 상품은
+                        	'${ loginVO.ageGroup }, ${ loginVO.jobKey }' Pick 정기 적금 상품은
                         	<c:if test="${ jobSavingsAccountBankBook.equals(\"1\") }">'하나 원큐 적금'입니다.</c:if>
                             <c:if test="${ jobSavingsAccountBankBook.equals(\"2\") }">'내집마련 적금'입니다.</c:if>
                             <c:if test="${ jobSavingsAccountBankBook.equals(\"3\") }">'꿈하나 적금'입니다.</c:if>

@@ -170,11 +170,11 @@ function doJoin(){
             	<div class="form-group">
                     <form:select path="jobKey" >                    
                         <option value="">직업 분류</option>
-                        <option value="1">학생</option>
+                        <option value="1">IT직</option>
                         <option value="2">주부</option>
                         <option value="3">자영업자</option>
-                        <option value="4">IT직군 종사자</option>
-                        <option value="5">서비스직군 종사자</option>
+                        <option value="4">금융직</option>
+                        <option value="5">판매직</option>
                     </form:select>
                     <form:errors path="jobKey"  class="error" />
                 </div>
