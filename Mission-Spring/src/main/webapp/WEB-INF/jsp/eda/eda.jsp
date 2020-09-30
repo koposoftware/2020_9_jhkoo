@@ -374,7 +374,7 @@ function goDeleteMailService(){
 </section>
 
 
-<!-- 최근 3개월 수입, 지출 추이----------------------------------------------------------------------------------------- -->
+<!-- 최근 3개월 수입, 지출 추이. 잔여금 추이----------------------------------------------------------------------------------------- -->
 <section class="team-section section">
     <div class="container">
         <div class="section-title text-center">
@@ -438,7 +438,7 @@ function goDeleteMailService(){
             <div class="col-md-6">
                 <div class="content-block">
                     <h2>지출액 예측</h2>
-                    <p></p>
+                    <p>지출액 3개월 예측값입니다. <br> 예측값이 연속 증가하고 있다면 주의가 필요합니다!</p>
                   
                 <div class="accordion-section">
                     <div class="accordion-holder">
@@ -495,6 +495,7 @@ function goDeleteMailService(){
             </div>
             <div class="col-md-6">
                 <div class="content-block">
+                <br><br><br>
                    <img src="${pageContext.request.contextPath }/resources/assets/images/R/p.jpg" style="height:400px; width:500px">
                 </div>
             </div>    
@@ -588,7 +589,7 @@ function goDeleteMailService(){
         
         <!-- Modal body -->
         <div class="modal-body">
-         	 매월 28일에 내역을 분석한 내용이 이메일로 보내집니다.
+         	 매월 말일에 내역을 분석한 내용이 이메일로 보내집니다.
         </div>
         
         <!-- Modal footer -->
@@ -613,7 +614,7 @@ function goDeleteMailService(){
         
         <!-- Modal body -->
         <div class="modal-body">
-         	 매월 28일에 내역을 분석한 내용이 이메일로 보내지던 서비스가 종료됩니다.
+         	 매월 말일에 내역을 분석한 내용이 이메일로 보내지던 서비스가 종료됩니다.
         </div>
         
         <!-- Modal footer -->

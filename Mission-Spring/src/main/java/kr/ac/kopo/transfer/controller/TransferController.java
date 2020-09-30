@@ -231,7 +231,7 @@ public class TransferController {
 	 *  자동 이체 테이블의 정보로 이체함.
 	 *  매일 12시 시행. 오늘 날짜와 예약이체 날이 같으면 이체 실행됨
 	 */
-	@Scheduled(cron = "0 0 12 * * *")
+	@Scheduled(cron = "0 0 0 * * *")
 	public void autoTransfer() {
 		
 		transferService.autoTransfer1();

@@ -171,7 +171,7 @@
 	                <!-- 등록 사업장명 -------------------------------------------->
 	                <div class="form-group">
 	                	<label>등록 사업장 명</label> 
-	                	<form:input path="toName" class="form-control" value="나이키 광명점"/>
+	                	<form:input path="toName" class="form-control" value="맥도날드 광명점"/>
 	                </div>
 	                
 	                

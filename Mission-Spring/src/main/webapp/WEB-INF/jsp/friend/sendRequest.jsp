@@ -66,8 +66,14 @@
                             </div>
                         </div>
                     </form:form>
-                </div>                      
+                </div>                               
             </div>
+            
+            <div class="col-md-6 col-sm-12 col-xs-12">
+            <br><br><br><br>
+            	<img src="${pageContext.request.contextPath }/resources/assets/images/친구.jpg" class="img-responsive" alt="team">
+            </div>
+            
             
         </div>                    
     </div>

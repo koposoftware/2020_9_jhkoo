@@ -1,14 +1,15 @@
 package kr.ac.kopo.account.controller;
 
 
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,7 @@ import kr.ac.kopo.eda.vo.EmailVO;
 import kr.ac.kopo.member.service.MemberService;
 import kr.ac.kopo.member.vo.MemberVO;
 
+
 @Controller
 public class AccountController { 
 
@@ -46,8 +48,10 @@ public class AccountController {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
+	
+	
 	@RequestMapping("/account")
-	public ModelAndView accountList(HttpSession session) {
+	public ModelAndView accountList(HttpSession session) throws Exception {
 		
 		ModelAndView mav = new ModelAndView("account/list");
 		// session에 등록된 id 
@@ -110,6 +114,7 @@ public class AccountController {
 		mav.addObject("expenditureTop3List", expenditureTop3List);
 		
 
+		
 		return mav;
 	}
 	
@@ -172,20 +177,14 @@ public class AccountController {
 	// 상품 가입 시 인증번호 메일로 보내기
 	@ResponseBody
 	@GetMapping("/certificate")
-	public String sendCertificateNumber(HttpSession session) {
+	public String sendCertificateNumber(HttpSession session) throws Exception {
 		
 		MemberVO loginVO = (MemberVO)session.getAttribute("loginVO");
 		String id = loginVO.getId();
 		String toMail = loginVO.getEmail();
 		
-		//인증번호
-		Random random = new Random();
-		String cert = Integer.toString(random.nextInt(10)); 
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
-		cert += Integer.toString(random.nextInt(10));
+		//인증번호 -> otp
+		String code = create();
 		
 		//제목
 		String title = "인증번호입니다.";
@@ -193,7 +192,7 @@ public class AccountController {
 		//내용, 인증번호 포함
 		String content = "";
 		content += "하나은행 이체서비스 인증번호입니다. \n";
-		content += "인증번호 : " + cert + "\n";
+		content += "인증번호 : " + code + "\n";
 		
 		EmailVO emailVO = new EmailVO();
 		emailVO.setId(id);
@@ -218,7 +217,47 @@ public class AccountController {
 			System.out.println(e);
 		}
 		
-		return cert;
+		return code;
+	}
+	
+	
+	// otp	
+	private static final long DISTANCE = 30000; 
+	private static final String ALGORITHM = "HmacSHA1";
+	private static final byte[] SECRET_KEY = "define your secret key here".getBytes();
+
+	private static long create(long time) throws Exception {
+		byte[] data = new byte[8];
+		
+		long value = time;
+		for (int i = 8; i-- > 0; value >>>= 8) {
+			data[i] = (byte) value;
+		}
+	 
+		Mac mac = Mac.getInstance(ALGORITHM);
+		mac.init(new SecretKeySpec(SECRET_KEY, ALGORITHM));
+	 
+		byte[] hash = mac.doFinal(data);
+		int offset = hash[20 - 1] & 0xF;
+	 
+		long truncatedHash = 0;
+		for (int i = 0; i < 4; ++i) {
+			truncatedHash <<= 8;
+			truncatedHash |= hash[offset + i] & 0xFF;
+		}
+	 
+		truncatedHash &= 0x7FFFFFFF;
+		truncatedHash %= 1000000;
+	 
+		return truncatedHash;
+	}
+	
+	public static String create() throws Exception {
+		return String.format("%06d", create(new Date().getTime() / DISTANCE));
+	}
+
+	public static boolean vertify(String code) throws Exception {
+		return create().equals(code);
 	}
 	
 }

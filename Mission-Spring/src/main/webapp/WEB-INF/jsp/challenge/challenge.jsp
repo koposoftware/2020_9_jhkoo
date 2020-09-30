@@ -165,6 +165,9 @@
 						                        <p style="color:white">    도전 목표 : ${ String.format("%,d", challenge.targetAmount) }원 <br>
 						                        	       이번 달 지출 : ${ String.format("%,d", challenge.nowBalanceByType) }원 <br>
 						                                                               도전 마감일 : ${ challenge.challengeEndDate }
+						                               
+						                                                               
+						                                                               
 						                              <div class="progress" style="color:red">
 													    <div class="progress-bar" style="width:${(challenge.nowBalanceByType/challenge.targetAmount)*100}%">${Math.round((challenge.nowBalanceByType/challenge.targetAmount)*100)}%</div>
 													  </div>

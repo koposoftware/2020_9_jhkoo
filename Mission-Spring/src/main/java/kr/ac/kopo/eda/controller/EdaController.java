@@ -248,10 +248,36 @@ public class EdaController {
 		List<EdaVO> amountByTypeList = edaService.amountByType(id);
 		// 이번달 총 지출액
 		int totalThisMonth = amountByTypeList.get(0).getTotalThisMonth();	
-		content += "총 지출은 " + totalThisMonth + "입니다. \n";
+		content += "총 지출은 " + totalThisMonth + "원입니다. \n";
+		
+		// 메인계좌번호 
+		String accountNumber = depositAccountService.getMainAccountNumber(id);
+		
+		// 가장 많은 지출한 카테고리
+		String biggestCategory = edaService.biggestCategory(accountNumber);
+		content += "가장 많이 지출한 카테고리는 '" + biggestCategory + "'입니다. \n";
+		
 		for(EdaVO vo:amountByTypeList) {
 			content += vo.getCategory() +"에 " + vo.getTotalAmountByType() + "원 지출하였습니다. \n";
 		}
+		
+		
+		// 최근 3개월 수입, 지출액 
+		List<Integer> depositByLast3Month = edaService.depositByLast3Month(accountNumber);
+		List<Integer> withdrawByLast3Month = edaService.withdrawByLast3Month(accountNumber);
+		// 이번달 주별 지출액
+		List<DepositDetailVO> expenditureByWeekList = depositDetailService.expenditureByWeekList(accountNumber);
+			
+		content += "이번 달 수입은 " + depositByLast3Month.get(0) + "원이고, 지출은 " + withdrawByLast3Month.get(0) + "입니다. \n";
+		content += "\n";
+		
+		content += "주별 지출액은 다음과 같습니다.";
+		for(DepositDetailVO vo:expenditureByWeekList) {
+			content += vo.getWeek() - 35 + "주차에 " + vo.getSumAmount() + "원 지출하였습니다. \n";
+		}
+		
+		content += "예측된 3개월 지출액이 '위험수준'입니다. 다음 달에는 반드시 지출을 잘 관리해주세요!";
+		
 		
 		EmailVO emailVO = new EmailVO();
 		emailVO.setId(id);
@@ -284,7 +310,7 @@ public class EdaController {
 	 *  메일 보내기. 매월 말
 	 */
 //	@Scheduled(cron = "0 0 12 28 * *")
-	@Scheduled(cron = "0 28 20 * * *")
+	@Scheduled(cron = "0 31 18 * * *")
 	public void sendMail() {
 		
 		List<EmailVO> emailList = edaService.getMailList();

@@ -116,7 +116,7 @@ public class ChallengeController {
 	
 	
 	// 도전 테이블 매월 1일 갱신
-	@Scheduled(cron = "0 0 12 1 * *")
+	@Scheduled(cron = "0 0 0 1 * *")
 	public void challengeDelete() {
 		challengeService.challengeDelete();
 	}

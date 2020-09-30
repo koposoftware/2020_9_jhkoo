@@ -60,7 +60,7 @@ public class ChallengeServiceimpl implements ChallengeService {
 			// 도전 성공 가능 금액 계산 후 vo에 저장
 			String stringEndDay = c.getChallengeEndDate().substring(10,12);
 			int endDay = Integer.parseInt(stringEndDay);
-			int expectedAmount = (c.getTargetAmount() - c.getNowBalanceByType()) / (endDay - today);
+			int expectedAmount = (c.getTargetAmount() - c.getNowBalanceByType()) / (endDay - today + 1);
 			c.setExpectedAmount(expectedAmount);
 			
 			// 도전 실패 여부 판단 후 vo에 저장
