@@ -25,16 +25,15 @@
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
 
 # 4. 본인 소개
+![gdKO](/증명사진 (1).jpg)
+이름 : 구재희 <br> 
+skill set : Frontend - HTML, CSS, Javascript <br>
+            Backend - Java, Spring, Oracle <br>
+            analysis - R, SAS <br>
+수상 : 제 5회 L.POINT Big Data Competition (장려상) <br>
+       The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9) <br>
 
-본인 소개를 추가하세요
 
-|이름 |고길동|![gdKO](/gdko.jpg)|
-|연락처 | gdko(@)kopo.ac.kr|
-|skill set| Frontend - HTML, CSS, Javascript|
-| | Backend - Java, Spring, Oracle|
-|자격증|  |
-|수상| |
-|특기사항|  TOEIC 990 |
 
 # 5. 기타
 그외 프로젝트를 더욱 설명할수 있는 것들을 추가하세요
