@@ -1,5 +1,5 @@
 # 본인 소개
-<img src="증명사진 (1).jpg"/><br>
+<img src="증명사진 (1).jpg" width="60" height="100"/><br>
 이름 : 구재희 <br> 
 skill set <br> 
 Frontend - HTML, CSS, Javascript <br>
@@ -19,7 +19,7 @@ The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9
 
 ## 시연 동영상 
 
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
+   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://youtu.be/eDuqK-9gwCM" frameborder="0"></iframe>
 
 
 
