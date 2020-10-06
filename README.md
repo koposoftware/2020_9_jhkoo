@@ -10,9 +10,8 @@ Analysis - R, SAS <br>
 제 5회 L.POINT Big Data Competition (장려상) <br>
 The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9) <br>
 
-# 계좌 관리 및 분석 웹 서비스
 
-[프로젝트 홈페이지 - https://koposoftware.github.io/template/](https://koposoftware.github.io/template/)
+# 계좌 관리 및 분석 웹 서비스
 
 
 ## 발표 ppt 
