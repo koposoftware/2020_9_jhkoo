@@ -37,6 +37,12 @@ https://youtu.be/eDuqK-9gwCM
 담당 업무 <br>
 - 기획, DB모델링, 프론트앤드, 백앤드 등 모든 과정 <br>
 
+erd <br>
+<img src="erd.png" /><br>
+
+아키택쳐 <br>
+<img src="아키택처.png" /><br>
+
 사용 기술 <br>
 - spring 기반 웹 어플리케이션 제작 <br>
 - JavaMailSender, scheduler를 이용한 정기 메일 서비스 <br>
