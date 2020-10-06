@@ -16,7 +16,7 @@ The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9
 [프로젝트 홈페이지 - https://koposoftware.github.io/2020_16_jhkoo/](https://koposoftware.github.io/2020_16_jhkoo/)
 
 ## 발표 ppt 
-[발표자료 pdf](/하나금융티아이_구재희_최종발표(pdf).pdf)<br>
+[발표자료 pdf](/하나금융티아이_구재희_최종발표_배포.pdf)<br>
 
 ## 시연 동영상 
 https://youtu.be/eDuqK-9gwCM
