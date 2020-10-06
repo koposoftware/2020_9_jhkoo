@@ -25,8 +25,7 @@
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
 
 # 4. 본인 소개
-![screenshot_20171221-151714](/증명사진 (1).jpg)
-![gdKO](/증명사진 (1).jpg)
+<img src="증명사진 (1).jpg"/><br>
 이름 : 구재희 <br> 
 skill set : Frontend - HTML, CSS, Javascript <br>
             Backend - Java, Spring, Oracle <br>
