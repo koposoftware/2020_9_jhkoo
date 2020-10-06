@@ -55,6 +55,7 @@ GUI : eclipse, sqldeveloper <br>
 VCS : Github, sorucetree <br>
 
 요구사항서 <br>
+
 입출금 자유 예금 계좌<br>
 - 보유한 입출금 계좌 정보와 보유 입출금 계좌의 총액을 볼 수 있습니다<br>
 - 상세 정보 조회하여, 별칭을 변경할 수 있고 메인 계좌로 등록시킬 수 있습니다<br>
