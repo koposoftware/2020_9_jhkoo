@@ -18,8 +18,8 @@ The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9
 [발표자료 pdf](/하나금융티아이_구재희_최종발표(pdf).pdf)<br>
 
 ## 시연 동영상 
+<iframe width="560" height="315" src="https://youtu.be/eDuqK-9gwCM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
- https://youtu.be/eDuqK-9gwCM
 
 
 
