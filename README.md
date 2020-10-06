@@ -1,5 +1,5 @@
 # 본인 소개
-<img src="증명사진 (1).jpg" width="80" height="100"/><br>
+<img src="증명사진 (1).jpg" width="160" height="200"/><br>
 이름 : 구재희 <br> 
 skill set <br> 
 Frontend - HTML, CSS, Javascript <br>
@@ -11,14 +11,15 @@ Analysis - R, SAS <br>
 The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9) <br>
 
 
-# 계좌 관리 및 분석 웹 서비스
+# 프로젝트 : 계좌 관리 및 분석 웹 서비스
 
 
 ## 발표 ppt 
 [발표자료 pdf](/하나금융티아이_구재희_최종발표(pdf).pdf)<br>
 
 ## 시연 동영상 
-<iframe width="560" height="315" src="https://youtu.be/eDuqK-9gwCM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+https://youtu.be/eDuqK-9gwCM
+
 
 
 
