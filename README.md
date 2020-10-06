@@ -27,11 +27,13 @@
 # 4. 본인 소개
 <img src="증명사진 (1).jpg"/><br>
 이름 : 구재희 <br> 
-skill set : Frontend - HTML, CSS, Javascript <br>
-            Backend - Java, Spring, Oracle <br>
-            analysis - R, SAS <br>
-수상 : 제 5회 L.POINT Big Data Competition (장려상) <br>
-       The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9) <br>
+skill set <br> 
+Frontend - HTML, CSS, Javascript <br>
+Backend - Java, Spring, Oracle <br>
+analysis - R, SAS <br>
+수상 <br> 
+제 5회 L.POINT Big Data Competition (장려상) <br>
+The 8th KCB  데이터를 이용한 금융스타일 시각화 경진대회(Rank9) <br>
 
 
 
