@@ -101,7 +101,7 @@
 	<dependency>
   	  <groupId>junit</groupId>
  	   <artifactId>junit</artifactId>
- 	   <version>4.13</version>
+ 	   <version>4.13.1</version>
  	   <scope>test</scope>
 	</dependency>
 	<!-- 스프링에서 쓰기위해 이것도 설치... -->
