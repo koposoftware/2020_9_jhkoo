@@ -5,11 +5,13 @@
   <artifactId>spring-mvc</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <properties>
- 		<java.version>8</java.version>
- 		<maven.compiler.source>1.8</maven.compiler.source>
- 		<maven.compiler.target>1.8</maven.compiler.target>
+  <!-- 1. java version -->
+	<properties>
+		<java.version>8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+
 
   	<dependencies>
   	
@@ -21,7 +23,7 @@
 	</dependency>
   	
   	
-  	<!-- 2.DB -->
+  	<!-- 2. MySQL DB -->
 	<dependency>
 		<groupId>mysql</groupId>
 		<artifactId>mysql-connector-java</artifactId>
@@ -29,6 +31,8 @@
 		<scope>runtime</scope>
 	</dependency>
   	
+  	
+  	<!-- 3. R Engine in java -->
   	<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/REngine -->
 	<dependency>
 	    <groupId>org.rosuda.REngine</groupId>
@@ -63,9 +67,7 @@
  	   <artifactId>jackson-annotations</artifactId>
  	   <version>2.11.2</version>
 	</dependency>
-  	
-  	
-  	
+
   	
   	<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 	<dependency>
@@ -83,17 +85,8 @@
 	    <scope>provided</scope>
 	</dependency>
   	
-  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-webmvc</artifactId>
-	    <version>4.3.28.RELEASE</version>
-	</dependency>
   	
-  	
-  	
-  	<!-- Spring-mybatis 연동 -->
-  	
+  	<!-- Spring-mybatis 연동(connect) -->
   	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 	<dependency>
 	    <groupId>org.mybatis</groupId>
@@ -115,12 +108,7 @@
 	    <version>1.4</version>
 	</dependency>
   
-  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-	<dependency>
- 	   <groupId>org.springframework</groupId>
- 	   <artifactId>spring-jdbc</artifactId>
-	    <version>4.3.28.RELEASE</version>
-	</dependency>
+  	
   	
   	<!-- junit. 메인 없이 단위 테스트 가능. src/main에는 적용되지 않고, src/test쪽에서 되는 것임? -->
   	<!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -130,6 +118,24 @@
  	   <version>4.13</version>
  	   <scope>test</scope>
 	</dependency>
+	
+	<!-- @NotEmpty 어노테이션 쓰기 위한 validator 라이브러리? -->
+  	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+	<dependency>
+	    <groupId>org.hibernate.validator</groupId>
+	    <artifactId>hibernate-validator</artifactId>
+	    <version>6.1.5.Final</version>
+	</dependency>
+  	
+
+  	<!-- 구글차트 -->
+  	<dependency>
+  		<groupId>com.googlecode.json-simple</groupId>
+  		<artifactId>json-simple</artifactId>
+  		<version>1.1</version>
+  	</dependency>
+	
+	
 	<!-- 스프링에서 쓰기위해 이것도 설치... -->
   	<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 	<dependency>
@@ -139,31 +145,21 @@
  	   <scope>test</scope>	<!-- test쪽만 적용해라 -->
 	</dependency>
   	
-  	
-	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<!-- 4. spring jdbc -->
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 	<dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>jstl</artifactId>
-	    <version>1.2</version>
-	</dependency>
-
-  	
-  	<!-- @NotEmpty 어노테이션 쓰기 위한 validator 라이브러리? -->
-  	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-	<dependency>
-	    <groupId>org.hibernate.validator</groupId>
-	    <artifactId>hibernate-validator</artifactId>
-	    <version>6.1.5.Final</version>
+ 	   <groupId>org.springframework</groupId>
+ 	   <artifactId>spring-jdbc</artifactId>
+	    <version>4.3.28.RELEASE</version>
 	</dependency>
   	
-  	
-  	
-  	<!-- 구글차트 -->
-  	<dependency>
-  		<groupId>com.googlecode.json-simple</groupId>
-  		<artifactId>json-simple</artifactId>
-  		<version>1.1</version>
-  	</dependency>
+  		
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>4.3.28.RELEASE</version>
+	</dependency>
   	
   	
   	<!-- 메일을 보내기 위해서 JavaMailSender 인터페이스를 사용 -->
@@ -181,6 +177,13 @@
 	    <scope>test</scope>
 	</dependency>
 	
+	
+	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
 	
 	<!-- javax.mail.internet.MimeMessage를 사용 -->
 	<dependency> 
@@ -224,11 +227,8 @@
 	
 
 
-
-
   	</dependencies>
-  	
-  	
+
   	<build>
 		<finalName>spring-mvc</finalName>
 		<plugins>
@@ -249,7 +249,5 @@
             </plugin>
         </plugins>
 	</build>
-  	
-  	
-  
+ 
 </project>

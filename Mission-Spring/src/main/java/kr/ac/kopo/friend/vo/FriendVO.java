@@ -9,7 +9,7 @@ public class FriendVO {
 	private String content;
 	private String agreeFlag;
 	private String regDate;
-	private int expenditureThisMonth;
+	private int expenditureThisMonth; // 이달 지출
 	
 	
 	public int getExpenditureThisMonth() {
