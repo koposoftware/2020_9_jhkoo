@@ -1,6 +1,13 @@
-
 해당 프로젝트로 공부 중입니다!
 
+1. project explorer
+ -> properties
+ -> Java Build Path
+ -> Libraries
+ -> Error Jar All Remove, then Apply and Close
+ -> Maven Clean & Build ( Update Maven )
+
+===================================================================================
 
 # 프로젝트 : 계좌 관리 및 분석 웹 서비스
 
