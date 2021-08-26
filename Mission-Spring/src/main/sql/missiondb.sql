@@ -1,6 +1,6 @@
 
 
---------------------member table-----------------------
+--------------------member table -----------------------
 CREATE TABLE `missiondb`.`member` (
   `id` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
