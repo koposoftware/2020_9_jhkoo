@@ -1,11 +1,13 @@
-
-
+--testing query
+insert into member(id, name, password, phone, email, address, age_group, gender, property_status, job_key)
+  		values('test', 'test', '1234', '010-1111-2222', 'abc@abc.com', 'aassdd', '10대', '여', '5천만원 미만', '주부');
+SELECT * FROM `member`;
+DROP TABLE `missiondb`.`member`;
 --------------------member table -----------------------
 CREATE TABLE `missiondb`.`member` (
   `id` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `type` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `address` VARCHAR(45) NOT NULL,
@@ -13,23 +15,22 @@ CREATE TABLE `missiondb`.`member` (
   `gender` VARCHAR(45) NOT NULL,
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `property_status` VARCHAR(45) NOT NULL,
-  `jop_key` VARCHAR(45) NOT NULL,
-  `cash` INT NOT NULL,
+  `job_key` VARCHAR(45) NOT NULL,
+  `cash` INT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+-- 'type' varchar
 
+------------------cash_manage table-----------------------
 
-
-------------------cash_menage table-----------------------
-
-CREATE TABLE `missiondb`.`cash_menage` (
+CREATE TABLE `missiondb`.`cash_manage` (
   `no` INT NOT NULL,
   `id` VARCHAR(45) NOT NULL,
   `cash` INT NOT NULL,
-  `log_date` VARCHAR(100) NOT NULL,
+  `log_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`no`))
 ENGINE = InnoDB
@@ -47,7 +48,7 @@ CREATE TABLE `missiondb`.`user_challenge` (
   `challenge_end_date` VARCHAR(45) NOT NULL,
   `challenge_type` VARCHAR(45) NOT NULL,
   `target_amount` INT NOT NULL,
-  `nowBalanceByType` INT NOT NULL,
+  `nowBalanceByType` INT,
   PRIMARY KEY (`challenge_pk`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

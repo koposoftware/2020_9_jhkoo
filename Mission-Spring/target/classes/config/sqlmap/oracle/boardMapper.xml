@@ -18,7 +18,7 @@
   	
   	<!-- 게시글 상세보기 -->
   	<select id="selectByNo" resultMap="boardMap" parameterType="int">
-  		select no, title, writer, content, view_cnt, to_char(reg_date, 'yyyy-mm-dd') as reg_date
+  		select no, title, writer, content, view_cnt, to_char(reg_date, 'yyyy-mm-dd') as regDate
   		from a_board
   		where no = #{no}
   	</select>
