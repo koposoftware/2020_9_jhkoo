@@ -8,6 +8,7 @@ CREATE TABLE `missiondb`.`member` (
   `id` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `type` VARCHAR(45),
   `phone` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `address` VARCHAR(45) NOT NULL,
@@ -23,6 +24,7 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 -- 'type' varchar
+-- 今は、insertの時、nameには韓国語だけ入られます。修正必要
 
 ------------------cash_manage table-----------------------
 
@@ -181,8 +183,15 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 -----------------------------------------------
 
-
-
+---job-----------------------------------------
+CREATE TABLE `missiondb`.`job` (
+  `key` VARCHAR(45) NOT NULL,
+  `value` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`key`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+-----------------------------------------------
 
 
 

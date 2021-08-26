@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Bootstrap Example</title>
+<title>Login Page</title>
 
 <script>
 

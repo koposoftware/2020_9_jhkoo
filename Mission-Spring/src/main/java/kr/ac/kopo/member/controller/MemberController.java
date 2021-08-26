@@ -92,6 +92,7 @@ public class MemberController {
  	public String join(@Valid MemberVO memberVO, BindingResult result) {
  		
  		if(result.hasErrors()) {
+ 			System.out.println(result.toString());
  			return "login/join";
  		}
  		memberService.join(memberVO);
