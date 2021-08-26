@@ -1,10 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>kr.ac.kopo</groupId>
   <artifactId>spring-mvc</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  
+  <!-- 1. java version -->
+	<properties>
+		<java.version>8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
 
   	<dependencies>
   	
@@ -15,6 +22,29 @@
 	    <version>1.4</version>
 	</dependency>
   	
+  	
+  	<!-- 2. MySQL DB -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>8.0.26</version>
+		<scope>runtime</scope>
+	</dependency>
+  	
+  	
+  	<!-- 3. R Engine in java -->
+  	<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/REngine -->
+	<dependency>
+	    <groupId>org.rosuda.REngine</groupId>
+	    <artifactId>REngine</artifactId>
+	    <version>2.1.0</version>
+	</dependency>
+  	<!-- https://mvnrepository.com/artifact/org.rosuda.REngine/Rserve -->
+	<dependency>
+	    <groupId>org.rosuda.REngine</groupId>
+	    <artifactId>Rserve</artifactId>
+	    <version>1.8.1</version>
+	</dependency>
   	
   	
   	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
@@ -37,9 +67,7 @@
  	   <artifactId>jackson-annotations</artifactId>
  	   <version>2.11.2</version>
 	</dependency>
-  	
-  	
-  	
+
   	
   	<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
 	<dependency>
@@ -57,17 +85,8 @@
 	    <scope>provided</scope>
 	</dependency>
   	
-  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-webmvc</artifactId>
-	    <version>4.3.28.RELEASE</version>
-	</dependency>
   	
-  	
-  	
-  	<!-- Spring-mybatis 연동 -->
-  	
+  	<!-- Spring-mybatis 연동(connect) -->
   	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 	<dependency>
 	    <groupId>org.mybatis</groupId>
@@ -89,12 +108,7 @@
 	    <version>1.4</version>
 	</dependency>
   
-  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-	<dependency>
- 	   <groupId>org.springframework</groupId>
- 	   <artifactId>spring-jdbc</artifactId>
-	    <version>4.3.28.RELEASE</version>
-	</dependency>
+  	
   	
   	<!-- junit. 메인 없이 단위 테스트 가능. src/main에는 적용되지 않고, src/test쪽에서 되는 것임? -->
   	<!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -104,6 +118,24 @@
  	   <version>4.13</version>
  	   <scope>test</scope>
 	</dependency>
+	
+	<!-- @NotEmpty 어노테이션 쓰기 위한 validator 라이브러리? -->
+  	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+	<dependency>
+	    <groupId>org.hibernate.validator</groupId>
+	    <artifactId>hibernate-validator</artifactId>
+	    <version>6.1.5.Final</version>
+	</dependency>
+  	
+
+  	<!-- 구글차트 -->
+  	<dependency>
+  		<groupId>com.googlecode.json-simple</groupId>
+  		<artifactId>json-simple</artifactId>
+  		<version>1.1</version>
+  	</dependency>
+	
+	
 	<!-- 스프링에서 쓰기위해 이것도 설치... -->
   	<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 	<dependency>
@@ -113,31 +145,21 @@
  	   <scope>test</scope>	<!-- test쪽만 적용해라 -->
 	</dependency>
   	
-  	
-	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<!-- 4. spring jdbc -->
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 	<dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>jstl</artifactId>
-	    <version>1.2</version>
-	</dependency>
-
-  	
-  	<!-- @NotEmpty 어노테이션 쓰기 위한 validator 라이브러리? -->
-  	<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-	<dependency>
-	    <groupId>org.hibernate.validator</groupId>
-	    <artifactId>hibernate-validator</artifactId>
-	    <version>6.1.5.Final</version>
+ 	   <groupId>org.springframework</groupId>
+ 	   <artifactId>spring-jdbc</artifactId>
+	    <version>4.3.28.RELEASE</version>
 	</dependency>
   	
-  	
-  	
-  	<!-- 구글차트 -->
-  	<dependency>
-  		<groupId>com.googlecode.json-simple</groupId>
-  		<artifactId>json-simple</artifactId>
-  		<version>1.1</version>
-  	</dependency>
+  		
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>4.3.28.RELEASE</version>
+	</dependency>
   	
   	
   	<!-- 메일을 보내기 위해서 JavaMailSender 인터페이스를 사용 -->
@@ -146,16 +168,86 @@
 		<artifactId>spring-context-support</artifactId> 
 		<version>4.3.28.RELEASE</version> 
 	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	    <version>4.3.28.RELEASE</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	
+	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
+	
 	<!-- javax.mail.internet.MimeMessage를 사용 -->
 	<dependency> 
 		<groupId>com.sun.mail</groupId> 
 		<artifactId>javax.mail</artifactId> 
 		<version>1.5.6</version> 
 	</dependency>
+	
+	
+	<!-- Map工具类/MapTools -->
+	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2</version>
+	</dependency>
+	<!-- Apache Commons Codecs for SHA256 Hash -->
+	<dependency>
+   		<groupId>commons-codec</groupId>
+   		<artifactId>commons-codec</artifactId>
+   		<version>1.9</version>
+	</dependency>
 
 
+	<!-- JRI-0.9.7.jar
+	JRI is a Java/R Interface, which allows to run R inside Java applications as a single thread.
+	Basically it loads R dynamic library into Java and provides a Java API to R functionality.
+	It supports both simple calls to R functions and a full running REPL.
+	-->
+	<!-- https://mvnrepository.com/artifact/com.github.lucarosellini.rJava/JRI -->
+	<dependency>
+	    <groupId>com.github.lucarosellini.rJava</groupId>
+	    <artifactId>JRI</artifactId>
+	    <version>0.9-7</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.github.lucarosellini.rJava/JRIEngine -->
+	<dependency>
+	    <groupId>com.github.lucarosellini.rJava</groupId>
+	    <artifactId>JRIEngine</artifactId>
+	    <version>0.9-7</version>
+	</dependency>
+	
 
-  	
+
   	</dependencies>
-  
+
+  	<build>
+		<finalName>spring-mvc</finalName>
+		<plugins>
+			<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-war-plugin</artifactId>
+    			<version>3.3.1</version>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
+ 
 </project>
